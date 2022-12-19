@@ -10,16 +10,16 @@ public class JobItem {
 	public String Salary;
 	public String AnnouncementTypeCode;
 	public String AnnouncementType;
-	public String Working_area_Code;
-	public String Working_area;
-	public String Career_code;
+	public String WorkingAreaCode;
+	public String WorkingArea;
+	public String CareerCode;
 	public String Career;
-	public String Academic_record_code;
-	public String Academic_record;
-	public String recruitment_code;
+	public String AcademicRecordCode;
+	public String AcademicRecord;
+	public String recruitmentCode;
 	public String recruitment;
-	public String Recruitment_Person;
-	public String receipt_start;
-	public String receipt_end;
+	public String RecruitmentPerson;
+	public String receiptStart;
+	public String receiptEnd;
 
 }
