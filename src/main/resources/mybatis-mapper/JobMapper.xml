@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="sample.project.jobissue.repository.mybatis.JobMapper">
+
+	<insert id="insert" parameterType="JobItem">
+		insert into Recruitment
+		(
+			CorporationNo, CorporationName, Announcement, Salary,
+		 	AnnouncementTypeCode, AnnouncementType, Working_area_Code, Working_area,
+			Career_code, Career, Academic_record_code, Academic_record, 
+			recruitment_code, recruitment, Recruitment_Person, receipt_start, receipt_end
+		)
+		
+		values
+		(
+			RecruitmentPK.nextVal, #{CorporationName}, #{Announcement}, #{Salary}, 
+			#{AnnouncementTypeCode}, #{AnnouncementType}, #{Working_area_Code}, #{Working_area},  
+			#{Career_code}, #{Career}, #{Academic_record_code}, #{Academic_record},  
+			#{recruitment_code}, #{recruitment}, #{Recruitment_Person}, #{receipt_start}, #{receipt_end}
+		)
+	</insert>
+
+	<select id="selectAll" resultType="JobItem">
+		select CorporationNo,CorporationName, Announcement, Salary
+		from Recruitment
+	</select>
+
+	<select id="selectByCorporationNo" resultType="JobItem">
+		select *
+		FROM Recruitment
+		where CorporationNo = #{CorporationNo}
+	</select>
+
+
+</mapper>
+
+
+
+
+
+
+

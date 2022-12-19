@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>채용 공고 리스트</title>
+</head>
+<body>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>회사명</th>
+					<th>채용내용</th>
+					<th>급여</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="list : ${lists}">
+					<td><a th:href="@{|/lists/${list.CorporationNo}|}" th:text="${list.CorporationName}">회사명</a></td>
+					<td><a th:href="@{|/lists/${list.CorporationNo}|}" th:text="${list.Announcement}">채용내용</a></td>
+					<td th:text="${list.Salary}">급여</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
