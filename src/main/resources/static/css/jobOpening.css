@@ -1,0 +1,82 @@
+@charset "EUC-KR";
+
+/* *{
+    width: 100%;
+    background-color: rgb(241, 241, 241);
+} */
+
+/* 제목 */
+.title{
+    margin-top: 50px;
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+
+.body{
+    margin-top: 100px;
+    border-top: solid 3px rgb(43, 94, 189);
+    width: 100%;
+}
+
+/* 공고명 */
+#Announcement{
+    width: 80%;
+    margin-left: 10px;
+    
+    
+}
+
+.row{
+    margin-left: 50px;
+    margin-top: 50px;
+    font-weight: bold;
+    width: 700px;
+}
+
+#recruitment{
+    width: 30%;
+    margin-left: 10px
+}
+
+.container{
+    position: relative;
+    right: 5%;
+}
+
+/* 급여 */
+#Salary{
+    width: 40%;
+    margin-left: 20px;
+}
+
+/* 고용형태, 근무지역, 작성종료일 */
+#main_menu , #sub_menu, #workingArea , #ReceiptEnd{
+    width: 30%;
+    margin-left: 20px;
+    
+}
+
+/* 학력 경력 */
+#Career, #Academic{
+    margin-left: 50px;
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+/* 모집인원 */
+#RecruitmentPerson{
+    margin-left: 20px;
+    width: 12%;
+}
+
+/* 등록하기 작성종료 버튼 */
+.buttonSet{
+    margin-top: 100px;
+    position: relative;
+    left: 45%;
+    margin-bottom: 100px;
+    width: 200px;
+}
