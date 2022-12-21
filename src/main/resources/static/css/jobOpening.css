@@ -9,74 +9,119 @@
 .title{
     margin-top: 50px;
     position: relative;
+    left:5%;
     text-align: center;
     font-weight: bold;
+    border-bottom: solid 1px lightgray;
+    padding-bottom: 20px;
+    width: 90%;
 
 }
 
 
 .body{
-    margin-top: 100px;
+	background-color: rgb(240, 241, 241);
+/*     margin-top: 100px; */
     border-top: solid 3px rgb(43, 94, 189);
     width: 100%;
+}
+
+.card{
+    margin-top: 50px;
+    width: 90%;
+    position: relative;
+    left: 5%;
+    height: 50%;
+    border-radius: 0;
 }
 
 /* 공고명 */
 #Announcement{
     width: 80%;
-    margin-left: 10px;
-    
-    
+    margin-left: 20px;
 }
 
-.row{
-    margin-left: 50px;
+/* 묶음처리 */
+.bundle{
+    margin-left: 80px;
     margin-top: 50px;
-    font-weight: bold;
     width: 700px;
+    font-weight: bold;
 }
 
-#recruitment{
+/* 모집분야 */
+#recruitField{
     width: 30%;
-    margin-left: 10px
+/*     font-weight: bold; */
+    margin-left: 20px;
+    
 }
 
 .container{
+	margin-top:50px;
     position: relative;
-    right: 5%;
+    left: 7%;
+    font-weight: bold;
 }
 
 /* 급여 */
 #Salary{
-    width: 40%;
+    width: 70%;
     margin-left: 20px;
 }
 
 /* 고용형태, 근무지역, 작성종료일 */
 #main_menu , #sub_menu, #workingArea , #ReceiptEnd{
+    margin-left:20px;
+/*     font-weight: bold; */
     width: 30%;
-    margin-left: 20px;
     
 }
 
 /* 학력 경력 */
 #Career, #Academic{
-    margin-left: 50px;
+    margin-left: 70px;
     margin-top: 50px;
+    width: 70%;
     font-weight: bold;
 }
 
 /* 모집인원 */
 #RecruitmentPerson{
-    margin-left: 20px;
     width: 12%;
+    margin-left:20px;
 }
 
 /* 등록하기 작성종료 버튼 */
 .buttonSet{
-    margin-top: 100px;
-    position: relative;
-    left: 45%;
+	border-top:solid 1px lightgray;
+    margin-top: 100px;    
+    position:relative;
+    left:10%;
+    display:flex;
+    padding-top:30px;
+    justify-content:center;
     margin-bottom: 100px;
-    width: 200px;
+    width: 80%;
+}
+
+#opening{
+    margin-right:20px;
+}
+
+ @media only screen and (max-width:890px){
+ .card{
+ 	width: 800px;
+ }
+ .bundle{
+ 	width: 500px;
+ }
+ 
+ #Announcement, #recruitField, #Salary{
+ width: 500px;
+ }
+	
+#main_menu , #sub_menu, #workingArea , #ReceiptEnd{
+	width:200px;
+}	
 }

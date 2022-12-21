@@ -6,7 +6,6 @@
     width: 100%;
     height: 25px;
     margin: 0;
-    position: fixed;
     
   }
   
@@ -32,17 +31,22 @@
   #search {
     margin-top: 70px;
     margin-bottom: 30px;
-    margin-left: 80px;
-    width: 50%;
+    margin-left: 100px;
     height: 70px;
+    padding-right: 0px;
+    width: 50%;
   }
-
+ 
+ #searchRow{
+ 	width: 100%;
+ } 
+ 
   .searchImg {
     position: relative;
     right: 10px;
   }
   
-  .form-control{
+  #searchForm{
     font-size: 20px;
     border : 3px solid rgb(43, 94, 189);
     border-radius: 0;
@@ -66,7 +70,8 @@
   }
   
   /* navbar */
-  .navbar {
+  #navbar {
+  	width: 100%;
     background-color: rgb(43, 94, 189);
     height: 60px;
   }
@@ -90,7 +95,7 @@
     background-color: rgb(210, 237, 255);
   }
   
-  @media (min-width:478px) {
+ @media (min-width:688px) {
     
     .dropdown-menu{
       display: block;
@@ -107,7 +112,7 @@
   }
   }
   
-  @media only screen and (max-width:735px){
+  @media only screen and (max-width:817px){
     #search{
       margin-top: 0;
       width: 80%;
@@ -120,10 +125,14 @@
     }
   }
 
-  @media only screen and (max-width:550px){
+  @media only screen and (max-width:682px){
     .navbar{
-      width: 550px;
+      width: 682px;
     }
+    
+     #navbar .nav-link{
+     	width:120px;
+     }
 
     #logo{
       width:300px;
