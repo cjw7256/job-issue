@@ -23,13 +23,13 @@
   /* logo&검색창 */
   #logo{
     width: 270px;
-    margin-top: 35px;
+    margin-top: 20px;
     margin-left: 30px; 
     height: 130px;
   }
 
   #search {
-    margin-top: 70px;
+    margin-top: 50px;
     margin-bottom: 30px;
     margin-left: 100px;
     height: 70px;
@@ -95,7 +95,10 @@
     background-color: rgb(210, 237, 255);
   }
   
- @media (min-width:688px) {
+  
+/*  미디어쿼리  */
+  
+ @media only screen and (min-width:688px) {
     
     .dropdown-menu{
       display: block;
@@ -125,9 +128,9 @@
     }
   }
 
-  @media only screen and (max-width:682px){
+  @media only screen and (max-width:688px){
     .navbar{
-      width: 682px;
+      width: 688px;
     }
     
      #navbar .nav-link{
@@ -140,5 +143,9 @@
 
     #search{
       width: 450px;
+    }
+    
+    #topBar{
+    	width: 688px;
     }
   }

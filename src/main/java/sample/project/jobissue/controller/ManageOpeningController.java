@@ -10,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/jobOpening")
-public class JobOpeningController {
-
+@RequestMapping("/manageOpening")
+public class ManageOpeningController {
 	@GetMapping
-	public String jobOpening(Model model, HttpServletRequest req){
-		return "jobOpening";
+	public String manageOpening(Model model, HttpServletRequest req){
+		return "manageOpening";
 	}
 }

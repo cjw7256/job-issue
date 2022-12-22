@@ -12,7 +12,7 @@
     left:5%;
     text-align: center;
     font-weight: bold;
-    border-bottom: solid 1px lightgray;
+    border-bottom: solid 2px rgb(93, 123, 179);
     padding-bottom: 20px;
     width: 90%;
 
@@ -43,7 +43,7 @@
 
 /* 묶음처리 */
 .bundle{
-    margin-left: 80px;
+    margin-left: 70px;
     margin-top: 50px;
     width: 700px;
     font-weight: bold;
@@ -60,8 +60,10 @@
 .container{
 	margin-top:50px;
     position: relative;
-    left: 7%;
+/*     left: 7%; */
+	left: 50px;
     font-weight: bold;
+    width: 100%;
 }
 
 /* 급여 */
@@ -74,8 +76,14 @@
 #main_menu , #sub_menu, #workingArea , #ReceiptEnd{
     margin-left:20px;
 /*     font-weight: bold; */
-    width: 30%;
+    width: 25%;
+    display: inline-block;
     
+}
+
+.comment{
+	font-weight: lighter;
+	color: gray;
 }
 
 /* 학력 경력 */

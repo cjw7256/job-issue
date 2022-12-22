@@ -14,7 +14,7 @@
     <div class="body">
     <div class="card">
     
-        <h4 class="title"> 공고 등록 </h4>
+        <h3 class="title"> 공고 등록 </h4>
     
         <div class="bundle">
         <div class="row" >
@@ -50,15 +50,9 @@
         희망 고용 형태 : 
     <select name="EmployType" id="main_menu" class="form-select" aria-label="Default select example">
         <option selected>고용 형태</option>
-        <option value="permanent">정규직</option>
-        <option value="contract">계약직</option>
-        <option value="intern">인턴</option>
-        <option value="partTime">대외/아르바이트</option>
-    </select>
-
-    <select name="EmployTypeDetail" id="sub_menu" class="form-select" aria-label="Default select example">
-        <option selected>상세 분류</option>
-        
+        <option value="01">정규직</option>
+        <option value="02">계약직</option>ㄱㄱ
+        <option value="04">대외/아르바이트</option>
     </select>
     </div>
 	</div>
@@ -195,16 +189,19 @@
             <option value="7">일주일</option>
             <option value="15">보름</option>
             <option value="30">한 달</option>
-            <option value="0">채용 시 까지</option>
+            <option value="3">채용 시 까지</option>
         </select>
+        <p class="comment">*채용 시 까지는 3개월입니다.</p>
     </div>
 	</div>
         
 
     <div class="buttonSet">
 
-        <button type="button" id="opening" class="btn btn-primary">등록하기</button>
-        <button type="button" class="btn btn-secondary">작성종료</button>
+        <button type="button" id="opening" class="btn btn-primary"
+        th:onclick="|location.href='@{}'|">등록하기</button>
+        <button type="button" class="btn btn-secondary"
+        th:onclick="|location.href='@{/}'|">작성종료</button>
     </div>
     </div>
     </div>

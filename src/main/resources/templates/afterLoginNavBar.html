@@ -18,7 +18,7 @@
 	<div th:fragment="headerNavBar">
 		<ul class="nav justify-content-end" id="topBar">
 			<li class="nav-item"><a class="nav-link active"
-				aria-current="page" href="/">Mainpage</a></li>
+				aria-current="page" th:onclick="|location.href='@{/}'|">Mainpage</a></li>
 			<li class="nav-item"><a class="nav-link" href="/mypage">MyPage</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="/logout">
@@ -27,7 +27,7 @@
 
 		<div>
 			<div class="row" id="searchRow">
-				<img id="logo" src="/images/logo.png" href="/"></img>
+				<img id="logo" src="/images/logo.png" th:onclick="|location.href='@{/}'|"></img>
 
 				<div class="input-group mb-3" id="search">
 					<input type="text" class="form-control" id="searchForm"
@@ -44,7 +44,7 @@
 
 		<nav class="navbar navbar-expand" id="navbar">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/"> <img
+				<a class="navbar-brand" th:onclick="|location.href='@{/}'|"> <img
 					src="/images/category.png" width="30px">
 				</a>
 				<div class="navbar-nav">
@@ -69,8 +69,8 @@
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								기업 서비스 </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/jobOpening">공고 등록</a></li>
-								<li><a class="dropdown-item" href="/jobManagement">공고
+								<li><a class="dropdown-item" th:onclick="|location.href='@{/jobOpening}'|">공고 등록</a></li>
+								<li><a class="dropdown-item" th:onclick="|location.href='@{/manageOpening}'|">공고
 										관리</a></li>
 								<li><a class="dropdown-item" href="/applicantManage">지원자
 										관리</a></li>
