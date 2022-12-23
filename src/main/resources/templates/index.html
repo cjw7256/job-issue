@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+	<title>Main</title>
+    <link rel="styleSheet" href="/css/applicantManage.css">
 </head>
 <body>
+	<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
 
-	<h1>일단 메인 페이지</h1>
 </body>
 </html>

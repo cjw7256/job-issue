@@ -5,7 +5,9 @@ import sample.project.jobissue.validation.LoginForm;
 import sample.project.jobissue.validation.UserRegisterForm;
 
 public interface UserDAO {
-	  void register(UserRegisterForm userRegisterForm) throws Exception;
-	  
-	  UserVO login(LoginForm loginForm) throws Exception;
+	void register(UserRegisterForm userRegisterForm) throws Exception;
+
+	UserVO login(LoginForm loginForm) throws Exception;
+
+	UserVO findUserByEmail(String userEmail) throws Exception;
 }

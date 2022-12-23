@@ -101,21 +101,7 @@ public class UserRegisterController {
 //    		ldNow
     	}
 		
-		if(StringUtils.hasText(userRegisterForm.getUserTel())) {
-    		Pattern pattern = Pattern.compile("\\d{3}-\\d{3,4}-\\d{4}");
-            Matcher matcher = pattern.matcher(userRegisterForm.getUserTel());
-            if (!matcher.matches()) {
-    			errors.rejectValue("userEmail", null, "전화번호를 확인하세요.");
-            } 
-		}
     	
-    	if(StringUtils.hasText(userRegisterForm.getUserTel())) {
-    		Pattern pattern = Pattern.compile("\\d{3}-\\d{3,4}-\\d{4}");
-            Matcher matcher = pattern.matcher(userRegisterForm.getUserTel());
-            if (!matcher.matches()) {
-    			errors.rejectValue("userTel", null, "전화번호를 확인하세요.");
-            } 
-		}
 		
 		if(!StringUtils.hasText(userRegisterForm.getUserTel())) {
 			errors.rejectValue("userTel", null, "전화번호를 입력하세요.");
@@ -127,6 +113,26 @@ public class UserRegisterController {
 		
 		if(!StringUtils.hasText(userRegisterForm.getUserGender()) || userRegisterForm.getUserGender().equals("N")) {
 			errors.rejectValue("userGender", null, "성별을 선택하세요.");
+		}
+		
+		if(StringUtils.hasText(userRegisterForm.getUserTel())) {
+			Pattern pattern = Pattern.compile("\\d{3}-\\d{3,4}-\\d{4}");
+			Matcher matcher = pattern.matcher(userRegisterForm.getUserTel());
+			if (!matcher.matches()) {
+				errors.rejectValue("userTel", null, "전화번호를 확인하세요.");
+			} 
+		}
+		
+		
+		if(StringUtils.hasText(userRegisterForm.getUserEmail())) {
+			try {
+				if( userService.findUserByEmail(userRegisterForm.getUserEmail()) != null ) {
+					errors.rejectValue("userEmail", null, "이미 가입된 아이디입니다.");
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
     

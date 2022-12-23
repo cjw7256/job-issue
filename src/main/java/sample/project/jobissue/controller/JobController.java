@@ -51,7 +51,7 @@ public class JobController {
 		List<JobItem> jobList = jobRepository.selectAll();
 		model.addAttribute("lists",jobList);
 
-		return "lists";
+		return "/lists/lists";
 	}
 
 
@@ -60,7 +60,7 @@ public class JobController {
 		JobItem jobItem = jobRepository.selectByAnnCode(listCorporationNo);
 		model.addAttribute("list", jobItem);
 
-		return "list";
+		return "/lists/list";
 	}
 
 	@GetMapping("/{listAnnouncementCode}")
@@ -70,7 +70,7 @@ public class JobController {
 		log.info("list select {}", jobItem);
 		model.addAttribute("list", jobItem);
 
-		return "list";
+		return "/lists/list";
 	}
 
 
@@ -194,7 +194,7 @@ public class JobController {
 		String jobItem = "";
 
 		StringBuilder urlBuilder = new StringBuilder("https://openapi.gg.go.kr/GGJOBABARECRUSTM"); /* URL */
-		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=a0b47115ca7243cabe638439b54971a9");/* Service Key 변경 필요*/
+		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=824df52d16d04d5fa83e5626088edfdb");/* Service Key 변경 필요*/
 		urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("pIndex","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("pSize","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8"));

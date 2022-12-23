@@ -10,5 +10,6 @@ public interface UserService {
 	 
 	 UserVO login(LoginForm loginForm) throws Exception;
 	 
+	 UserVO findUserByEmail(String userEmail) throws Exception;
 	 
 }

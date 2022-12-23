@@ -42,4 +42,12 @@
     	WHERE user_email = #{userEmail}
     	AND user_password = #{userPassword}
     </select>
+    
+    <select id="selectUserByEmail" resultType="UserVO">
+	    SELECT
+	    	*
+	    FROM user_info
+	    WHERE user_email = #{userEmail}
+    </select>
+    
 </mapper>

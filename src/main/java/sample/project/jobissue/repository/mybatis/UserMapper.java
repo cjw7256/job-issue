@@ -11,4 +11,5 @@ import sample.project.jobissue.validation.UserRegisterForm;
 public interface UserMapper {
 	public Integer register(UserRegisterForm userRegisterForm);
 	public UserVO login(LoginForm loginForm);
+	public UserVO selectUserByEmail(String userEmail);
 }

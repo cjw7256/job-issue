@@ -38,4 +38,11 @@ public class UserDAOImpl implements UserDAO {
 		return userVO;
     }
 
+	@Override
+	public UserVO findUserByEmail(String userEmail) throws Exception {
+		// TODO Auto-generated method stub
+		UserVO userVO = userMapper.selectUserByEmail(userEmail);
+		return userVO;
+	}
+
 }
