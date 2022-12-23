@@ -22,7 +22,7 @@
 			#{recruitmentCode}, #{recruitment}, #{RecruitmentPerson}, #{receiptStart}, #{receiptEnd}
 		)
 	</insert>
-
+	
 	<select id="selectAll" resultType="JobItem">
 		select CorporationNo,CorporationName, Announcement, Salary
 		from Recruitment_init

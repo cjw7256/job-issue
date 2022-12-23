@@ -43,7 +43,7 @@ public class JobController {
 		JobItem jobItem = jobRepository.selectByCorporationNo(listCorporationNo);
 		model.addAttribute("list", jobItem);
 		
-		return "list";
+		return "/lists/list";
 	}
 	
 	@GetMapping("/{listCorporationNo}")
@@ -51,7 +51,7 @@ public class JobController {
 		JobItem jobItem = jobRepository.selectByCorporationNo(listCorporationNo);
 		model.addAttribute("list", jobItem);
 		
-		return "list";
+		return "/lists/list";
 	}
 	
 	// (http://localhost:8080/lists) 서버켜고 주소입력하면 뜸 
@@ -60,11 +60,11 @@ public class JobController {
 		List<JobItem> jobList = jobRepository.selectAll();
 		model.addAttribute("lists",jobList);
 		
-		return "lists";
+		return "/lists/lists";
 	}
 	
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
-	@PostConstruct
+//	@PostConstruct
 	public void insertInit() throws IOException, ParseException {
 		String jobItem = getJobData();
 		JSONParser jsonParser = new JSONParser();

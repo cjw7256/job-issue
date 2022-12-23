@@ -23,7 +23,7 @@ public class MybatisJobRepository implements JobRepository{
 	public JobItem insert(JobItem jobItem) {
 		// TODO Auto-generated method stub
 		Integer result = jobMapper.insert(jobItem);
-		log.info("FoodItem insert result {}", result);
+		log.info("JobItem insert result {}", result);
 				
 		return jobItem;
 	}

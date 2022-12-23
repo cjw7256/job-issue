@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>이력서 update 페이지</title>
+</head>
+<body>
+	<div>
+		<h1>이력서 update 페이지 입니다.</h1>
+		
+		<div>
+			<form action="" method="post" th:object="${resume}">
+				<div>
+					<label for="ResumeTitle">이력서제목</label>
+					<input type="text" id="ResumeTitle" th:field="*{ResumeTitle}">
+				</div>
+				
+				<div>
+					<label for="UserResumeEmail">사용할이메일</label>
+					<input type="text" id="UserResumeEmail" th:field="*{UserResumeEmail}">
+				</div>
+				
+				<div>
+					<label for="EmployTypeCode">공고형태코드</label>
+					<input type="text" id="EmployTypeCode" th:field="*{EmployTypeCode}">
+				</div>
+				
+				<div>
+					<label for="RecruitFieldCode">모집분야코드</label>
+					<input type="text" id="RecruitFieldCode" th:field="*{RecruitFieldCode}">
+				</div>
+				
+				<div>
+					<label for="AcademicRecordCode">학력코드</label>
+					<input type="text" id="AcademicRecordCode" th:field="*{AcademicRecordCode}">
+				</div>
+				
+				<div>
+					<label for="CareerCode">경력코드</label>
+					<input type="text" id="CareerCode" th:field="*{CareerCode}">
+				</div>
+				
+				<div>
+					<label for="MilitaryStatus">병역여부</label>
+					<input type="text" id="MilitaryStatus" th:field="*{MilitaryStatus}">
+				</div>			
+				
+				<div>
+					<label for="MaritalStatus">결혼여부</label>
+					<input type="text" id="MaritalStatus" th:field="*{MaritalStatus}">
+				</div>
+				
+				<div>
+					<label for="CoverLetter">자기소개서</label>
+					<input type="text" id="CoverLetter" th:field="*{CoverLetter}">
+				</div>
+				
+				<div>
+					<label for="License">자격증</label>
+					<input type="text" id="License" th:field="*{License}">
+				</div>
+				
+				<div>
+					<label for="Activity">대외활동</label>
+					<input type="text" id="Activity" th:field="*{Activity}">
+				</div>
+				
+				<div>
+					<label for="Portfolio">포트폴리오</label>
+					<input type="text" id="Portfolio" th:field="*{Portfolio}">
+				</div>
+				<div>
+					<label for="ReadingCode">열람여부</label>
+					<input type="text" id="ReadingCode" th:field="*{ReadingCode}">
+				</div>
+				
+				<div>
+					<button type="submit">저장하기</button>
+					<button type="button" th:onclick="|location.href='@{/}'|">취소</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
