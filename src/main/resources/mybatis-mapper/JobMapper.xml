@@ -64,29 +64,6 @@
 		where cor.COR_CODE = re.COR_CODE
 	</select>
 
-	<!-- 공고명 클릭 -> 공고번호를 통해 특정 회사의 채용공고를 불러옴  -->
-	<!-- <select id="selectByAnnCode" resultType="JobItem">
-		select cor.cor_name corName, re.announcement announcement, ref.RECRUIT_FIELD recruitField,
-		(e.EmployType 여기에서 list,) re.salary, (w.Working_Area, 여기에서 리스트) 
-		c.career career, re.RECRUIT_PERSON, (aca.Academic_Record 여기에서 리스트)
-		re.receipt_start, re.receipt_end
-		FROM CORPORATION_INFO cor, Recruitment re, RecruitFieldCode ref, CareerCode c
-		where re.Announcement_Code = #{listAnnCode}
-		and re.cor_code = cor.cor_code
-		and re.RECRUIT_FIELD_Code = ref.RECRUIT_FIELD_CODE
-		and re.Career_Code = c.Career_Code
-	</select> -->
-
-	<!-- <select id="selectByAnnCode" resultType="JobItem">
-		select cor.cor_name corName, re.announcement announcement, ref.RECRUIT_FIELD, c.career career , re.RECRUIT_PERSON,
-		re.receipt_start, re.receipt_end
-		FROM CORPORATION_INFO cor, Recruitment re, RecruitFieldCode ref, CareerCode c
-		where re.Announcement_Code = #{listAnnCode}
-        and re.cor_code = cor.cor_code
-        and re.RECRUIT_FIELD_Code = ref.RECRUIT_FIELD_CODE
-        and re.Career_Code = c.Career_Code
-	</select> -->
-	
 	<resultMap type="JobItem" id="jobItemMap">
 	<id property="announcementCode" column="ANNOUNCEMENT_CODE"></id>
 	<result property="corName" column="cor_name"></result>
