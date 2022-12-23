@@ -1,0 +1,65 @@
+@charset "EUC-KR";
+.body{
+    background-color: lightgray;
+    width: 100%;
+    height: 1000px;
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    width: 80%;
+    margin-top: 50px;
+    height: 50%;
+    border-radius: 0;
+}
+
+#accordionFlushExample{
+    width: 80%;
+    margin-top: 50px;
+}
+
+.accordion-button{
+    background-color: white;
+    color: black;
+    font-weight: 600;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: rgb(252, 252, 252);
+    color: black;
+}
+
+.accordion-body{
+    background-color: rgb(247, 247, 247);
+    
+}
+
+.title{
+    margin-top: 50px;
+    border-bottom: solid 2px rgb(93, 123, 179);
+    width: 80%;
+    padding-bottom: 20px;
+
+}
+
+@media only screen and (max-width:688px){
+
+    .title{
+        width: 400px;
+        
+    }
+
+    .card{
+        width: 600px;
+    }
+
+    .accordion-body, .accordion-button{
+        width: 400px;
+    }
+    .table{
+        width: 400px;
+    }
+}
