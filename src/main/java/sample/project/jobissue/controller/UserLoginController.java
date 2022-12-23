@@ -8,7 +8,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +43,9 @@ public class UserLoginController {
 	// 로그인 처리
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginPOST(@ModelAttribute LoginForm loginForm, HttpSession httpSession, Model model
-			, HttpServletResponse resp, BindingResult bindingResult) throws Exception {
+			, HttpServletRequest req
+			, HttpServletResponse resp, BindingResult bindingResult
+			, @RequestParam(name="redirectURL", defaultValue = "/") String redirectURL ) throws Exception {
 
 		validateLoginForm(loginForm, bindingResult);
 		
@@ -58,12 +62,13 @@ public class UserLoginController {
 		
 		
 		sessionManager.create(userVO, resp);
-		model.addAttribute("user", userVO);
+		model.addAttribute("userVO", userVO);
 		
 		log.info("로그인 성공 : {} ", userVO);
-		
+		httpSession = req.getSession();
+		httpSession.setAttribute(sessionManager.SESSION_COOKIE_NAME, userVO);
 
-		return "redirect:/"; //로그인 후 보여줄 화면으로 연결
+		return "redirect:" + redirectURL; //로그인 후 보여줄 화면으로 연결
 	}
 	
 	public void validateLoginForm(LoginForm loginForm, Errors errors) {
