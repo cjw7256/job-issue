@@ -6,13 +6,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,80 +45,160 @@ public class JobController {
 
 	private final JobRepository jobRepository;
 
-	@PostMapping("/list")
-	public String list2(Model model, @RequestParam int listCorporationNo) {
-		JobItem jobItem = jobRepository.selectByCorporationNo(listCorporationNo);
-		model.addAttribute("list", jobItem);
-		
-		return "/lists/list";
-	}
-	
-	@GetMapping("/{listCorporationNo}")
-	public String list(Model model, @PathVariable("listCorporationNo") int listCorporationNo) {
-		JobItem jobItem = jobRepository.selectByCorporationNo(listCorporationNo);
-		model.addAttribute("list", jobItem);
-		
-		return "/lists/list";
-	}
-	
 	// (http://localhost:8080/lists) 서버켜고 주소입력하면 뜸 
 	@GetMapping
 	public String lists(Model model, HttpServletRequest req) {
 		List<JobItem> jobList = jobRepository.selectAll();
 		model.addAttribute("lists",jobList);
-		
-		return "/lists/lists";
+
+		return "lists";
 	}
-	
+
+
+	@PostMapping("/list")
+	public String list2(Model model, @RequestParam int listCorporationNo) {
+		JobItem jobItem = jobRepository.selectByAnnCode(listCorporationNo);
+		model.addAttribute("list", jobItem);
+
+		return "list";
+	}
+
+	@GetMapping("/{listAnnouncementCode}")
+	public String list(Model model, @PathVariable("listAnnouncementCode") int listAnnCode) {
+		JobItem jobItem = jobRepository.selectByAnnCode(listAnnCode);
+
+		log.info("list select {}", jobItem);
+		model.addAttribute("list", jobItem);
+
+		return "list";
+	}
+
+
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
-//	@PostConstruct
+//	@PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
+	@Transactional
 	public void insertInit() throws IOException, ParseException {
+
+		Set<String> corName = new HashSet<>();
+
 		String jobItem = getJobData();
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonobj = (JSONObject) jsonParser.parse(jobItem);
 
 		JSONArray arr = (JSONArray) jsonobj.get("GGJOBABARECRUSTM");
-		for (int i = 0; i < arr.size(); i++) {
+		JSONObject obj = (JSONObject) arr.get(1);
+		JSONArray arr2 = (JSONArray) obj.get("row");
 
-			if (i == 1) {
-				JSONObject obj = (JSONObject) arr.get(i);
+		//1)기업 테이블에 저장하기(단, 중복되지 않게 저장되어야 함)
+		//Parsing 하면서 중에 Insert 
+		//Parsing -> Set (자료구조) 이름만 다 넣어요. (중복제거) -> Set반복 -> insert
+		for (int cor = 0; cor < arr2.size(); cor++) {
+			JSONObject corObj = (JSONObject) arr2.get(cor);
 
-				JSONArray arr2 = (JSONArray) obj.get("row");
-				for (int j = 0; j < arr2.size(); j++) {
-					JSONObject obj2 = (JSONObject) arr2.get(j);
-					JobItem jobItem1 = new JobItem();
-					jobItem1.CorporationName = (String) obj2.get("ENTRPRS_NM");
-					jobItem1.Announcement = (String) obj2.get("PBANC_CONT");
-					jobItem1.Salary = (String) obj2.get("SALARY_COND");
-					jobItem1.AnnouncementTypeCode = (String) obj2.get("PBANC_FORM_CD_NM");
-					jobItem1.AnnouncementType = (String) obj2.get("PBANC_FORM_DIV");
-					jobItem1.WorkingAreaCode = (String) obj2.get("WORK_REGION_CD_CONT");
-					jobItem1.WorkingArea = (String) obj2.get("WORK_REGION_CONT");
-					jobItem1.CareerCode = (String) obj2.get("CAREER_CD_NM");
-					jobItem1.Career = (String) obj2.get("CAREER_DIV");
-					jobItem1.AcademicRecordCode = (String) obj2.get("ACDMCR_CD_NM");
-					jobItem1.AcademicRecord = (String) obj2.get("ACDMCR_DIV");
-					jobItem1.recruitmentCode = (String) obj2.get("RECRUT_FIELD_CD_NM");
-					jobItem1.recruitment = (String) obj2.get("RECRUT_FIELD_NM");
-					jobItem1.RecruitmentPerson = (String) obj2.get("EMPLMNT_PSNCNT");
-					jobItem1.receiptStart = (String) obj2.get("RCPT_BGNG_DE");
-					jobItem1.receiptEnd = (String) obj2.get("RCPT_END_DE");
-
-					jobRepository.insert(jobItem1);
-				}
+			if(corObj.get("ENTRPRS_NM") != null) {
+				corName.add(corObj.get("ENTRPRS_NM").toString());
+			}else {
+				log.info("corObj {}", corObj);
 			}
 		}
+
+		Iterator<String> iter = corName.iterator();
+
+		while(iter.hasNext()) {
+			jobRepository.insertCorInfo(iter.next());
+		}
+
+		log.info("기업 테이블 저장 완료");
+		log.info("jobitem 삽입 시작");
+
+		//2)채용공고 데이터 저장(이 때 서브쿼리를 이용, 
+		for (int j = 0; j < arr2.size(); j++) {
+			JSONObject obj2 = (JSONObject) arr2.get(j);
+			JobItem jobItemObj = new JobItem();
+
+			if(obj2.get("ENTRPRS_NM") != null) { //기업명이 null이 아닌 경우
+				jobItemObj.setCorName(obj2.get("ENTRPRS_NM").toString());
+
+				if(obj2.get("PBANC_CONT") != null) {
+					jobItemObj.setAnnouncement(obj2.get("PBANC_CONT").toString());
+				}
+				if(obj2.get("RECRUT_FIELD_CD_NM") != null) {
+					jobItemObj.setRecruitFieldCode(obj2.get("RECRUT_FIELD_CD_NM").toString());
+				}
+				if(obj2.get("RECRUT_FIELD_NM") != null) {
+					jobItemObj.setRecruitField(obj2.get("RECRUT_FIELD_NM").toString());
+				}
+				if(obj2.get("SALARY_COND") != null) {
+					jobItemObj.setSalary(obj2.get("SALARY_COND").toString());
+				}
+				if(obj2.get("CAREER_CD_NM") != null) {
+					jobItemObj.setCareerCode(obj2.get("CAREER_CD_NM").toString());
+				}
+				if(obj2.get("EMPLMNT_PSNCNT") != null) {
+					//간혹 채용인원 데이터 자체에 '명'이 들어있는 경우가 있어... 이걸 자르고 명수만 반환함!
+					if(obj2.get("EMPLMNT_PSNCNT").toString().contains("명")) {
+						String[] tempList = obj2.get("EMPLMNT_PSNCNT").toString().split("명");
+						jobItemObj.setRecruitPerson(tempList[0]);
+					}else {
+						jobItemObj.setRecruitPerson(obj2.get("EMPLMNT_PSNCNT").toString());
+					}
+				}
+
+				if(obj2.get("RCPT_BGNG_DE") != null) {
+					String startDate = obj2.get("RCPT_BGNG_DE").toString();
+					//간혹..접수 종료일이나 접수 시작일이 yyyymmdd인 경우가 있으므로... 이렇게 해줍니다
+					if(!startDate.contains("-")) {
+						startDate = startDate.substring(0,4)+"-"+startDate.substring(4, 6)+"-"+startDate.substring(6,8);
+					}
+					jobItemObj.setReceiptStartDate(LocalDate.parse(startDate));
+				}
+
+				if(obj2.get("RCPT_END_DE") != null) {
+					String endDate = obj2.get("RCPT_END_DE").toString();
+					//간혹..접수 종료일이나 접수 시작일이 yyyymmdd인
+					if(!endDate.contains("-")) {
+						endDate = endDate.substring(0,4)+"-"+endDate.substring(4, 6)+"-"+endDate.substring(6,8);
+					}
+					jobItemObj.setReceiptEndDate(LocalDate.parse(endDate));
+				}
+
+
+				//					log.info("{}",jobItemObj);
+				JobItem afterInsertObj = jobRepository.insertRecruitInit(jobItemObj);	
+
+				//3)중복되는 코드... 이 놈들을 전부 리스트에 담아 반환해줍니다					
+				//채용정보 //근무지역 //학력코드 -> 모두 null이 아닌 경우
+				if(obj2.get("PBANC_FORM_CD_NM") != null) {
+					String empList = obj2.get("PBANC_FORM_CD_NM").toString();
+					jobRepository.insertMulEmp(afterInsertObj.getAnnouncementCode(), Arrays.asList(empList.split(",")));
+				}
+
+				if(obj2.get("WORK_REGION_CD_CONT") != null) {
+					String workAreaList = obj2.get("WORK_REGION_CD_CONT").toString();
+					jobRepository.insertMulWork(afterInsertObj.getAnnouncementCode(), Arrays.asList(workAreaList.split(",")));
+				}
+
+				if(obj2.get("ACDMCR_CD_NM") != null) {
+					String acaList = obj2.get("ACDMCR_CD_NM").toString();
+					jobRepository.insertMulAca(afterInsertObj.getAnnouncementCode(), Arrays.asList(acaList.split(",")));
+				}
+
+			}
+		} // 기업명이 null이 아닌 경우만 가져옴
+		log.info("jobitem 및 코드 옵션 삽입 완료");
 	}
 
+	
 	// 경기데이터드림 사이트의 채용공고 API 데이터를 읽어오는 클래스.
 	public static String getJobData() throws IOException {
-		String JobItem = "";
-		
+		String jobItem = "";
+
 		StringBuilder urlBuilder = new StringBuilder("https://openapi.gg.go.kr/GGJOBABARECRUSTM"); /* URL */
-		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=929c622403f44d6bb2a2a999bc9e742a"); /* Service Key */
+		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=a0b47115ca7243cabe638439b54971a9");/* Service Key 변경 필요*/
 		urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("pIndex","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
-		urlBuilder.append("&" + URLEncoder.encode("pSize","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("pSize","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8"));
+
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -131,8 +218,8 @@ public class JobController {
 		rd.close();
 		conn.disconnect();
 
-		JobItem = sb.toString();
+		jobItem = sb.toString();
 
-		return JobItem;
+		return jobItem;
 	}
 }
