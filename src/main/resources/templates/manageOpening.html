@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<th:block th:replace="afterLoginNavBar.html::headerNavBarHead"></th:block>
+	<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
 <!--     <title>Document</title> -->
     <link rel="styleSheet" href="/css/manageOpening.css">
   </head>
 <body>
 
-<div th:replace="afterLoginNavBar.html :: headerNavBar"></div>
+<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
 
   <div class="body">
     <div class="card">
