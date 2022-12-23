@@ -6,7 +6,7 @@
 	namespace="sample.project.jobissue.repository.mybatis.JobMapper">
 
 	<insert id="insert" parameterType="JobItem">
-		insert into Recruitment
+		insert into Recruitment_init
 		(
 			CorporationNo, CorporationName, Announcement, Salary,
 		 	AnnouncementTypeCode, AnnouncementType, Working_area_Code, Working_area,
@@ -17,20 +17,20 @@
 		values
 		(
 			RecruitmentPK.nextVal, #{CorporationName}, #{Announcement}, #{Salary}, 
-			#{AnnouncementTypeCode}, #{AnnouncementType}, #{Working_area_Code}, #{Working_area},  
-			#{Career_code}, #{Career}, #{Academic_record_code}, #{Academic_record},  
-			#{recruitment_code}, #{recruitment}, #{Recruitment_Person}, #{receipt_start}, #{receipt_end}
+			#{AnnouncementTypeCode}, #{AnnouncementType}, #{WorkingAreaCode}, #{WorkingArea},  
+			#{CareerCode}, #{Career}, #{AcademicRecordCode}, #{AcademicRecord},  
+			#{recruitmentCode}, #{recruitment}, #{RecruitmentPerson}, #{receiptStart}, #{receiptEnd}
 		)
 	</insert>
 
 	<select id="selectAll" resultType="JobItem">
 		select CorporationNo,CorporationName, Announcement, Salary
-		from Recruitment
+		from Recruitment_init
 	</select>
 
 	<select id="selectByCorporationNo" resultType="JobItem">
 		select *
-		FROM Recruitment
+		FROM Recruitment_init
 		where CorporationNo = #{CorporationNo}
 	</select>
 

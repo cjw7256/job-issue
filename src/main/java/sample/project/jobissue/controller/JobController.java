@@ -84,17 +84,17 @@ public class JobController {
 					jobItem1.Salary = (String) obj2.get("SALARY_COND");
 					jobItem1.AnnouncementTypeCode = (String) obj2.get("PBANC_FORM_CD_NM");
 					jobItem1.AnnouncementType = (String) obj2.get("PBANC_FORM_DIV");
-					jobItem1.Working_area_Code = (String) obj2.get("WORK_REGION_CD_CONT");
-					jobItem1.Working_area = (String) obj2.get("WORK_REGION_CONT");
-					jobItem1.Career_code = (String) obj2.get("CAREER_CD_NM");
+					jobItem1.WorkingAreaCode = (String) obj2.get("WORK_REGION_CD_CONT");
+					jobItem1.WorkingArea = (String) obj2.get("WORK_REGION_CONT");
+					jobItem1.CareerCode = (String) obj2.get("CAREER_CD_NM");
 					jobItem1.Career = (String) obj2.get("CAREER_DIV");
-					jobItem1.Academic_record_code = (String) obj2.get("ACDMCR_CD_NM");
-					jobItem1.Academic_record = (String) obj2.get("ACDMCR_DIV");
-					jobItem1.recruitment_code = (String) obj2.get("RECRUT_FIELD_CD_NM");
+					jobItem1.AcademicRecordCode = (String) obj2.get("ACDMCR_CD_NM");
+					jobItem1.AcademicRecord = (String) obj2.get("ACDMCR_DIV");
+					jobItem1.recruitmentCode = (String) obj2.get("RECRUT_FIELD_CD_NM");
 					jobItem1.recruitment = (String) obj2.get("RECRUT_FIELD_NM");
-					jobItem1.Recruitment_Person = (String) obj2.get("EMPLMNT_PSNCNT");
-					jobItem1.receipt_start = (String) obj2.get("RCPT_BGNG_DE");
-					jobItem1.receipt_end = (String) obj2.get("RCPT_END_DE");
+					jobItem1.RecruitmentPerson = (String) obj2.get("EMPLMNT_PSNCNT");
+					jobItem1.receiptStart = (String) obj2.get("RCPT_BGNG_DE");
+					jobItem1.receiptEnd = (String) obj2.get("RCPT_END_DE");
 
 					jobRepository.insert(jobItem1);
 				}
@@ -107,8 +107,10 @@ public class JobController {
 		String JobItem = "";
 		
 		StringBuilder urlBuilder = new StringBuilder("https://openapi.gg.go.kr/GGJOBABARECRUSTM"); /* URL */
-		urlBuilder.append(
-				"?" + URLEncoder.encode("serviceKey", "UTF-8") + "=929c622403f44d6bb2a2a999bc9e742a"); /* Service Key */
+		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=824df52d16d04d5fa83e5626088edfdb"); /* Service Key */
+		urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("pIndex","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
+		urlBuilder.append("&" + URLEncoder.encode("pSize","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8"));
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
