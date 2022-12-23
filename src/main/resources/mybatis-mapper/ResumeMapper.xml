@@ -49,6 +49,11 @@
 		
 		WHERE USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
 	</update>
-		
+	
+	<delete id="deleteResume">
+		delete 
+		from RESUME 
+		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+	</delete>
 	
 </mapper>

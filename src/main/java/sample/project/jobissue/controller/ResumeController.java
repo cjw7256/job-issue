@@ -91,10 +91,9 @@ public class ResumeController {
 		log.info("resumeItem = {}", userVO);
 		log.info("resumeItem = {}", resumeItem);
 		resumeRepository.insertResume(resumeItem);
-		return "redirect:/";
+		return "redirect:/resumes/resumes";
 	}
 	
-
 	@GetMapping("/update/{userCode}")
 	public String updateResume(Model model, @PathVariable("userCode") int userCode
 			, HttpServletRequest req) {
@@ -121,6 +120,19 @@ public class ResumeController {
 		
 		return "redirect:/resumes/{userCode}";
 	}
+	
+	
+	@GetMapping("/delete/{userCode}")
+	public String deleteResume(Model model, @PathVariable("userCode") int userCode
+			, HttpServletRequest req) {
+		HttpSession session = req.getSession(false);
+		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		ResumeItem resumeItem = new ResumeItem();
+		resumeItem.setUserCode(userVO.getUserCode());
+		resumeRepository.deleteResume(userCode, resumeItem);
+		return "resumes/resumes";
+	}
+	
 	
 	
 }

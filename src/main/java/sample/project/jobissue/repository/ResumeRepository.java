@@ -1,6 +1,8 @@
 package sample.project.jobissue.repository;
 
 
+
+
 import sample.project.jobissue.domain.ResumeItem;
 
 public interface ResumeRepository {
@@ -11,4 +13,5 @@ public interface ResumeRepository {
 	
 	public boolean update(int userCode, ResumeItem resumeItem);
 	
+	public boolean deleteResume(int userCode,  ResumeItem resumeItem);
 }

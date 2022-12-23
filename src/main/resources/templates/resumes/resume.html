@@ -46,7 +46,7 @@
 		</table>
 		<button type="button" th:onclick="|location.href='@{/}'|">뒤로가기</button>
 		<button th:onclick="|location.href='@{/resumes/update/{userCode}(userCode=${resume.userCode})}'|">이력서수정</button>
-		<button type="button" th:onclick="|location.href='@{/resumes/delete}'|">이력서삭제</button>
+		<button th:onclick="|location.href='@{/resumes/delete/{userCode}(userCode=${resume.userCode})}'|">이력서삭제</button>
 	</div>
 </body>
 </html>

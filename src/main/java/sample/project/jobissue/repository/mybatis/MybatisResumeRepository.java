@@ -49,4 +49,26 @@ public class MybatisResumeRepository implements ResumeRepository {
 		return result;
 	}
 
+	@Override
+	@Transactional
+	public boolean deleteResume(int userCode, ResumeItem resumeItem) {
+		// TODO Auto-generated method stub
+		log.info("12");
+		boolean result = false;
+		log.info("13");
+		try {
+			log.info("14");
+			resumeMapper.deleteResume(userCode, resumeItem);
+			log.info("15");
+			result = true;
+			log.info("16");
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("{}", e.getMessage());
+			log.info("17");
+		}
+		log.info("18");
+		return result;
+	}
+
 }
