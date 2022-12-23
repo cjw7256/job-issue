@@ -17,4 +17,8 @@ public class UserRegisterForm {
 	  private String userDetailAddress;
 	  private String userZipCode;
 	  private String resumeCode;
+	  private String corCode;
+	  private String userType;
+	  
+	  private String corName;
 }
