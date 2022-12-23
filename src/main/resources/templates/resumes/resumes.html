@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>이력서 관리 페이지</title>
+</head>
+<body>
+	<div>이력서 관리 페이지 입니다.</div>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>작성한이력서</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr th:each="resume : ${resumes}">
+					<td><a th:href="@{|/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<button type="button" th:onclick="|location.href='@{/}'|">뒤로가기</button>
+		<button type="button" th:onclick="|location.href='@{/resumes/insert}'|">이력서추가</button>
+		<button type="button" th:onclick="|location.href='@{/resumes/delete}'|">이력서삭제</button>
+	</div>
+</body>
+</html>

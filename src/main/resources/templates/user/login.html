@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/login.css">
+
+</head>
+<body class="hold-transition register-page"
+	style="margin-top: 0px; margin-left: 0px; margin-bottom: 0px; margin-right: 0px;">
+	<div id="con">
+		<div id="login">
+			<div id="login_form">
+				<!--로그인 폼-->
+
+				<div class="register-box">
+
+					<div class="card-body login-card-body">
+						<h3 class="login">로그인</h3>
+						<hr style="border:solid 1px rgb(93, 123, 179)">
+
+						<form action="" method="post" th:object="${loginForm}">
+
+							<div th:if="${#fields.hasGlobalErrors()}">
+								<p th:each="error : ${#fields.globalErrors()}"
+									th:text="${error}">글로벌오류</p>
+							</div>
+
+							<div class="input-group mb-3">
+								<input type="email" name="userEmail" class="form-control size"
+									placeholder="아이디(이메일)" th:field="*{userEmail}">
+								<div th:errors="*{userEmail}"></div>
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-exclamation"></span>
+									</div>
+								</div>
+							</div>
+							<div class="input-group mb-3">
+								<input type="password" name="userPassword" class="form-control size"
+									placeholder="비밀번호" th:field="*{userPassword}">
+								<div th:errors="*{userPassword}"></div>
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<span class="fas fa-lock"></span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-8">
+									<div class="icheck-primary" style="margin-bottom: 10px;">
+										<input type="checkbox" id="remember"> <label
+											for="remember"> 아이디 저장하기 </label>
+									</div>
+								</div>
+								
+					
+								<!-- /.col -->
+								<div class="col-4">
+									<button type="submit" class="btn btn-primary btn-block">로그인</button>
+								</div>
+								<!-- /.col -->
+							</div>
+						</form>
+
+						<p class="mb-1">
+							<a href="#">비밀번호를 잃어버리셨습니까?</a>
+						</p>
+						<p class="mb-0">
+							<a href="/user/register" class="text-center">회원가입 하시겠습니까?</a>
+						</p>
+					</div>
+					<!-- /.login-card-body -->
+				</div>
+				<!-- /.login-box-body -->
+			</div>
+		</div>
+	</div>
+	<!-- /.login-box -->
+
+	<script>
+		var msg = "${msg}";
+		if (msg === "REGISTERED") {
+			alert("회원가입이 완료되었습니다. 로그인해주세요~");
+		} else if (msg == "FAILURE") {
+			alert("아이디와 비밀번호를 확인해주세요.");
+		}
+		$(function() {
+			$('input').iCheck({
+				checkboxClass : 'icheckbox_square-blue',
+				radioClass : 'iradio_square-blue',
+				increaseArea : '20%' // optional
+			});
+		});
+	</script>
+</body>
+</html>

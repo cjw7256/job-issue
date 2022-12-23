@@ -18,9 +18,9 @@
 			
 			<tbody>
 				<tr th:each="list : ${lists}">
-					<td><a th:href="@{|/lists/${list.CorporationNo}|}" th:text="${list.CorporationName}">회사명</a></td>
-					<td><a th:href="@{|/lists/${list.CorporationNo}|}" th:text="${list.Announcement}">채용내용</a></td>
-					<td th:text="${list.Salary}">급여</td>
+					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.corName}">회사명</a></td>
+					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.announcement}">채용내용</a></td>
+					<td th:text="${list.salary}">급여</td>
 				</tr>
 			</tbody>
 		</table>
