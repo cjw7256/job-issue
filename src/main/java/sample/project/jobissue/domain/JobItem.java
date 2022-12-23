@@ -1,25 +1,36 @@
 package sample.project.jobissue.domain;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class JobItem {
-	public int CorporationNo;
-	public String CorporationName;
-	public String Announcement;
-	public String Salary;
-	public String AnnouncementTypeCode;
-	public String AnnouncementType;
-	public String Working_area_Code;
-	public String Working_area;
-	public String Career_code;
-	public String Career;
-	public String Academic_record_code;
-	public String Academic_record;
-	public String recruitment_code;
-	public String recruitment;
-	public String Recruitment_Person;
-	public String receipt_start;
-	public String receipt_end;
+	private int announcementCode;
+	private int corCode;
+	private String corName;
+	private String announcement;
+	private String recruitFieldCode;
+	private String recruitField;
+	
+	private List<String> employTypeCode;
+	private List<String> employType;
+	
+	private String salary;
+	
+	private List<String> workingAreaCode;
+	private List<String> workingArea;
+	
+	private String careerCode;
+	private String career;
+	
+	private String recruitPerson;
+	
+	private List<String> academicRecordCode;
+	private List<String> academicRecord;
+	
+	private LocalDate receiptStartDate;
+	private LocalDate receiptEndDate;
 
 }

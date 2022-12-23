@@ -2,6 +2,7 @@ package sample.project.jobissue.repository.mybatis;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +21,34 @@ public class MybatisJobRepository implements JobRepository{
 	
 	@Override
 	@Transactional
-	public JobItem insert(JobItem jobItem) {
+	public JobItem insertRecruitInit(JobItem jobItem) {
 		// TODO Auto-generated method stub
-		Integer result = jobMapper.insert(jobItem);
-		log.info("FoodItem insert result {}", result);
+		Integer result = jobMapper.insertRecruitInit(jobItem);
+		log.info("jobItem insert result {}", result);
 				
 		return jobItem;
 	}
+
+	public void insertCorInfo(String corName) {
+		Integer result = jobMapper.insertCorInfo(corName);
+		log.info("insertCor {}", result);
+	}
+	
+	public void insertMulEmp(int announcementCode, List<String> employTypeCode) {
+		Integer result = jobMapper.insertMulEmp(announcementCode, employTypeCode);
+		log.info("insertMulOp {}", result);
+	}
+	
+	public void insertMulWork(int announcementCode, List<String> workAreaCode ) {
+		Integer result = jobMapper.insertMulWork(announcementCode, workAreaCode);
+		log.info("insertMulWork {}", result);
+	};
+
+	public void insertMulAca(int announcementCode, List<String> acaCode ){
+		Integer result = jobMapper.insertMulAca(announcementCode, acaCode);
+		log.info("insertMulAca {}", result);
+	};
+
 	
 	@Override
 	public List<JobItem> selectAll() {
@@ -40,12 +62,12 @@ public class MybatisJobRepository implements JobRepository{
 		}
 		return jobItems;
 	}
-	
+
 	@Override
-	public JobItem selectByCorporationNo(int corporationNo) {
+	public JobItem selectByAnnCode(int listAnnCode) {
 		// TODO Auto-generated method stub
-		JobItem jobItem = jobMapper.selectByCorporationNo(corporationNo);
-		log.info("jobItem {}", jobItem);
+		JobItem jobItem = jobMapper.selectByAnnCode(listAnnCode);
+		log.info("selectByAnnCode {}", listAnnCode);
 
 		return jobItem;
 	}
