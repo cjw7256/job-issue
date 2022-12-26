@@ -32,9 +32,9 @@
 	
 	<!-- 회사정보 -> 회원정보 등록(초기 데이터 생성 시) -->
 	<insert id="insertUserInfoAsCor" parameterType="UserVO">
-		INSERT INTO USER_INFO(USER_CODE, USER_EMAIL, USER_PASSWORD, USER_TYPE) 
-		VALUES (USER_CODE_SEQ.nextval, CONCAT(CONCAT('cor',#{corCode}),'@gmail.com'), 
-		CONCAT('cor',#{corCode}), '2')
+		INSERT INTO USER_INFO(USER_CODE, COR_CODE, USER_EMAIL, USER_PASSWORD, USER_TYPE) 
+		VALUES (USER_CODE_SEQ.nextval, (SELECT COR_CODE FROM CORPORATION_INFO WHERE COR_NAME = #{userName}),
+		CONCAT(CONCAT('cor',#{corCode}),'@gmail.com'), CONCAT('cor',#{corCode}), '2')
 	</insert>
 	
 	
