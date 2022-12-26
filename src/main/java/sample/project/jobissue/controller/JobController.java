@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobRepository;
 
 import jakarta.annotation.PostConstruct;
@@ -103,13 +104,22 @@ public class JobController {
 		}
 
 		Iterator<String> iter = corName.iterator();
-
+		
+		UserVO initCor = new UserVO();
+		
 		while(iter.hasNext()) {
-			jobRepository.insertCorInfo(iter.next());
+			initCor.setUserName(iter.next());
+			
+			UserVO user = jobRepository.insertCorInitInfo(initCor);
+			
+			//기업테이블 -> 회원정보 테이블 데이터 삽입
+			//여기에서 메소드 실행
+			jobRepository.insertUserInfoAsCor(user);
 		}
 
 		log.info("기업 테이블 저장 완료");
 		log.info("jobitem 삽입 시작");
+		
 
 		//2)채용공고 데이터 저장(이 때 서브쿼리를 이용, 
 		for (int j = 0; j < arr2.size(); j++) {
