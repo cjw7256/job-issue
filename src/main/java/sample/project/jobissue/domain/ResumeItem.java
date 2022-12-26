@@ -1,5 +1,7 @@
 package sample.project.jobissue.domain;
 
+
+
 import lombok.Data;
 
 @Data

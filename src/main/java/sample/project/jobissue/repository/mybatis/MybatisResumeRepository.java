@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.ResumeRepository;
 
 @Slf4j
@@ -24,6 +25,36 @@ public class MybatisResumeRepository implements ResumeRepository {
 		return resumeItem;
 	}
 
+	@Override
+	public boolean insertAfter(int userCode, UserVO userVO) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		
+		try {
+			resumeMapper.insertAfter(userCode, userVO);
+			result = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("{}", e.getMessage());
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean deleteAfter(int userCode, UserVO userVO) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		
+		try {
+			resumeMapper.deleteAfter(userCode, userVO);
+			result = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error("{}", e.getMessage());
+		}
+		return result;
+	}
+	
 	@Override
 	public ResumeItem selectByUserCode(int userCode) {
 		// TODO Auto-generated method stub
@@ -53,22 +84,15 @@ public class MybatisResumeRepository implements ResumeRepository {
 	@Transactional
 	public boolean deleteResume(int userCode, ResumeItem resumeItem) {
 		// TODO Auto-generated method stub
-		log.info("12");
 		boolean result = false;
-		log.info("13");
 		try {
-			log.info("14");
 			resumeMapper.deleteResume(userCode, resumeItem);
-			log.info("15");
 			result = true;
-			log.info("16");
 		} catch (Exception e) {
 			// TODO: handle exception
 			log.error("{}", e.getMessage());
-			log.info("17");
 		}
-		log.info("18");
 		return result;
 	}
-
+	
 }

@@ -8,20 +8,40 @@
 	<insert id="insertResume" parameterType="ResumeItem" >
 		insert into RESUME
 		(
-			USER_CODE, User_ResumeEmail, Military_Status, Marital_Status,
-		 	EmployType_Code, Recruit_Field_Code, Resume_title, Academic_record_Code,
-			Career_Code, Cover_letter, License, Activity, 
-			Portfolio, Reading_Code
+			USER_CODE,
+			User_ResumeEmail,
+			Military_Status,
+			Marital_Status,
+		 	EmployType_Code,
+		 	Recruit_Field_Code,
+		 	Resume_title,
+		 	Academic_record_Code,
+			Career_Code,
+			Cover_letter,
+			License,
+			Activity, 
+			Portfolio,
+			Reading_Code
 		)
 		
 		values
 		(
-			(select USER_CODE from USER_INFO where user_code = #{userCode}), #{UserResumeEmail},
-			#{MilitaryStatus}, #{MaritalStatus}, #{EmployTypeCode},
-			#{RecruitFieldCode}, #{ResumeTitle}, #{AcademicRecordCode},  
-			#{CareerCode}, #{CoverLetter}, #{License}, #{Activity},  
-			#{Portfolio}, #{ReadingCode}
+			(select USER_CODE from USER_INFO where user_code = #{userCode}),
+			#{UserResumeEmail},
+			#{MilitaryStatus},
+			#{MaritalStatus},
+			(select employtype from EmployTypeCode where EmployType_Code = #{EmployTypeCode}),
+			(select Recruit_Field from RecruitFieldCode where Recruit_Field_Code = #{RecruitFieldCode}),
+			#{ResumeTitle},
+			(select Academic_Record from AcademicRecordCode where Academic_Record_Code = #{AcademicRecordCode}),  
+			(select Career from CareerCode where Career_Code = #{CareerCode}),
+			#{CoverLetter},
+			#{License},
+			#{Activity},  
+			#{Portfolio},
+			#{ReadingCode}
 		)
+		
 	</insert>
 	
 	<select id="selectByUserCode" resultType="ResumeItem">
@@ -56,4 +76,20 @@
 		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
 	</delete>
 	
+
+	<update id="insertAfter">
+		update USER_INFO
+		set
+		resume_code = 'Y'
+
+		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+	</update>
+	
+		<update id="deleteAfter">
+		update USER_INFO
+		set
+		resume_code = 'N'
+
+		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+	</update>
 </mapper>
