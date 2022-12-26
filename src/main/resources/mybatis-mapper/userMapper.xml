@@ -85,4 +85,11 @@
 	    WHERE user_email = #{userEmail}
     </select>
     
+    <select id="selectAcademicRecord" resultType="String">
+		select arc.ACADEMIC_RECORD
+		from multiAcaReco mar, AcademicRecordCode arc
+		where ANNOUNCEMENT_CODE = #{listAnnCode}
+		and mar.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
+	</select>
+    
 </mapper>

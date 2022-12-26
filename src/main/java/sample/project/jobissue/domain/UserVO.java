@@ -28,6 +28,6 @@ public class UserVO {
 	  private String userAddress;
 	  private String userDetailAddress;
 	  private String resumeCode;
-	  private String corCode;
+	  private int corCode;
 	  private String userType;
 }

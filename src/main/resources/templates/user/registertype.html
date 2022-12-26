@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel = "stylesheet" href="/css/register.css">
+<link rel = "stylesheet" href="/css/register2.css">
 </head>
 
 <body class="hold-transition register-page" style="
@@ -22,11 +22,12 @@
 					<div class="card">
 						<div class="card-body register-card-body">
 							<h3 class="login">회원가입</h3>
+							<hr>
 
-							<button th:onclick="|location.href='@{/user/register}'|">개인용</button>
-							<button th:onclick="|location.href='@{/user/register/cop}'|">기업용</button>
-						
-							<div class="align-center">
+							<button th:onclick="|location.href='@{/user/register}'|" class="btn">개인용</button>
+							<button th:onclick="|location.href='@{/user/register/cop}'|" class="btn">기업용</button>
+							
+							<div class="align-center margintop">
 								<a href="/user/login" class="text-center">로그인 페이지로 이동</a>
 							</div>
 						</div>

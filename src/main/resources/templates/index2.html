@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+<link rel="stylesheet" href="/css/index.css">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+	<h1>메인페이지</h1>
+	<div class="card-group">
+		<div class="card">
+			<img src="..." class="card-img-top" alt="...">
+			<div class="card-body">
+				<h5 class="card-title">Card title</h5>
+				<p class="card-text">This is a wider card with supporting text
+					below as a natural lead-in to additional content. This content is a
+					little bit longer.</p>
+				<p class="card-text">
+					<small class="text-muted">Last updated 3 mins ago</small>
+				</p>
+			</div>
+		</div>
+		<div class="card">
+			<img src="..." class="card-img-top" alt="...">
+			<div class="card-body">
+				<h5 class="card-title">Card title</h5>
+				<p class="card-text">This card has supporting text below as a
+					natural lead-in to additional content.</p>
+				<p class="card-text">
+					<small class="text-muted">Last updated 3 mins ago</small>
+				</p>
+			</div>
+		</div>
+		<div id="wrap">
+			<div class="hoverBox">
+				<div class="card">
+					<div class="imgBox">
+						<p class="p1">title</p>
+						<p class="p2">내용내용내용내용</p>
+					</div>
+					<div class="card-body">
+						<div class="imgHoverEvent event1">
+							<img src="https://cdn.pixabay.com/photo/2022/07/10/19/28/mountains-7313638_960_720.jpg"
+								alt="" class="card-img-top">
+						</div>
+						<!--       <h5 class="card-title">Card title</h5> -->
+						<!--       <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p> -->
+						<!--       <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
