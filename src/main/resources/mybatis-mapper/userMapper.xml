@@ -19,6 +19,7 @@
             , user_address
             , user_detailaddress
             , resume_code
+            , user_type
         ) VALUES (
         	USER_CODE_SEQ.nextVal
             , #{userName}
@@ -31,6 +32,40 @@
             , #{userAddress}
             , #{userDetailAddress}
             , 'N'
+            , #{userType}
+<!--             , #{resumeCode} -->
+        )
+    </insert>
+    
+    <insert id="registerCop" >
+        INSERT INTO user_info (
+        	user_code
+            , user_name
+            , user_birth
+            , user_gender
+            , user_tel
+            , user_email
+            , user_password
+            , user_zipcode
+            , user_address
+            , user_detailaddress
+            , resume_code
+            , user_type
+            , cor_code
+        ) VALUES (
+        	USER_CODE_SEQ.nextVal
+            , #{userName}
+            , #{userBirth}
+            , #{userGender}
+            , #{userTel}
+            , #{userEmail}
+            , #{userPassword}
+            , #{userZipCode}
+            , #{userAddress}
+            , #{userDetailAddress}
+            , 'N'
+            , #{userType}
+            , (SELECT MAX(NVL(cor_code, NULL)) from CORPORATION_INFO WHERE cor_name = #{corName})
 <!--             , #{resumeCode} -->
         )
     </insert>
@@ -42,4 +77,12 @@
     	WHERE user_email = #{userEmail}
     	AND user_password = #{userPassword}
     </select>
+    
+    <select id="selectUserByEmail" resultType="UserVO">
+	    SELECT
+	    	*
+	    FROM user_info
+	    WHERE user_email = #{userEmail}
+    </select>
+    
 </mapper>
