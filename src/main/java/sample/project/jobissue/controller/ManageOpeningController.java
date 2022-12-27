@@ -14,6 +14,6 @@ import lombok.RequiredArgsConstructor;
 public class ManageOpeningController {
 	@GetMapping
 	public String manageOpening(Model model, HttpServletRequest req){
-		return "manageOpening";
+		return "corporation/manageOpening";
 	}
 }

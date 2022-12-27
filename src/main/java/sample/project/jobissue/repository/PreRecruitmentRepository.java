@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.PreRecruitment;
 
-public interface JobRepository {
+public interface PreRecruitmentRepository {
 
-	public JobItem insertRecruitInit(JobItem jobItem);
+	public PreRecruitment insertPreRecruit(PreRecruitment preRecruitment);
+	
+	public PreRecruitment selectById(int id);
 	
 	public void insertCorInfo(String corName);
 	
@@ -20,10 +22,12 @@ public interface JobRepository {
 
 	public void insertMulAca(@Param("announcementCode") int announcementCode
 			, @Param("acaOptions") List<String> options );
-
-	public List<JobItem> selectAll();
-
-	public JobItem selectByAnnCode(int listAnnCode);
 	
-//	public JobItem selectByCorporationNo(int corporationNo);
+	public List<PreRecruitment> selectAll();
+
+	public PreRecruitment selectByAnnCode(int listAnnCode);
+	
+//	public boolean update(int announcementCode , PreRecruitment preRecruitment);
+	
+	public void deleteAll();
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="sample.project.jobissue.repository.mybatis.PreRecruitmentMapper">
+	
+	<insert id="insertPreRecruit" parameterType="PreRecruitment">
+		insert into preAppRecru
+		values (#{corCode},announcement_code_seq.nextVal,#{announcement},
+		#{recruitFieldCode},#{salary},#{careerCode},#{recruitPerson}
+		,SYSDATE,#{recruitEnd},SYSDATE)
+	</insert>
+	
+	<!-- 고용형태 등록 -->
+	<insert id="insertMulEmp" parameterType="PreRecruitment">
+		<foreach collection="empOptions" item="item" open="INSERT ALL"
+			close="SELECT * FROM DUAL" separator=" ">
+			INTO multiEmp
+			VALUES(#{announcementCode}, #{item})
+		</foreach>
+	</insert>
+	
+	<!-- 근무지역 등록 -->
+	<insert id="insertMulWork" parameterType="PreRecruitment">
+		<foreach collection="workOptions" item="item" open="INSERT ALL"
+			close="SELECT * FROM DUAL" separator=" ">
+			INTO multiWorkArea
+			VALUES(#{announcementCode}, #{item})
+		</foreach>
+	</insert>
+	
+	<!-- 학력코드 등록 -->
+	<insert id="insertMulAca" parameterType="PreRecruitment">
+		<foreach collection="acaOptions" item="item" open="INSERT ALL"
+			close="SELECT * FROM DUAL" separator=" ">
+			INTO multiAcaReco
+			VALUES(#{announcementCode}, #{item})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteAll">
+		delete from preRecruitment
+	</delete>
+	
+	</mapper>
