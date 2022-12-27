@@ -9,8 +9,6 @@
 <body>
 <div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
 	<div>
-		
-		
 		<div class="body">
 		<div class="card">
 			<h1 class="title">이력서 등록</h1>
@@ -37,6 +35,7 @@
         			<div class="row">
         				희망 고용 형태 : 
     					<select 
+    					id="recruitField"
     					class="form-select" 
     					th:field="*{employTypeCode}"
     					>
@@ -44,7 +43,8 @@
         				<option
         					th:each="employTypeCode : ${employTypeCodes}" 
         					th:value="|${employTypeCode.code}|"
-        					th:text="|${employTypeCode.name}|">정규직
+        					th:text="|${employTypeCode.name}|"
+        					>정규직
         				</option>
 			    		</select>
     				</div>
@@ -54,6 +54,7 @@
         			<div class="row">
         				선호 직종 형태 : 
     					<select 
+    					id="recruitField"
     					class="form-select" 
     					th:field="*{recruitFieldCode}"
     					>
@@ -71,6 +72,7 @@
         			<div class="row">
         				최종학력 : 
     					<select 
+    					id="recruitField"
     					class="form-select" 
     					th:field="*{academicRecordCode}"
     					>
@@ -88,6 +90,7 @@
         			<div class="row">
         				경력 : 
     					<select 
+    					id="recruitField"
     					class="form-select" 
     					th:field="*{careerCode}"
     					>
@@ -102,43 +105,79 @@
 				</div>
 				
 			
-				
-				
-				
-				
-				<div>
-					<label for="MaritalStatus">결혼여부</label>
-					<input type="text" id="MaritalStatus" th:field="*{MaritalStatus}">
+				<div class="bundle">
+    				<div>병역여부</div>
+    				<div th:each="type : ${militaryStatuses}" class="form-check form-check-inline">
+        				<input type="radio" th:field="*{MilitaryStatus}" th:value="${type.name()}"
+               				class="form-check-input">
+        				<label th:for="${#ids.prev('MilitaryStatus')}" th:text="${type.description}"
+               				class="form-check-label">
+            				병역
+        				</label>
+    				</div>
 				</div>
 				
-				<div>
-					<label for="CoverLetter">자기소개서</label>
-					<input type="text" id="CoverLetter" th:field="*{CoverLetter}">
+				<div class="bundle">
+    				<div>결혼여부</div>
+    				<div th:each="type : ${maritalStatuses}" class="form-check form-check-inline">
+        				<input type="radio" th:field="*{MaritalStatus}" th:value="${type.name()}"
+               				class="form-check-input">
+        				<label th:for="${#ids.prev('MaritalStatus')}" th:text="${type.description}"
+               				class="form-check-label">
+            				결혼
+        				</label>
+    				</div>
 				</div>
 				
-				<div>
-					<label for="License">자격증</label>
-					<input type="text" id="License" th:field="*{License}">
+				<div class="bundle">
+				<label for="floatingTextarea">자격증</label>
+  					<textarea class="form-control" placeholder="보유한 자격증을 자유롭게 적어주세요."
+  					 id="License" th:field="*{License}"></textarea>
+  					
 				</div>
 				
-				<div>
-					<label for="Activity">대외활동</label>
-					<input type="text" id="Activity" th:field="*{Activity}">
+				<div class="bundle">
+				<label for="floatingTextarea">대외활동</label>
+  					<textarea class="form-control" placeholder="대외활동을 자유롭게 적어주세요."
+  					 id="Activity" th:field="*{Activity}"></textarea>
+  					
 				</div>
 				
-				<div>
-					<label for="Portfolio">포트폴리오</label>
-					<input type="text" id="Portfolio" th:field="*{Portfolio}">
-				</div>
-				<div>
-					<label for="ReadingCode">열람여부</label>
-					<input type="text" id="ReadingCode" th:field="*{ReadingCode}">
+				<div class="bundle">
+        			<div class="row" >
+            			자기소개서 :
+            				<input class="form-control form-control-sm" id="CoverLetter"
+            					type="text" placeholder="자기소개서를 입력해주세요."
+            					aria-label=".form-control-sm example" th:field="*{CoverLetter}">
+        			</div>
+        		</div>
+        		
+        		<div class="bundle">
+        			<div class="row" >
+            			포트폴리오 :
+            				<input class="form-control form-control-sm" id="Portfolio"
+            					type="text" placeholder="포트폴리오를 입력해주세요."
+            					aria-label=".form-control-sm example" th:field="*{Portfolio}">
+        			</div>
+        		</div>
+        		
+				<div class="bundle">
+    				<div>열람여부</div>
+    				<div th:each="type : ${readingCodes}" class="form-check form-check-inline">
+        				<input type="radio" th:field="*{ReadingCode}" th:value="${type.name()}"
+               				class="form-check-input">
+        				<label th:for="${#ids.prev('ReadingCode')}" th:text="${type.description}"
+               				class="form-check-label">
+            				열람
+        				</label>
+    				</div>
 				</div>
 				
-				<div>
-					<button type="submit">저장하기</button>
-					<button type="button" th:onclick="|location.href='@{/}'|">취소</button>
-				</div>
+				
+				<div class="buttonSet">
+			        <button type="submit" id="opening" class="btn btn-primary">저장하기</button>
+        			<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">취소하기</button>
+    			</div>
 			</form>
 		</div>
 		

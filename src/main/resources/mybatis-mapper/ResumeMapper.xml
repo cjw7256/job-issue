@@ -21,7 +21,8 @@
 			License,
 			Activity, 
 			Portfolio,
-			Reading_Code
+			Reading_Code,
+			RESUME_DATE
 		)
 		
 		values
@@ -30,26 +31,27 @@
 			#{UserResumeEmail},
 			#{MilitaryStatus},
 			#{MaritalStatus},
-			(select employtype from EmployTypeCode where EmployType_Code = #{EmployTypeCode}),
-			(select Recruit_Field from RecruitFieldCode where Recruit_Field_Code = #{RecruitFieldCode}),
+			(select employtype_code from EmployTypeCode where EmployType_Code = #{EmployTypeCode}),
+			(select Recruit_Field_code from RecruitFieldCode where Recruit_Field_Code = #{RecruitFieldCode}),
 			#{ResumeTitle},
-			(select Academic_Record from AcademicRecordCode where Academic_Record_Code = #{AcademicRecordCode}),  
-			(select Career from CareerCode where Career_Code = #{CareerCode}),
+			(select Academic_Record_code from AcademicRecordCode where Academic_Record_Code = #{AcademicRecordCode}),  
+			(select Career_code from CareerCode where Career_Code = #{CareerCode}),
 			#{CoverLetter},
 			#{License},
 			#{Activity},  
 			#{Portfolio},
-			#{ReadingCode}
+			#{ReadingCode},
+			sysdate
 		)
 		
 	</insert>
 	
 	<select id="selectByUserCode" resultType="ResumeItem">
-		select *
-		FROM RESUME
-		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+	select *
+	FROM RESUME
+	where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
 	</select>
-	
+		
 	<update id="update">
 		update RESUME
 		SET 
@@ -65,8 +67,8 @@
 		Activity = #{updateItem.Activity} ,
 		Portfolio = #{updateItem.Portfolio} ,
 		Cover_letter = #{updateItem.CoverLetter} ,
-		Reading_Code = #{updateItem.ReadingCode} 
-		
+		Reading_Code = #{updateItem.ReadingCode}, 
+		RESUME_DATE = sysdate
 		WHERE USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
 	</update>
 	

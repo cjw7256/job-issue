@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
-
-
+import sample.project.jobissue.domain.MaritalStatus;
+import sample.project.jobissue.domain.MilitaryStatus;
+import sample.project.jobissue.domain.ReadingCode;
 import sample.project.jobissue.domain.RecruitFieldCode;
 import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.UserVO;
@@ -56,9 +56,9 @@ public class ResumeController {
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeItem = resumeRepository.selectByUserCode(resumeItem.getUserCode());
 		model.addAttribute("resumes", resumeItem);
-		log.info("레주메 {}",resumeItem);
 		return "resumes/resumes";
 	}
+	
 	
 	@PostMapping("/resume")
 	public String list2(Model model, @RequestParam int resumeUserCode) {
@@ -205,6 +205,19 @@ public class ResumeController {
         return careerCode;
     }
 	
+	@ModelAttribute("militaryStatuses")
+	public MilitaryStatus[] militaryStatuses() {
+		return MilitaryStatus.values();
+	}
 	
+	@ModelAttribute("maritalStatuses")
+	public MaritalStatus[] maritalStatuses() {
+		return MaritalStatus.values();
+	}
+	
+	@ModelAttribute("readingCodes")
+	public ReadingCode[] readingCodes() {
+		return ReadingCode.values();
+	}
 	
 }
