@@ -32,7 +32,7 @@ public class PreRecruitment {
 	
 	private LocalDate receiptStartDate; //공고시작일
 	private LocalDate receiptEndDate; //공고 종료일
-	
+	 
 	private String applyStat; //공고형태
 	
 
