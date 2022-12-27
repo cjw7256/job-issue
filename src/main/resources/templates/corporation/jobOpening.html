@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+    <link rel="stylesheet" href="../css/jobOpening.css">
+    <title>공고 등록</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    
+</head>
+<style>
+    
+</style>
+<body>
+	
+	<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+
+	<form action="" method="post" th:object="${preRecruit}">
+    <div class="body">
+    <div class="card">
+    
+        <h3 class="title"> 공고 등록 </h3>
+    
+        <div class="bundle">
+        <div class="row" >
+            공고명 :
+            <input class="form-control form-control-sm" id="Announcement"
+            type="text" th:field=*{announcement}
+             placeholder="공고명을 입력해주세요.정확한 업무를 입력할수록 지원자들이 많이 조회합니다." aria-label=".form-control-sm example">
+        </div>
+        </div>
+    
+    <div class="bundle">
+    <div class="row">
+        모집분야 :
+    <select class="form-select" id="recruitField"
+    aria-label="Default select example">
+        <option selected>모집분야</option>
+        <option
+        th:each="recruitField : ${recruitFieldCode}"
+        th:value="${recruitField.recruitFieldCode}" 
+        th:text="${recruitField.recruitField}"></option>
+    </select>
+    </div>
+    </div>
+
+	<div class="bundle">
+        <div class="row">
+            급 여 : 
+            <input class="form-control form-control-sm" id="Salary" 
+            type="text" placeholder="급여를 입력해주세요.  ex) 연봉 3000만원, 월급 300만원, 회사 내규에 따름 " aria-label=".form-control-sm example">
+        </div>
+		</div>  
+
+    <div class="container">
+        <div class="row">
+        희망 고용 형태 : 
+        <div class="form-check" th:each="employType : ${employType}">
+  		<input class="form-check-input" type="checkbox"
+   		th:value="${employType.employTypeCode}" id="flexCheckChecked">
+ 		 <label class="form-check-label" for="flexCheckChecked" th:text="${employType.employType}">
+   		 Checked checkbox
+  		</label>
+  		</div>
+ 
+      <!-- 경력 -->
+       <div class="container">
+        <div class="row">
+        희망 경력 : 
+    <select id="Career" class="form-select"  aria-label="Default select example">
+        <option selected>경력</option>
+        <option
+        th:each="careerCode : ${careerCodes}, career : ${career}"
+        th:value="${careerCode}" 
+        th:text="${career}">
+        </option>
+    </select>
+    </div>
+	</div>
+
+
+<div class="row"> 근무 가능 지역 
+        <div class="container2">
+        <div class="select-btn">
+            <span class="btn-text">근무 가능 지역</span>
+            <span class="arrow-dwn">
+                <i class="fa-solid fa-chevron-down"></i>
+            </span>
+        </div>
+        
+         <ul  class="list-items">
+         
+            <li class="item" th:each="workingAreaCode:${workingAreaCodes}">
+                <form class="checkbox">
+                    <i class="fa-solid fa-check check-icon" ></i>
+                </form>
+                <span class="item-text"
+                th:value="${workingAreaCode.working_Area_Code}">
+                <label th:text="${workingAreaCode.working_Area}"></label>
+                </span>
+            </li>
+            </ul>
+</div>
+
+		
+    
+		<div class="bundle">
+        <div class="row">
+            희망 모집 인원 : 
+            <input class="form-control form-control-sm" id="RecruitmentPerson"
+           
+            type="text" placeholder="ex) 1,2,00" aria-label=".form-control-sm example">  명
+        </div>
+		</div>
+    
+
+
+
+<!-- 학력 -->
+    <div id="Academic">
+        희망 학력 : 
+        <div class="form-check form-check-inline">
+        	<div th:each="arc: ${academicRecordCode}">
+            <input class="form-check-input" type="checkbox" th:id="${arc.academicRecode}" 
+            th:value="${arc.academicRecode}">
+            <label class="form-check-label" th:for="${arc.academicRecode}" th:text="${arc.academicRecode}"></label>
+        	</div>
+        </div>
+        
+    </div>
+
+	<div class="bundle">
+    <div class="row">
+        공고 게시 기간 : 
+        <select class="form-select" id="ReceiptEnd"
+        aria-label="Default select example">
+            <option selected>공고 기간</option>
+            <option th:value="7">일주일</option>
+            <option th:value="15">보름</option>
+            <option th:value="30">한 달</option>
+            <option th:value="92">채용 시 까지</option>
+        </select>
+        <p class="comment">*채용 시 까지는 3개월입니다.</p>
+    </div>
+	</div>
+        
+    <div class="buttonSet">
+
+        <button type="submit" id="opening" class="btn btn-primary"
+        th:onclick="|location.href='@{}'|">등록하기</button>
+        <button type="button" class="btn btn-secondary"
+        th:onclick="|location.href='@{/}'|">작성종료</button>
+    </div>
+    </div>
+    </div>
+    </div>    
+</form>
+        
+        
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+    <script src="../js/select.js"></script>
+	<script src="https://kit.fontawesome.com/9ba603b7d5.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+</body>
+</html>

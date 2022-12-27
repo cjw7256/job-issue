@@ -15,6 +15,6 @@ public class ApplicantManage {
 
 	@GetMapping
 	public String manageOpening(Model model, HttpServletRequest req){
-		return "applicantManage";
+		return "corporation/applicantManage";
 	}
 }
