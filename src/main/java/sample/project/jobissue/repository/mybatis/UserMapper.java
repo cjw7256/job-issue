@@ -10,7 +10,5 @@ import sample.project.jobissue.validation.UserRegisterForm;
 @Mapper
 public interface UserMapper {
 	public Integer register(UserRegisterForm userRegisterForm);
-	public Integer registerCop(UserRegisterForm userRegisterForm);
 	public UserVO login(LoginForm loginForm);
-	public UserVO selectUserByEmail(String userEmail);
 }

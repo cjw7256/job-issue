@@ -26,10 +26,4 @@ public class UserServiceImpl implements UserService {
 	public UserVO login(LoginForm loginForm) throws Exception {
     	return userDAO.login(loginForm);
     }
-
-	@Override
-	public UserVO findUserByEmail(String userEmail) throws Exception {
-		// TODO Auto-generated method stub
-		return userDAO.findUserByEmail(userEmail);
-	}
 }

@@ -4,7 +4,7 @@
 
 <mapper
 	namespace="sample.project.jobissue.repository.mybatis.JobMapper">
-<!-- 데이터 최초 삽입 시 필요한 코드 -->
+
 	<!-- 채용공고 데이터 최초 삽입(채용 공고 데이터 삽입 기능 생성 시 이 쿼리문 참고하시오) 
 	 마지막 #{receiptStartDate}(초기 데이터 아닐 시 SYSDATE 넣어야 함)-->
 	<insert id="insertRecruitInit" parameterType="JobItem">
@@ -15,36 +15,19 @@
 		insert into Recruitment
 		values
 		(
-			(SELECT COR_CODE FROM CORPORATION_INFO WHERE COR_NAME = #{corName}), #{announcementCode}, 
+			(SELECT COR_CODE FROM CORPORATION_INFO WHERE COR_NAME LIKE #{corName}), #{announcementCode}, 
 			#{announcement}, (SELECT RECRUIT_FIELD_CODE FROM RecruitFieldCode WHERE RECRUIT_FIELD = #{recruitField}),
 			#{salary}, #{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{receiptStartDate}
 		)
 	</insert>
 	
 	<!-- 회사등록(초기 데이터 생성시 필요) -->
-	<insert id="insertCorInitInfo" parameterType="UserVO">
-		<selectKey keyProperty="corCode" resultType="java.lang.Integer" order="BEFORE">
-			SELECT COR_CODE_SEQ.nextVal as corCode from dual
-		</selectKey>
-		insert into CORPORATION_INFO
-		values (#{corCode}, #{userName})
-	</insert>
-	
-	<!-- 회사정보 -> 회원정보 등록(초기 데이터 생성 시) -->
-	<insert id="insertUserInfoAsCor" parameterType="UserVO">
-		INSERT INTO USER_INFO(USER_CODE, COR_CODE, USER_EMAIL, USER_PASSWORD, USER_TYPE) 
-		VALUES (USER_CODE_SEQ.nextval, (SELECT COR_CODE FROM CORPORATION_INFO WHERE COR_NAME = #{userName}),
-		CONCAT(CONCAT('cor',#{corCode}),'@gmail.com'), CONCAT('cor',#{corCode}), '2')
-	</insert>
-	
-	
-<!-- 상시 사용 가능한 코드  -->
-	<!-- 회사등록-->
 	<insert id="insertCorInfo" parameterType="String">
 		insert into CORPORATION_INFO
-		values (COR_CODE_SEQ.nextVal, #{corName})
+		values (COR_CODE_SEQ.nextVal, null, null, #{corName})
 	</insert>
 	
+
 	<!-- 고용형태 등록 -->
 	<insert id="insertMulEmp" parameterType="JobItem">
 		<foreach collection="empOptions" item="item" open="INSERT ALL"

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
-import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -33,22 +32,6 @@ public class MybatisJobRepository implements JobRepository{
 	public void insertCorInfo(String corName) {
 		Integer result = jobMapper.insertCorInfo(corName);
 		log.info("insertCor {}", result);
-	}
-	
-	@Override
-	public UserVO insertCorInitInfo(UserVO user) {
-		// TODO Auto-generated method stub
-		Integer result = jobMapper.insertCorInitInfo(user);
-		log.info("corinit insert {}", result);
-		
-		return user;
-	}
-
-	@Override
-	public void insertUserInfoAsCor(UserVO user) {
-		// TODO Auto-generated method stub
-		Integer result = jobMapper.insertUserInfoAsCor(user);
-		log.info("insertUserInfoAsCor {}", result );
 	}
 	
 	public void insertMulEmp(int announcementCode, List<String> employTypeCode) {
@@ -88,6 +71,6 @@ public class MybatisJobRepository implements JobRepository{
 
 		return jobItem;
 	}
-
+	
 	
 }
