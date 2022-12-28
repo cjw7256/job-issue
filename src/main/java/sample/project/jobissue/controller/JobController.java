@@ -60,7 +60,7 @@ public class JobController {
 	public String list2(Model model, @RequestParam int listCorporationNo) {
 		JobItem jobItem = jobRepository.selectByAnnCode(listCorporationNo);
 		model.addAttribute("list", jobItem);
-
+		
 		return "/lists/list";
 	}
 
