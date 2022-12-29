@@ -137,8 +137,7 @@ public class AdminController {
 		
 		log.info("applyAnnPostPage pre {}", preRec);
 		
-		preRec.setRecruitField("01");
-		preRec.setApplyStat("01");
+		preRec.setRecruitField("01"); //값이 너무 커서 안 들어간대서 임시로 저장
 		
 		//임시 저장된 공고 저장하기
 		adminRepository.insertPreToRecru(preRec);
@@ -150,12 +149,15 @@ public class AdminController {
 		log.info("applyAnnPostPage 임시 저장된 공고 -> 승인 완료");
 		
 		//임시 저장 공고 승인 코드 변경하기~
+		preRec.setApplyStat("01"); //이쪽 경로로 들어오면 stat을 01로 바꿔줌(승인되었다는 거니까)
+		
 		adminRepository.updatePreStat(preRec.getApplyStat(), annCode);
 		
 		log.info("applyAnnPostPage 승인코드 변경 완료");
 		
 		return "redirect:/adminPage/applyRec";
 	}
+	
 	
 	@PostMapping("/applyRec/rejPost") //공고 거절 처리
 	public String rejectAnnPostPage(@RequestParam int annCode) { 
@@ -164,17 +166,42 @@ public class AdminController {
 		
 		PreRecruitment preRec = adminRepository.selectPreByAnnCode(annCode); //공고 번호로 임시 저장된 공고 찾기
 
+		log.info("applyAnnPostPage 임시 저장된 공고 -> 거절");
+		
+		//임시 저장 공고 승인 코드 변경 => 거절
+		
 		preRec.setApplyStat("02");
 		
-		return "redirect:/admin/applyRecruit";
+		adminRepository.updatePreStat(preRec.getApplyStat(), annCode);
+		
+		return "redirect:/adminPage/applyRec";
 	}
 	
-//	@GetMapping("/adminPage/deleteRec")
-//	public String closedAnnPage() { //공고 삭제 페이지 - 현재 게재된 공고리스트가 뜸
-//		
-//		return "/admin/closedAnn";
-//	}
-//	
+	//공고 삭제 페이지 - 현재 게재된 공고리스트가 뜸
+	@GetMapping("/deleteRec")
+	public String closedAnnPage(Model model) { 
+		log.info("공고 삭제 페이지");
+		List<JobItem> recAllList = jobRepository.selectAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
+		
+		log.info("{}", recAllList.get(0));
+		
+		model.addAttribute("recAllList", recAllList);
+		
+		return "/admin/closedAnn";
+	}
+	
+	//공고 삭제 - 공고 상세 페이지
+	@GetMapping("/deleteRec/{announcementCode}")
+	public String closedAnnDetailPage(Model model, @PathVariable("announcementCode") int annCode) {
+		//특정 공고
+		JobItem preRec = jobRepository.selectByAnnCode(annCode);
+			
+		log.info("deleteRec {}", preRec);
+		model.addAttribute("preRec", preRec);
+			
+		return "/admin/delAdminDetail";
+		}
+	
 //	@PostMapping("/adminPage/deleteRec")
 //	public String closedAnnPostPage() { //공고 삭제 페이지 - 공고 삭제 처리
 //		
