@@ -32,9 +32,9 @@
 	
 	<!-- 회사정보 -> 회원정보 등록(초기 데이터 생성 시) -->
 	<insert id="insertUserInfoAsCor" parameterType="UserVO">
-		INSERT INTO USER_INFO(USER_CODE, COR_CODE, USER_EMAIL, USER_PASSWORD, USER_TYPE) 
+		INSERT INTO USER_INFO(USER_CODE, COR_CODE, USER_EMAIL, USER_PASSWORD, USER_TYPE, USER_JOINDATE) 
 		VALUES (USER_CODE_SEQ.nextval, (SELECT COR_CODE FROM CORPORATION_INFO WHERE COR_NAME = #{userName}),
-		CONCAT(CONCAT('cor',#{corCode}),'@gmail.com'), CONCAT('cor',#{corCode}), '2')
+		CONCAT(CONCAT('cor',#{corCode}),'@gmail.com'), CONCAT('cor',#{corCode}), '2', SYSDATE)
 	</insert>
 	
 	
@@ -76,9 +76,10 @@
 	<!-- 채용공고를 모두 불러옴 :: select 절 뒤에 붙은 이름들은 db와 java필드 변수의 이름이 다를 경우, 인식할 수 있도록 붙여준 것-->
 	<select id="selectAll" resultType="JobItem">
 		SELECT cor.COR_CODE corCode, cor.COR_NAME corName, re.Announcement_Code announcementCode,
-		 re.Announcement announcement, re.salary salary
+		 re.Announcement announcement, re.salary salary, re.RECEIPT_START receiptStartDate
 		from CORPORATION_INFO cor, Recruitment re
 		where cor.COR_CODE = re.COR_CODE
+		ORDER BY re.RECEIPT_START
 	</select>
 
 	<resultMap type="JobItem" id="jobItemMap">
@@ -101,7 +102,7 @@
 		select="selectAcademicRecord"></collection>
 	</resultMap>
 	
-	<!-- 다른 케이스 살펴보기 -->
+	<!-- 채용 상세 정보 -->
 	<select id="selectByAnnCode" resultMap="jobItemMap">
 		select re.ANNOUNCEMENT_CODE, cor.cor_name, re.announcement, ref.RECRUIT_FIELD,
 		re.salary, c.career career, re.RECRUIT_PERSON,
@@ -133,7 +134,6 @@
 		where ANNOUNCEMENT_CODE = #{listAnnCode}
 		and mar.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
 	</select>
-
 </mapper>
 
 

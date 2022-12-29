@@ -48,13 +48,12 @@ public class JobController {
 
 	// (http://localhost:8080/lists) 서버켜고 주소입력하면 뜸 
 	@GetMapping
-	public String lists(Model model, HttpServletRequest req) {
+	public String lists(Model model) {
 		List<JobItem> jobList = jobRepository.selectAll();
 		model.addAttribute("lists",jobList);
 
 		return "/lists/lists";
 	}
-
 
 	@PostMapping("/list")
 	public String list2(Model model, @RequestParam int listCorporationNo) {

@@ -1,5 +1,6 @@
 package sample.project.jobissue.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -21,4 +22,5 @@ public class UserVO {
 	  private String resumeCode;
 	//   private String corCode;
 	  private String userType;
+	  private LocalDate userJoinDate;
 }

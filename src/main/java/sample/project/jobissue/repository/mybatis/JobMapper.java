@@ -35,5 +35,5 @@ public interface JobMapper {
 	
 	public JobItem selectByAnnCode(int listAnnCode);
 	
-//	public JobItem selectByCorporationNo(int corporationNo);
+
 }

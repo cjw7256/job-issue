@@ -26,6 +26,5 @@ public interface JobRepository {
 	public List<JobItem> selectAll();
 
 	public JobItem selectByAnnCode(int listAnnCode);
-	
-//	public JobItem selectByCorporationNo(int corporationNo);
+
 }

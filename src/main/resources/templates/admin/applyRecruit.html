@@ -19,25 +19,14 @@
 		<nav id="sidebar">
 			<div class="sidebar-header">
 				<h5>
-					<b th:text="${user.userName}" style="text-align:center"></b>님이
+					<!-- <b th:text="${user.userName}" style="text-align:center"></b>님이 -->
 					<br>
 					접속하셨습니다
 				</h5>
 			</div>
 
 			<ul class="list-unstyled components">
-				<p><a href="/adminPage">메인</a></p>
-				<!-- <li class="active">
-					<a href="#homeSubmenu"
-					data-toggle="collapse" 
-					aria-expanded="false"
-					class="dropdown-toggle collapsed">Home</a>
-					<ul class="list-unstyled collapse" id="homeSubmenu" style="">
-						<li><a href="#">Home 1</a></li>
-						<li><a href="#">Home 2</a></li>
-						<li><a href="#">Home 3</a></li>
-					</ul></li> -->
-				<!-- <li><a href="#">About</a>  -->
+				<a href="/adminPage"><p style="position:relative; left:35%; font-weight: bold">메인</p></a>
 				<li>
 					<a href="#corSubmenu" data-toggle="collapse"
 					aria-expanded="false" class="dropdown-toggle"><b>공고 관리</b></a>
@@ -79,19 +68,16 @@
 						<!-- <i class="fas fa-align-justify"></i> -->
 					</button>
 
-					<!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="nav navbar-nav ml-auto">
-							<li class="nav-item active"><a class="nav-link" href="#">Page</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Page</a></li>
+							<li class="nav-item"><a class="nav-link" href=" /adminPage/applyRec">공고 승인 관리</a></li>
+							<li class="nav-item"><a class="nav-link" href="/adminPage/deleteRec">공고 삭제 관리</a></li>
 						</ul>
-					</div> --><!-- 이 친구들은 각 관리 페이지로 넘어갔을 때 구분 용도로 사용하면 좋을 듯함 -->
+					</div> 
 				</div>
 			</nav>
 
-			<h2><b>최근 승인 대기 공고</b></h2>
+			<h2><b>공고 승인 관리</b></h2>
 			<table class="table table-hover">
 			 	<thead>
 			 		<th>공고명</th>
@@ -99,54 +85,16 @@
 			 		<th>신청일시</th>
 			 	</thead>
 			 	<tbody>
-			 		<tr th:each="list : ${preRecList}" th:if="${listStat.index}<5">
-			 			<td th:text="${list.announcement}">공고명</td>
+			 		<tr th:each="list : ${preRecList}">
+			 			<td><a th:href="@{|/adminPage/applyRec/${list.announcementCode}|}"  th:text="${list.announcement}">공고명</a></td>
 			 			<td th:text="${list.corName}">기업명</td>
 			 			<td th:text="${list.recruitWriteDate}">신청일시</td>
 			 		</tr>
 			 	</tbody>
 			</table>
-			<span style="position:relative; left:85%"><a href="/adminPage/applyRec">공고 승인 관리 →</a></span>
-
-			<div class="line"></div> <!-- 구분선 -->
-
-			<h2><b>최근 가입한 일반 회원</b></h2>
-			<table class="table table-hover">
-			 	<thead>
-			 		<th>회원 타입</th>
-			 		<th>회원명</th>
-			 		<th>가입일시</th>
-			 	</thead>
-			 	<tbody> 
-			 		<tr th:each="users : ${userList}" th:if="${usersStat.index}<5">
-			 			<td th:text="${users.userType}">회원 타입</td>
-			 			<td th:text="${users.userName}">회원명</td>
-			 			<td th:text="${users.userJoinDate}">가입일시</td>
-			 		</tr>
-			 	</tbody>
-			</table>
-			<span style="position:relative; left:85%"><a href="/adminPage/manageUser">일반 회원 관리 →</a></span> <!-- 회원 관리 페이지 url   -->
-			
-			<div class="line"></div> <!-- 구분선 -->
-			
-			<h2><b>최근 가입한 기업 회원</b></h2>
-			<table class="table table-hover">
-			 	<thead>
-			 		<th>회원 타입</th>
-			 		<th>회원명</th>
-			 		<th>가입일시</th>
-			 	</thead>
-			 	<tbody> 
-			 		<tr th:each="users : ${corUserList}" th:if="${usersStat.index}<5">
-			 			<td th:text="${users.userType}">회원 타입</td>
-			 			<td th:text="${users.userName}">회원명</td>
-			 			<td th:text="${users.userJoinDate}">가입일시</td>
-			 		</tr>
-			 	</tbody>
-			</table>
-			<span style="position:relative; left:85%"><a href="/adminPage/manageCor">기업 회원 관리 →</a></span> <!-- 회원 관리 페이지 url   -->
 		</div>
 	</div>
+
 
 	<!-- script!!!!  -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

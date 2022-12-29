@@ -88,6 +88,5 @@ public class MybatisJobRepository implements JobRepository{
 
 		return jobItem;
 	}
-
 	
 }
