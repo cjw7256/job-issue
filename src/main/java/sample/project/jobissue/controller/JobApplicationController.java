@@ -1,14 +1,11 @@
 package sample.project.jobissue.controller;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,139 +20,78 @@ import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
+import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.MaritalStatus;
 import sample.project.jobissue.domain.MilitaryStatus;
 import sample.project.jobissue.domain.ReadingCode;
 import sample.project.jobissue.domain.RecruitFieldCode;
 import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.UserVO;
-import sample.project.jobissue.repository.ResumeRepository;
+import sample.project.jobissue.repository.JobApplicationRepository;
+import sample.project.jobissue.repository.JobRepository;
 import sample.project.jobissue.session.SessionManager;
-import sample.project.jobissue.validation.ResumeValidator;
 
 
 @Slf4j
-//@RestController
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/resumes")
-public class ResumeController {
+@RequestMapping("/submit")
+public class JobApplicationController {
 
-	private final ResumeRepository resumeRepository;
-	
-	private final ResumeValidator resumeValidator;
-	
-	
-	@GetMapping("/resumes")
-	public String resumes(Model model,
-			 HttpServletRequest req) {
-		
-		HttpSession session = req.getSession(false);
-		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		ResumeItem resumeItem = new ResumeItem();
-		resumeItem.setUserCode(userVO.getUserCode());
-		resumeItem = resumeRepository.selectByUserCode(resumeItem.getUserCode());
-		model.addAttribute("resumes", resumeItem);
-		return "resumes/resumes";
-	}
-	
-	
-	@PostMapping("/resume")
-	public String list2(Model model, @RequestParam int resumeUserCode) {
-		ResumeItem resumeItem = resumeRepository.selectByUserCode(resumeUserCode);
-		model.addAttribute("resume", resumeItem);
-		log.info("레주메 {}",resumeItem);
-		return "/resumes/resume";
-	}
+	private final JobApplicationRepository jobApplicationRepository;
+	private final JobRepository jobRepository;
 	
 	@GetMapping("/{resumeUserCode}")
-	public String list(Model model, @PathVariable("resumeUserCode") int resumeUserCode) {
-		ResumeItem resumeItem = resumeRepository.selectByUserCode(resumeUserCode);
-		model.addAttribute("resume", resumeItem);
-		log.info("레주메 {}",resumeItem);
-		return "/resumes/resume";
-	}
-	
-	
-	
-	@GetMapping("/insert")
-	public String newWrite(Model model) {
-		ResumeItem resumeItem = new ResumeItem();
-		model.addAttribute("resumeItem", resumeItem);
-		
-		return "resumes/insert";
-	}
-	
-	@PostMapping("/insert")
-	public String newMemberInsert(@ModelAttribute ResumeItem resumeItem
-			, BindingResult bindingResult
-			, HttpServletRequest req
-			) {
-		
-		HttpSession session = req.getSession(false);
-		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		resumeItem.setUserCode(userVO.getUserCode());
-		resumeValidator.validate(resumeItem, bindingResult);
-		if (bindingResult.hasErrors()) {
-			return "resumes/insert";
-		}
-		
-
-		if (userVO.getResumeCode().equals("N")) {
-		
-			resumeRepository.insertResume(resumeItem);
-			
-			resumeRepository.insertAfter(userVO.getUserCode(), userVO);
-			return "redirect:/resumes/resumes";
-		}
-		return "redirect:/resumes/resumes";
-	}
-	
-	@GetMapping("/delete/{userCode}")
-	public String deleteResume(Model model, @PathVariable("userCode") int userCode
+	public String submitResume(Model model
+			, @PathVariable("resumeUserCode") int resumeUserCode
 			, HttpServletRequest req) {
+		log.info("17번");
 		HttpSession session = req.getSession(false);
+		log.info("18번");
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		log.info("19번");
 		ResumeItem resumeItem = new ResumeItem();
+		log.info("20번");
 		resumeItem.setUserCode(userVO.getUserCode());
+		log.info("21번");
+		resumeItem = jobApplicationRepository.selectByUserResume(resumeUserCode);
+		log.info("22번");
+		model.addAttribute("submitResume", resumeItem);
+		log.info("23번");
+//		model.addAttribute("announcementCode", announcementCode);
+		log.info("24번");
+		log.info("레주메123 {}",resumeItem);
+		log.info("25번");
+		return "submit/submitResume";
+	}
+	
 
-		resumeRepository.deleteResume(resumeItem.getUserCode(), resumeItem);
-		resumeRepository.deleteAfter(userVO.getUserCode(), userVO);
-
+	
+//	수정예정
+	@GetMapping("/dosubmit/{userCode}")
+	public String doSubmit(Model model
+			, HttpServletRequest req) {
+		log.info("26번");
+//		JobItem jobItem2 = jobRepository.selectByAnnCode(jobItem.getAnnouncementCode());
+		log.info("27번");
+//		log.info("여기1 {}",jobItem);
+		log.info("28번");
+		HttpSession session = req.getSession(false);
+		log.info("29번");
+		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		log.info("30번");
+		jobApplicationRepository.insertSubmitResume(
+				222, 62, userVO.getUserCode());
+		
+		log.info("제출성공");
+				
 		return "resumes/resumes";
 	}
 	
 	
 	
-	@GetMapping("/update/{userCode}")
-	public String updateResume(Model model, @PathVariable("userCode") int userCode
-			, HttpServletRequest req) {
-		HttpSession session = req.getSession(false);
-		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		ResumeItem resumeItem = new ResumeItem();
-		
-		resumeItem.setUserCode(userVO.getUserCode());
-		resumeItem = resumeRepository.selectByUserCode(userCode);
-		model.addAttribute("resume", resumeItem);
-		
-		return "resumes/update";
-	}
-	
-	@PostMapping("/update/{userCode}")
-	public String updateResumeProcess(Model model
-			, @PathVariable("userCode") int userCode
-			, @ModelAttribute ResumeItem resumeItem ) {
-		log.info(resumeItem.toString());
-		log.info("/update/{}", resumeItem);
-		
-		resumeRepository.update(userCode, resumeItem);
-
-		
-		return "redirect:/resumes/{userCode}";
-	}
 	
 	
-
 	@ModelAttribute("employTypeCodes")
     public List<EmployTypeCode> employTypeCodes() {
         List<EmployTypeCode> employTypeCodes = new ArrayList<>();
@@ -221,5 +157,6 @@ public class ResumeController {
 	public ReadingCode[] readingCodes() {
 		return ReadingCode.values();
 	}
+	
 	
 }

@@ -5,6 +5,9 @@
 <mapper
 	namespace="sample.project.jobissue.repository.mybatis.JobMapper">
 
+
+
+
 	<!-- 채용공고 데이터 최초 삽입(채용 공고 데이터 삽입 기능 생성 시 이 쿼리문 참고하시오) 
 	 마지막 #{receiptStartDate}(초기 데이터 아닐 시 SYSDATE 넣어야 함)-->
 	<insert id="insertRecruitInit" parameterType="JobItem">
@@ -67,6 +70,7 @@
 	<resultMap type="JobItem" id="jobItemMap">
 	<id property="announcementCode" column="ANNOUNCEMENT_CODE"></id>
 	<result property="corName" column="cor_name"></result>
+	<result property="corCode" column="cor_Code"></result>
 	<result property="announcement" column="announcement"></result>
 	<result property="recruitField" column="RECRUIT_FIELD"></result>
 	<result property="salary" column="salary"></result> <!-- // -->
@@ -86,7 +90,7 @@
 	
 	<!-- 다른 케이스 살펴보기 -->
 	<select id="selectByAnnCode" resultMap="jobItemMap">
-		select re.ANNOUNCEMENT_CODE, cor.cor_name, re.announcement, ref.RECRUIT_FIELD,
+		select re.ANNOUNCEMENT_CODE, cor.cor_code, cor.cor_name, re.announcement, ref.RECRUIT_FIELD,
 		re.salary, c.career career, re.RECRUIT_PERSON,
 		re.receipt_start, re.receipt_end
 		FROM CORPORATION_INFO cor, Recruitment re, RecruitFieldCode ref, CareerCode c

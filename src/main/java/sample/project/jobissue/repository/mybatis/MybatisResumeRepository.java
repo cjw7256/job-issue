@@ -62,7 +62,8 @@ public class MybatisResumeRepository implements ResumeRepository {
 		log.info("resumeItem {}",resumeItem);
 		return resumeItem;
 	}
-
+	
+	
 	@Override
 	@Transactional
 	public boolean update(int userCode, ResumeItem resumeItem) {
@@ -94,5 +95,7 @@ public class MybatisResumeRepository implements ResumeRepository {
 		}
 		return result;
 	}
+
+	
 	
 }

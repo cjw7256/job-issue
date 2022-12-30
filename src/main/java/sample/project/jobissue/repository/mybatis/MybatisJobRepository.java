@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.repository.JobRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -71,6 +72,10 @@ public class MybatisJobRepository implements JobRepository{
 
 		return jobItem;
 	}
+	
+
+
+	
 	
 	
 }

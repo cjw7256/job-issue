@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.ResumeItem;
 
 public interface JobRepository {
 

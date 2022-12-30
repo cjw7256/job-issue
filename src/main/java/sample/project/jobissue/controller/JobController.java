@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.UserVO;
+import sample.project.jobissue.repository.JobApplicationRepository;
 import sample.project.jobissue.repository.JobRepository;
-
+import sample.project.jobissue.session.SessionManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +49,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JobController {
 
 	private final JobRepository jobRepository;
-
+	private final JobApplicationRepository jobApplicationRepository;
+	
 	// (http://localhost:8080/lists) 서버켜고 주소입력하면 뜸 
 	@GetMapping
 	public String lists(Model model, HttpServletRequest req) {
@@ -56,26 +62,53 @@ public class JobController {
 
 
 	@PostMapping("/list")
-	public String list2(Model model, @RequestParam int listCorporationNo) {
+	public String list2(Model model, @RequestParam int listCorporationNo, HttpServletRequest req) {
+		log.info("1번");
 		JobItem jobItem = jobRepository.selectByAnnCode(listCorporationNo);
+		log.info("2번");
+		HttpSession session = req.getSession(false);
+		log.info("3번");
+		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		log.info("4번");
+		ResumeItem reuItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
+		log.info("5번");
+		log.info("userCode {}, {}",reuItem, userVO);
+		log.info("6번");
 		model.addAttribute("list", jobItem);
-
-		return "/lists/list";
+		log.info("7번");
+		model.addAttribute("submitResume", reuItem);
+		log.info("8번");
+		return "redirect:/lists/list";
 	}
 
 	@GetMapping("/{listAnnouncementCode}")
-	public String list(Model model, @PathVariable("listAnnouncementCode") int listAnnCode) {
-		JobItem jobItem = jobRepository.selectByAnnCode(listAnnCode);
-
+	public String list(Model model, @PathVariable("listAnnouncementCode") int listAnnCode
+			, @ModelAttribute JobItem jobItem
+			, HttpServletRequest req) {
+		jobItem = jobRepository.selectByAnnCode(listAnnCode);
+		log.info("9번");
 		log.info("list select {}", jobItem);
+		log.info("10번");
 		model.addAttribute("list", jobItem);
-
+		log.info("11번");
+		HttpSession session = req.getSession(false);
+		
+		log.info("12번");
+		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		log.info("13번");
+		ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
+		log.info("14번");
+		log.info("userCode {}, {}",resumeItem, userVO);
+		log.info("15번");
+		model.addAttribute("submitResume", resumeItem);
+		
+		log.info("16번");
+		
 		return "/lists/list";
 	}
-
-
+	
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
-//	@PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
+	//	@PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
 	@Transactional
 	public void insertInit() throws IOException, ParseException {
 

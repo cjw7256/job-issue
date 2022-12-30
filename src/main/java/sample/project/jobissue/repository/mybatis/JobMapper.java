@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.ResumeItem;
 
 @Mapper
 public interface JobMapper {

@@ -51,7 +51,8 @@
 	FROM RESUME
 	where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
 	</select>
-		
+	
+			
 	<update id="update">
 		update RESUME
 		SET 

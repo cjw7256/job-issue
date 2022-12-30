@@ -2,11 +2,6 @@ package sample.project.jobissue.repository;
 
 
 
-
-
-
-
-
 import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.UserVO;
 
