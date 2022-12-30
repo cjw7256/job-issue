@@ -10,6 +10,7 @@ public class PreRecruitment {
 
 	private int announcementCode; //공고 코드
 	private int corCode;          //기업 코드
+	private String corName;
 	private String announcement;  //공고명
 	private String recruitFieldCode; //모집분야 코드
 	private String recruitField;  //모집분야
@@ -32,6 +33,7 @@ public class PreRecruitment {
 	
 	private LocalDate receiptStartDate; //공고시작일
 	private LocalDate receiptEndDate; //공고 종료일
+	private LocalDate recruitWriteDate; //공고 작성일
 	private Integer endDate;
 	 
 	private String applyStat; //공고형태

@@ -28,7 +28,7 @@ public Integer insertPreRecruit(PreRecruitment preRecruitment);
 	
 	public List<PreRecruitment> selectAll();
 	
-	public PreRecruitment selectByAnnCode(int listAnnCode);
+	public PreRecruitment selectByPreAnnCode(int listAnnCode);
 	
 	public List<PreRecruitment> selectByPreCorCode(int corCode);
 	

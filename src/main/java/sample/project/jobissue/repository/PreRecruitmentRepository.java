@@ -25,9 +25,9 @@ public interface PreRecruitmentRepository {
 	
 	public List<PreRecruitment> selectAll();
 
-	public PreRecruitment selectByAnnCode(int listAnnCode);
+	public PreRecruitment selectByPreAnnCode(int listAnnCode);
 	
-	public List<PreRecruitment> selectByCorCode(int corCode);
+	public List<PreRecruitment> selectByPreCorCode(int corCode);
 	
 	//공고 삭제
 	public void deleteByAnnouncementCode(int announcementCode);

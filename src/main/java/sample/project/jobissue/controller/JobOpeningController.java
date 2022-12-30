@@ -51,8 +51,8 @@ public class JobOpeningController {
 	public String jobOpenGet(@PathVariable("announcementCode") int announcementCode
 			,Model model) {
 		
-		log.info("announcementCode{}",announcementCode);
-		PreRecruitment preRecruit = preRecruitRepository.selectByAnnCode(announcementCode);
+		log.info("announcementCode={}",announcementCode);
+		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(announcementCode);
 		model.addAttribute("preRecruit", preRecruit);
 		
 		return "coporation/jobOpen";
@@ -73,13 +73,13 @@ public class JobOpeningController {
 	
 	//2. @modelAttribute 로  jobitem 바로 매핑
 	
-	@GetMapping("/{listColCode}")
-	public String list(Model model, @PathVariable("listColCode") int listColCode) {
-		PreRecruitment preRecruit = preRecruitRepository.selectByAnnCode(listColCode);
-		model.addAttribute("preRecruit", preRecruit);
-		
-		return "/corporation/jobOpen";
-	}
+//	@GetMapping("/{listColCode}")
+//	public String list(Model model, @PathVariable("listColCode") int listColCode) {
+//		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(listColCode);
+//		model.addAttribute("preRecruit", preRecruit);
+//		
+//		return "/corporation/jobOpen";
+//	}
 	
 	//3. 매핑한 객체의 변수를 jobitem.~으로 불러서 쿼리문의 매개변수로 넣기
 	
@@ -133,7 +133,7 @@ public class JobOpeningController {
 	
 	@GetMapping("/update/{announcementCode}")
 	public String updateFood(Model model, @PathVariable("announcementCode") int announcementCode) {
-		PreRecruitment preRecruitment = preRecruitRepository.selectByAnnCode(announcementCode);
+		PreRecruitment preRecruitment = preRecruitRepository.selectByPreAnnCode(announcementCode);
 		model.addAttribute("preRecruit", preRecruitment);
 		
 		return "corporation/update";

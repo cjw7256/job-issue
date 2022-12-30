@@ -39,7 +39,7 @@ public class ManageOpeningController {
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 		int corCode = userVO.getCorCode();
 		
-		List<PreRecruitment> preRecruits = preRecruitRepository.selectByCorCode(corCode);
+		List<PreRecruitment> preRecruits = preRecruitRepository.selectByPreCorCode(corCode);
 //
 		model.addAttribute("preRecruits", preRecruits);
 		log.info("preRecruits {}", preRecruits);

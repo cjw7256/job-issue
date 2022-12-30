@@ -42,14 +42,15 @@
 	</resultMap>
 
 	<select id="selectByPreCorCode" resultMap="preRecruitmentMap">
-		select applyStat,cor_Code, announcement_Code, announcement, receipt_Start,
+		select  asu.applyStat,cor_Code, announcement_Code, announcement, receipt_Start,
 		receipt_End
-		from preAppRecru
+		from preAppRecru par , applyStatCode asu
 		where cor_Code=#{corCode}
+		AND par.applyStat = asu.applyStat_Code
 	</select>
 
 	<!-- 채용 상세 정보 -->
-	<select id="selectPreByAnnCode" resultMap="preRecruitmentMap">
+	<select id="selectByPreAnnCode" resultMap="preRecruitmentMap">
 		SELECT par.Announcement_Code, par.Announcement, par.SALARY,
 		par.RECRUIT_PERSON, par.RECEIPT_START, par.RECEIPT_END,
 		par.Recruit_writeDate,

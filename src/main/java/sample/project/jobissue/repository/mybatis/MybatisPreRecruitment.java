@@ -75,9 +75,9 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	}
 
 	@Override
-	public PreRecruitment selectByAnnCode(int listAnnCode) {
+	public PreRecruitment selectByPreAnnCode(int listAnnCode) {
 		// TODO Auto-generated method stub
-		PreRecruitment preRecruitment = prMapper.selectByAnnCode(listAnnCode);
+		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(listAnnCode);
 		log.info("selectByAnnCode {}", listAnnCode);
 		
 		return preRecruitment;
@@ -118,7 +118,7 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	
 
 	@Override
-	public List<PreRecruitment> selectByCorCode(int corCode) {
+	public List<PreRecruitment> selectByPreCorCode(int corCode) {
 		// TODO Auto-generated method stub
 		List<PreRecruitment> preRecruitment = prMapper.selectByPreCorCode(corCode);
 		log.info("selectByCorCode {}", corCode);
@@ -129,7 +129,7 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	@Override
 	public void deleteByAnnouncementCode(int announcementCode) {
 		// TODO Auto-generated method stub
-		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
+		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(announcementCode);
 		log.info("deleteByAnnoncement {}", announcementCode);
 		
 		
