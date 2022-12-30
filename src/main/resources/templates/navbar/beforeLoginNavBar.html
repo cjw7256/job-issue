@@ -63,7 +63,9 @@
 
                 <!-- {/* 기업서비스 */} -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/corporationService" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" 
+                    th:onclick="|location.href='@{/manageOpening}'|"
+                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         기업 서비스
                     </a>
                 <ul class="dropdown-menu">

@@ -64,12 +64,14 @@
 
 						<!-- {/* 기업서비스 */} -->
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/corporationService"
+							class="nav-link dropdown-toggle" 
+							th:href="@{|/manageOpening}"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								기업 서비스 </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" th:onclick="|location.href='@{/jobOpening}'|">공고 등록</a></li>
-								<li><a class="dropdown-item" th:onclick="|location.href='@{/manageOpening}'|">공고
+								<li><a class="dropdown-item" 
+								th:onclick="|location.href='@{/manageOpening}'|">공고
 										관리</a></li>
 								<li><a class="dropdown-item" th:onclick="|location.href='@{/applicantManage}'|">지원자
 										관리</a></li>

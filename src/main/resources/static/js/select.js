@@ -21,7 +21,7 @@ items.forEach(item => {
                 btnText.innerText = `${checked.length} Selected`;
                 console.log(btnText.innerText);
             }else{
-                btnText.innerText = "Select Language";
+                btnText.innerText = "근무 가능 지역";
             }
     });
 })

@@ -11,7 +11,7 @@
     background-color: rgb(240, 241, 241);
 /*     margin-top: 50px; */
     border-top: solid 3px rgb(43, 94, 189);
-    height: 1000px; /*임시 설정*/
+    
 }
 
 #resumeTitle{
@@ -30,7 +30,7 @@
     width: 90%;
     position: relative;
     left: 5%;
-    height: 50%;
+    height: auto;
     border-radius: 0;
 }
 

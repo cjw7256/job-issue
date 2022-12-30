@@ -7,36 +7,155 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.CareerCode;
+import sample.project.jobissue.domain.CorporationVO;
 import sample.project.jobissue.domain.EmployTypeCode;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.RecruitFieldCode;
+import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.domain.WorkingAreaCode;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
+import sample.project.jobissue.session.SessionManager;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/jobOpening")
+//@RequestMapping
 public class JobOpeningController {
 
 	private final PreRecruitmentRepository preRecruitRepository;
 	
 	
-	@GetMapping
+	@GetMapping("/jobOpening")
 	public String jobOpening(Model model, HttpServletRequest req){
 		PreRecruitment preRecruit = new PreRecruitment();
 		model.addAttribute("preRecruit", preRecruit);
 		
 		return "/corporation/jobOpening";
+	}
+	
+	@GetMapping("/jobOpen/{announcementCode}")
+	public String jobOpenGet(@PathVariable("announcementCode") int announcementCode
+			,Model model) {
+		
+		log.info("announcementCode{}",announcementCode);
+		PreRecruitment preRecruit = preRecruitRepository.selectByAnnCode(announcementCode);
+		model.addAttribute("preRecruit", preRecruit);
+		
+		return "coporation/jobOpen";
+	}
+	
+	
+	//1.post형식 작성
+	@PostMapping("/jobOpen")
+	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
+//		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
+		model.addAttribute("jobOpen", preRecruit);
+		
+		log.info("jobOpen {}", preRecruit);
+		
+		
+		return "redirect:/corporation/jobOpen";
+	}
+	
+	//2. @modelAttribute 로  jobitem 바로 매핑
+	
+	@GetMapping("/{listColCode}")
+	public String list(Model model, @PathVariable("listColCode") int listColCode) {
+		PreRecruitment preRecruit = preRecruitRepository.selectByAnnCode(listColCode);
+		model.addAttribute("preRecruit", preRecruit);
+		
+		return "/corporation/jobOpen";
+	}
+	
+	//3. 매핑한 객체의 변수를 jobitem.~으로 불러서 쿼리문의 매개변수로 넣기
+	
+	@PostMapping("/insertJobOpen")
+	public String jobOpenInsert(@ModelAttribute PreRecruitment preRecruit
+			, HttpServletRequest req) {
+		
+		HttpSession session = req.getSession(false);
+		
+//		CorporationVO corporationVO = (CorporationVO)
+		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		
+		log.info("jobopenInsert{}", userVO);
+		
+		preRecruit.setCorCode(userVO.getCorCode());
+		
+		PreRecruitment preRecruitment =preRecruitRepository.insertPreRecruit(preRecruit);
+		
+		log.info("preRecruitment {}", preRecruitment);
+		
+		preRecruitRepository
+		.insertPreMulEmp(preRecruitment.getAnnouncementCode(), preRecruit.getEmployTypeCode());
+		preRecruitRepository
+		.insertPreMulAca(preRecruitment.getAnnouncementCode(), preRecruit.getAcademicRecordCode());
+		preRecruitRepository
+		.insertPreMulWork(preRecruit.getAnnouncementCode(), preRecruit.getWorkingAreaCode());
+		
+		return "redirect:/jobOpen/"+preRecruitment.getAnnouncementCode();
+	}
+	//4. xml에서 작성하는 쿼리문은 1. 코드를 제외한 정보가 임시 저장 테이블로 넘어가는 쿼리문
+	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
+	//						- jobmapper.xml 에서 insertmulEMP, insertmultWork~ 참고)
+	
+	@GetMapping("/delete/{announcementCode}")
+	public String deleteAnnouncement(Model model, HttpServletRequest req
+//			, @PathVariable("announcementCode") int announcementCode
+			) {
+//		
+//		HttpSession session = req.getSession(false);
+//		CorporationVO corVO = (CorporationVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		//세션은 corVO 인데 필요한건 preRecruitment안에 있는 announcementCode...
+		
+		PreRecruitment preRecruitment = new PreRecruitment();
+		
+		preRecruitRepository
+		.deleteByAnnouncementCode(preRecruitment.getAnnouncementCode());
+		
+		
+		return "corporation/manageOpening";
+	}
+	
+	@GetMapping("/update/{announcementCode}")
+	public String updateFood(Model model, @PathVariable("announcementCode") int announcementCode) {
+		PreRecruitment preRecruitment = preRecruitRepository.selectByAnnCode(announcementCode);
+		model.addAttribute("preRecruit", preRecruitment);
+		
+		return "corporation/update";
+	}
+	
+	@PostMapping("/update/{announcementCode}")
+	public String updateFoodProcess(Model model
+			, @PathVariable("announcementCode") int announcementCode
+			, @ModelAttribute PreRecruitment preRecruitment ) {
+		log.info(preRecruitment.toString());
+		log.info("/update/{}", announcementCode);
+		
+		preRecruitRepository.update(announcementCode, preRecruitment);
+
+		//여기서 바로 foods/id 에 해당하는 foods/food 페이지를 보여주면서 <- food 객체를 주입
+		//1번.
+//		model.addAttribute("food", foodItem);
+//		return "foods/food";
+		
+		//food 상세정보를 보여주는 경로가 이미 존재. -> 이미 존재하는 메소드를 활용
+		//2번.
+		return "redirect:/jobOpen/{announcementCode}";
 	}
 	
 	@ModelAttribute("careerCodes")
@@ -61,6 +180,9 @@ public class JobOpeningController {
         employTypeCodes.add(new EmployTypeCode("05", "기타/아르바이트"));
         return employTypeCodes;
     }
+	
+	
+
 	
 	@ModelAttribute("recruitFieldCodes")
     public List<RecruitFieldCode> recruitFieldCodes(Model model) {
@@ -146,11 +268,4 @@ public class JobOpeningController {
 //		
 //		return careerCode;
 //	}
-	//1.post형식 작성
-	//2. @modelAttribute 로  jobitem 바로 매핑
-	//3. 매핑한 객체의 변수를 jobitem.~으로 불러서 쿼리문의 매개변수로 넣기
-	//4. xml에서 작성하는 쿼리문은 1. 코드를 제외한 정보가 임시 저장 테이블로 넘어가는 쿼리문
-	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
-	//						- jobmapper.xml 에서 insertmulEMP, insertmultWork~ 참고)
-	
 }

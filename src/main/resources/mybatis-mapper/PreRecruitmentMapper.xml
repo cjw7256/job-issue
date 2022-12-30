@@ -3,43 +3,162 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="sample.project.jobissue.repository.mybatis.PreRecruitmentMapper">
-	
+
 	<insert id="insertPreRecruit" parameterType="PreRecruitment">
+		<selectKey keyProperty="announcementCode"
+			resultType="java.lang.Integer" order="BEFORE">
+			select
+			ANNOUNCEMENT_CODE_SEQ.nextVal as announcementCode
+			from dual
+		</selectKey>
 		insert into preAppRecru
-		values (#{corCode},announcement_code_seq.nextVal,#{announcement},
+		values
+		(#{corCode},#{announcementCode},#{announcement},
 		#{recruitFieldCode},#{salary},#{careerCode},#{recruitPerson}
-		,SYSDATE,#{recruitEnd},SYSDATE)
+		,SYSDATE,(SYSDATE+#{endDate}),SYSDATE,'00')
 	</insert>
-	
+
+	<!-- 공고 상세 정보 -->
+	<resultMap type="PreRecruitment" id="preRecruitmentMap">
+		<id property="announcementCode" column="ANNOUNCEMENT_CODE"></id>
+		<result property="corName" column="cor_name"></result>
+		<result property="announcement" column="announcement"></result>
+		<result property="recruitField" column="RECRUIT_FIELD"></result>
+		<result property="salary" column="salary"></result> <!-- // -->
+		<result property="career" column="career"></result>
+		<result property="recruitPerson" column="RECRUIT_PERSON"></result>
+		<result property="receiptStartDate" column="receipt_start"></result>
+		<result property="receiptEndDate" column="receipt_end"></result>
+		<result property="recruitWriteDate" column="Recruit_writeDate"></result>
+		<result property="applyStat" column="applyStat"></result>
+		<!-- 다른 테이블 연동해서 가져와야 하므로... id를 가지고(select where절에 필요(매개변수)) 실행할 select문은 
+			작성한 id="selectFoodItemOptions"이므로... -->
+		<collection property="employType"
+			column="ANNOUNCEMENT_CODE" select="selectPreEmployType"></collection>
+		<collection property="workingArea"
+			column="ANNOUNCEMENT_CODE" select="selectPreWorkingArea"></collection>
+		<collection property="academicRecord"
+			column="ANNOUNCEMENT_CODE" select="selectPreAcademicRecord"></collection>
+	</resultMap>
+
+	<select id="selectByPreCorCode" resultMap="preRecruitmentMap">
+		select applyStat,cor_Code, announcement_Code, announcement, receipt_Start,
+		receipt_End
+		from preAppRecru
+		where cor_Code=#{corCode}
+	</select>
+
+	<!-- 채용 상세 정보 -->
+	<select id="selectPreByAnnCode" resultMap="preRecruitmentMap">
+		SELECT par.Announcement_Code, par.Announcement, par.SALARY,
+		par.RECRUIT_PERSON, par.RECEIPT_START, par.RECEIPT_END,
+		par.Recruit_writeDate,
+		cor.cor_name, rfc.RECRUIT_FIELD, c.Career, asu.applyStat
+		FROM preAppRecru par, corporation_info cor, RecruitFieldCode rfc,
+		CareerCode c , applyStatCode asu
+		WHERE par.Announcement_Code = #{annCode}
+		AND par.cor_code = cor.cor_code
+		AND par.RECRUIT_FIELD_Code = rfc.RECRUIT_FIELD_Code
+		AND par.career_code = c.career_code
+		AND par.applyStat = asu.applyStat_Code
+	</select>
+
+	<select id="selectPreEmployType" resultType="String">
+		SELECT NVL(et.employtype, '')
+		FROM premultiEmp pme, EmployTypeCode et
+		WHERE pme.ANNOUNCEMENT_CODE = #{annCode}
+		AND pme.EmployType_Code = et.EmployType_Code
+	</select>
+
+	<select id="selectPreWorkingArea" resultType="String">
+		SELECT NVL(wa.WORKING_AREA, '')
+		FROM premultiWorkArea pmw, WorkingAreaCode wa
+		WHERE pmw.ANNOUNCEMENT_CODE = #{annCode}
+		AND pmw.WORKING_AREA_CODE = wa.WORKING_AREA_CODE
+	</select>
+
+	<select id="selectPreAcademicRecord" resultType="String">
+		select NVL(arc.ACADEMIC_RECORD, '')
+		from premultiAcaReco pma, AcademicRecordCode arc
+		where pma.ANNOUNCEMENT_CODE = #{annCode}
+		and pma.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
+	</select>
+
 	<!-- 고용형태 등록 -->
-	<insert id="insertMulEmp" parameterType="PreRecruitment">
+	<insert id="insertPreMulEmp" parameterType="PreRecruitment">
 		<foreach collection="empOptions" item="item" open="INSERT ALL"
 			close="SELECT * FROM DUAL" separator=" ">
-			INTO multiEmp
+			INTO PreMultiEmp
 			VALUES(#{announcementCode}, #{item})
 		</foreach>
 	</insert>
-	
+
 	<!-- 근무지역 등록 -->
-	<insert id="insertMulWork" parameterType="PreRecruitment">
-		<foreach collection="workOptions" item="item" open="INSERT ALL"
-			close="SELECT * FROM DUAL" separator=" ">
-			INTO multiWorkArea
+	<insert id="insertPreMulWork" parameterType="PreRecruitment">
+		<foreach collection="workOptions" item="item"
+			open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+			INTO
+			PreMultiWorkArea
 			VALUES(#{announcementCode}, #{item})
 		</foreach>
 	</insert>
-	
+
 	<!-- 학력코드 등록 -->
-	<insert id="insertMulAca" parameterType="PreRecruitment">
+	<insert id="insertPreMulAca" parameterType="PreRecruitment">
 		<foreach collection="acaOptions" item="item" open="INSERT ALL"
 			close="SELECT * FROM DUAL" separator=" ">
-			INTO multiAcaReco
+			INTO preMultiAcaReco
 			VALUES(#{announcementCode}, #{item})
 		</foreach>
 	</insert>
-	
+
 	<delete id="deleteAll">
-		delete from preRecruitment
+		delete from preAppRecru
 	</delete>
-	
-	</mapper>
+
+	<delete id="deleteByAnnouncementCode">
+		delete from preAppRecru
+		where
+		announcementCode=#{announcementCode}
+	</delete>
+
+	<update id="update">
+		update preAppRecru
+		SET
+		announcement =
+		#{updateItem.announcement},
+		recruit_field_code=#{updateItem.recruitFieldCode}
+		employType_Code =
+		#{updateItem.employTypeCode},
+		salary = #{updateItem.salary},
+		career_Code = #{updateItem.careerCode},
+		recruit_Person =
+		#{updateItem.recruitPerson},
+		receipt_Start = SYSDATE,
+		receipt_End =
+		SYSDATE+#{updateItem.endDate}
+		Where
+		announcement_code =
+		#{announcementCode}
+	</update>
+
+	<!-- 업데이트를 위한 삭제 -->
+	<delete id="deletePreMulEmp">
+		delete from preMultiEmp
+		where announcement_code =
+		#{announcementCode}
+	</delete>
+
+	<delete id="deletePreMulAca">
+		delete from preMultiAcareco
+		where announcement_code =
+		#{announcementCode}
+	</delete>
+
+	<delete id="deletePreMulWork">
+		delete from preMultiWorkarea
+		where announcement_code =
+		#{announcementCode}
+	</delete>
+
+</mapper>

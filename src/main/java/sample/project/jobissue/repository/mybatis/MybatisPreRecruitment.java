@@ -42,23 +42,23 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	}
 
 	@Override
-	public void insertMulEmp(int announcementCode, List<String> options) {
+	public void insertPreMulEmp(int announcementCode, List<String> options) {
 		// TODO Auto-generated method stub
-		Integer result = prMapper.insertMulEmp(announcementCode, options);
+		Integer result = prMapper.insertPreMulEmp(announcementCode, options);
 		log.info("insertMulOp {}" , result);
 	}
 
 	@Override
-	public void insertMulWork(int announcementCode, List<String> options) {
+	public void insertPreMulWork(int announcementCode, List<String> options) {
 		// TODO Auto-generated method stub
-		Integer result = prMapper.insertMulWork(announcementCode, options);
+		Integer result = prMapper.insertPreMulWork(announcementCode, options);
 		log.info("insert MulWork {}", result);
 	}
 
 	@Override
-	public void insertMulAca(int announcementCode, List<String> options) {
+	public void insertPreMulAca(int announcementCode, List<String> options) {
 		// TODO Auto-generated method stub
-		Integer result = prMapper.insertMulAca(announcementCode, options);
+		Integer result = prMapper.insertPreMulAca(announcementCode, options);
 		log.info("insert MulAca {} " , result);
 	}
 
@@ -83,24 +83,78 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		return preRecruitment;
 	}
 
-//	@Override
-//	public boolean update(int announcementCode, PreRecruitment preRecruitment) {
-//		// TODO Auto-generated method stub
-//		boolean result = false;
-//		try {
-//			prMapper.update(announcementCode, preRecruitment);
-//			result = true;
-//			
-//			prMapper.
-//		}
-//		return false;
-//	}
+	@Override
+	public boolean update(int announcementCode, PreRecruitment preRecruitment) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		try {
+			prMapper.update(announcementCode, preRecruitment);
+			result = true;
+			
+			prMapper.deletePreMulAca(announcementCode);
+			prMapper.deletePreMulEmp(announcementCode);
+			prMapper.deletePreMulWork(announcementCode);
+			
+			prMapper.insertPreMulAca(
+					preRecruitment.getAnnouncementCode(), preRecruitment.getAcademicRecordCode());
+			prMapper.insertPreMulEmp(
+					preRecruitment.getAnnouncementCode(), preRecruitment.getEmployTypeCode());
+			prMapper.insertPreMulWork(
+					preRecruitment.getAnnouncementCode(), preRecruitment.getWorkingAreaCode());
+		} catch (Exception e) {
+			log.error("{}", e.getMessage());
+			log.error("preRecruitment update error {} {}"
+					, announcementCode, preRecruitment);
+		}
+		return result;
+	}
 
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 		prMapper.deleteAll();
 	}
+	
+	
+
+	@Override
+	public List<PreRecruitment> selectByCorCode(int corCode) {
+		// TODO Auto-generated method stub
+		List<PreRecruitment> preRecruitment = prMapper.selectByPreCorCode(corCode);
+		log.info("selectByCorCode {}", corCode);
+		
+		return preRecruitment;
+	}
+
+	@Override
+	public void deleteByAnnouncementCode(int announcementCode) {
+		// TODO Auto-generated method stub
+		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
+		log.info("deleteByAnnoncement {}", announcementCode);
+		
+		
+	}
+//
+//	@Override
+//	public void deletePreMulEmp(int announcementCode) {
+//		// TODO Auto-generated method stub
+//		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
+//		log.info("deletePreMulEmp {}", announcementCode);
+//	}
+//
+//	@Override
+//	public void deletePreMulAca(int announcementCode) {
+//		// TODO Auto-generated method stub
+//		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
+//		log.info("deletePreMulAca {}", announcementCode);
+//	}
+//
+//	@Override
+//	public void deletePreMulWork(int announcementCode) {
+//		// TODO Auto-generated method stub
+//		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
+//		log.info("deletePreMulWork {}", announcementCode);
+//	}
 
 
 }

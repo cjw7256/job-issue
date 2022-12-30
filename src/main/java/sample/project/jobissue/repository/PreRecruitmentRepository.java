@@ -14,20 +14,26 @@ public interface PreRecruitmentRepository {
 	
 	public void insertCorInfo(String corName);
 	
-	public void insertMulEmp(@Param("announcementCode") int announcementCode
+	public void insertPreMulEmp(@Param("announcementCode") int announcementCode
 			, @Param("empOptions") List<String> options );
 
-	public void insertMulWork(@Param("announcementCode") int announcementCode
+	public void insertPreMulWork(@Param("announcementCode") int announcementCode
 			, @Param("workOptions") List<String> options );
 
-	public void insertMulAca(@Param("announcementCode") int announcementCode
+	public void insertPreMulAca(@Param("announcementCode") int announcementCode
 			, @Param("acaOptions") List<String> options );
 	
 	public List<PreRecruitment> selectAll();
 
 	public PreRecruitment selectByAnnCode(int listAnnCode);
 	
-//	public boolean update(int announcementCode , PreRecruitment preRecruitment);
+	public List<PreRecruitment> selectByCorCode(int corCode);
+	
+	//공고 삭제
+	public void deleteByAnnouncementCode(int announcementCode);
+	
 	
 	public void deleteAll();
+
+	public boolean update(@Param("announcementCode")int announcementCode, @Param("updateItem")PreRecruitment preRecruitment);
 }

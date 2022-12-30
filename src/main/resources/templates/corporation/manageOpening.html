@@ -14,23 +14,14 @@
     <div class="card">
 
       <h3 class="title">공고 관리</h3>
-      
-    <!-- 조회 기간-->
 
-    <select class="form-select" aria-label="Default select example">
-      <option selected>조회 기간</option>
-      <option value="0">전체</option>
-      <option value="1">1개월</option>
-      <option value="3">3개월</option>
-      <option value="6">6개월</option>
-    </select>
-    
     <!-- 공고 -->
     
     <table class="table">
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col" width="15%">공고 상태</th>
           <th scope="col" width="50%">공고명</th>
           <th scope="col" width="20%">공고 시작일</th>
           <th scope="col" width="20%">공고 마감일</th>
@@ -38,13 +29,15 @@
       </thead>
       <tbody>
             <!-- for문 사용 -->
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td> <!--공고명 누르면 공고 뜨게-->
-            <td>Otto</td> <!--공고 시작일-->
-            <td>@mdo</td> <!--공고 마감일-->
+          <tr th:each="preRecruit : ${preRecruits}">
+            <th scope="row" th:text="${preRecruit.announcementCode}">1</th>
+            <td th:text="${preRecruit.applyStat}">승인 대기중</td>
+            <td> 
+            <a th:href="@{|/jobOpen/${preRecruit.announcementCode}|}"
+            th:text="${preRecruit.announcement}"></a></td> 
+            <td th:text="${preRecruit.receiptStartDate}">공고 시작일</td> 
+            <td th:text="${preRecruit.receiptEndDate}">공고 마감일</td> 
           </tr>
-          <tr>
             
           </tbody>
         </table>
