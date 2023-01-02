@@ -37,6 +37,10 @@
     
 }
 
+.table{
+	text-align: center;
+}
+
 .title{
     margin-top: 50px;
     border-bottom: solid 2px rgb(93, 123, 179);

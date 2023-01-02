@@ -85,7 +85,7 @@
 				</div>
 
 				<div class="bundle2">
-					<div id="Academic">
+					<div class="row">
 						희망 학력 :
 						<div th:text="${preRecruit.academicRecord}"></div>
 					</div>
@@ -97,7 +97,7 @@
 					<button type="button" id="modifyButton" class="btn btn-primary"
 						th:onclick="|location.href='@{/update/{announcementCode}(announcementCode=${preRecruit.announcementCode})}'|">수정</button>
 					<button type="button" class="btn btn-secondary" id=cancelButton
-						th:onclick="|location.href='@{/}'|">취소</button>
+						th:onclick="|location.href='@{/manageOpening}'|">취소</button>
 					<button type="button" class="btn btn-danger" id=deleteButton
 						th:onclick=
 						"|location.href='@{/jobOpen/delete/{announcementCode}(announcementCode=${preRecruit.announcementCode})}'|">삭제</button>

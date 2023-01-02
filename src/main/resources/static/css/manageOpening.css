@@ -1,8 +1,7 @@
 .title{
+margin-top: 50px;
     border-bottom: solid 2px rgb(93, 123, 179);
-    width: 90%;
-    margin-top: 40px;
-    margin-left: 5%;
+    width: 80%;
     padding-bottom: 20px;
     font-weight: bold;
 }
