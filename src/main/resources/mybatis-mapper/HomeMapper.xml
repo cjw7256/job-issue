@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="sample.project.jobissue.repository.mybatis.HomeMapper">
+
+    <select id="selectHomeByName" resultType="JobItem">
+	    SELECT cor.COR_NAME corName, re.Announcement announcement
+		from CORPORATION_INFO cor, Recruitment re
+		where cor.COR_CODE = re.COR_CODE and corName like '%검색%' and announcement like '%검색%'
+		order by cor desc
+		limit #{pageStart}, #{perPageNum};
+
+    </select>
+    
+</mapper>

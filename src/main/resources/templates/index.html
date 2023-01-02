@@ -2,19 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
 <th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
 <link rel="stylesheet" href="/css/index.css">
 <title>Insert title here</title>
-
 </head>
 <body>
-	<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
-	<h1>메인페이지</h1>
+	<div th:if="${userVO}!=null">
+		<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+	</div>
+	<div th:if="${userVO}==null">
+		<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
+	</div>
+	
+	<form th:action="|@{/search}|" method="get">
+		<input class="form-control" type="text" id="keyword" name="keyword"
+			th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}"
+			placeholder="검색어를 입력하세요" /> <input class="form-control" type="text"
+			id="keyword" name="keyword" th:if="${pageMaker == null}"
+			placeholder="검색어를 입력하세요" />
+		<button id="searchBtn" type="submit" class="btn-primary">Search</button>
+	</form>
+	
 	<div id="wrap">
-		<div class="imgHoverEvent event1">
-			<div class="imgBox">
-				<p
-				 class="p1">Title</p>
+		<div th:each="jobItem : ${jobItemList}" class="imgHoverEvent event1">
+			<div class="imgBox" th:onClick="|location.href='@{/lists/}+${jobItem.announcementCode}'|">
+				<h5 class="p1" th:text="${jobItem.corName}"></h5>
+				<p class="p2" th:text="${jobItem.announcement}"></p>
+				<p class="p3" th:text="${jobItem.receiptEndDate}"></p>
 			</div>
 			<div class="hoverBox">
 				<img
@@ -22,6 +37,7 @@
 					alt="">
 			</div>
 		</div>
+		
 	</div>
 </body>
 </html>

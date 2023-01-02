@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="sample.project.jobissue.repository.mybatis.BoardMapper">
+
+	<!-- 일정 페이지 씩 조회 -->
+	<select id="selectHomeByName" resultType="JobItem">
+		 SELECT cor.COR_NAME corName, re.Announcement announcement
+		 , re.announcement_Code announcementCode, re.RECEIPT_END receiptEndDate
+		from CORPORATION_INFO cor, Recruitment re
+		where cor.COR_CODE = re.COR_CODE
+		and re.RECEIPT_END >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+<!-- 		and cor_Name like '%검색%' and announcement like '%검색%' -->
+		<!-- 검색 조건이 null이 아니라면 검색조건에 따른 데이터 조회-->
+		<if test="keyword != null">
+			and 
+			(cor.cor_name like '%'||#{keyword}||'%'
+			or re.announcement like '%'||#{keyword}||'%')
+		</if>
+		order by announcement desc , corName desc
+<!-- 		limit 1, 10; -->
+		
+	</select>
+</mapper>

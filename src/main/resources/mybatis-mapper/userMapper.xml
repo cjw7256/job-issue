@@ -6,90 +6,131 @@
 <mapper
 	namespace="sample.project.jobissue.repository.mybatis.UserMapper">
 
-    <insert id="register" >
-        INSERT INTO user_info (
-        	user_code
-            , user_name
-            , user_birth
-            , user_gender
-            , user_tel
-            , user_email
-            , user_password
-            , user_zipcode
-            , user_address
-            , user_detailaddress
-            , resume_code
-            , user_type
-        ) VALUES (
-        	USER_CODE_SEQ.nextVal
-            , #{userName}
-            , #{userBirth}
-            , #{userGender}
-            , #{userTel}
-            , #{userEmail}
-            , #{userPassword}
-            , #{userZipCode}
-            , #{userAddress}
-            , #{userDetailAddress}
-            , 'N'
-            , #{userType}
-<!--             , #{resumeCode} -->
-        )
-    </insert>
-    
-    <insert id="registerCop" >
-        INSERT INTO user_info (
-        	user_code
-            , user_name
-            , user_birth
-            , user_gender
-            , user_tel
-            , user_email
-            , user_password
-            , user_zipcode
-            , user_address
-            , user_detailaddress
-            , resume_code
-            , user_type
-            , cor_code
-        ) VALUES (
-        	USER_CODE_SEQ.nextVal
-            , #{userName}
-            , #{userBirth}
-            , #{userGender}
-            , #{userTel}
-            , #{userEmail}
-            , #{userPassword}
-            , #{userZipCode}
-            , #{userAddress}
-            , #{userDetailAddress}
-            , 'N'
-            , #{userType}
-            , (SELECT MAX(NVL(cor_code, NULL)) from CORPORATION_INFO WHERE cor_name = #{corName})
-<!--             , #{resumeCode} -->
-        )
-    </insert>
-    
-     <select id="login" resultType="UserVO">
-    	SELECT
-    	  *
-    	FROM user_info
-    	WHERE user_email = #{userEmail}
-    	AND user_password = #{userPassword}
-    </select>
-    
-    <select id="selectUserByEmail" resultType="UserVO">
-	    SELECT
-	    	*
-	    FROM user_info
-	    WHERE user_email = #{userEmail}
-    </select>
-    
-    <select id="selectAcademicRecord" resultType="String">
-		select arc.ACADEMIC_RECORD
-		from multiAcaReco mar, AcademicRecordCode arc
-		where ANNOUNCEMENT_CODE = #{listAnnCode}
-		and mar.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
+	<insert id="register">
+		INSERT INTO user_info (
+		user_code
+		, user_name
+		, user_birth
+		, user_gender
+		, user_tel
+		, user_email
+		, user_password
+		, user_zipcode
+		, user_address
+		, user_detailaddress
+		, resume_code
+		, user_type
+		) VALUES (
+		USER_CODE_SEQ.nextVal
+		, #{userName}
+		, #{userBirth}
+		, #{userGender}
+		, #{userTel}
+		, #{userEmail}
+		, #{userPassword}
+		, #{userZipCode}
+		, #{userAddress}
+		, #{userDetailAddress}
+		, 'N'
+		, #{userType}
+		<!-- , #{resumeCode} -->
+		)
+	</insert>
+
+	<insert id="registerCop">
+		INSERT INTO user_info (
+		user_code
+		, user_name
+		, user_birth
+		, user_gender
+		, user_tel
+		, user_email
+		, user_password
+		, user_zipcode
+		, user_address
+		, user_detailaddress
+		, resume_code
+		, user_type
+		, cor_code
+		) VALUES (
+		USER_CODE_SEQ.nextVal
+		, #{userName}
+		, #{userBirth}
+		, #{userGender}
+		, #{userTel}
+		, #{userEmail}
+		, #{userPassword}
+		, #{userZipCode}
+		, #{userAddress}
+		, #{userDetailAddress}
+		, 'N'
+		, #{userType}
+		, (SELECT MAX(NVL(cor_code, NULL)) from CORPORATION_INFO WHERE cor_name
+		= #{corName})
+		<!-- , #{resumeCode} -->
+		)
+	</insert>
+
+	<select id="login" resultType="UserVO">
+		SELECT
+		*
+		FROM user_info
+		WHERE user_email = #{userEmail}
+		AND user_password = #{userPassword}
 	</select>
-    
+
+	<select id="selectUserByEmail" resultType="UserVO">
+		SELECT
+		*
+		FROM user_info
+		WHERE user_email = #{userEmail}
+	</select>
+
+	<select id="selectUserByTel" resultType="UserVO">
+		SELECT
+		*
+		FROM user_info
+		WHERE user_Tel = #{userTel}
+	</select>
+
+	<select id="selectAcademicRecord" resultType="String">
+		select
+		arc.ACADEMIC_RECORD
+		from multiAcaReco mar, AcademicRecordCode arc
+		where
+		ANNOUNCEMENT_CODE = #{listAnnCode}
+		and mar.ACADEMIC_RECORD_CODE =
+		arc.ACADEMIC_RECORD_CODE
+	</select>
+
+	<update id="userPasswordUpdate"
+		parameterType="userVO">
+		UPDATE user_info
+		SET user_password = #{userPassword}
+		WHERE user_email = #{userEmail} 
+	</update>
+
+
+	<update id="updateUserInfo">		
+		UPDATE user_info
+		SET
+<!-- 		user_name -->
+<!-- 		, user_birth -->
+<!-- 		, user_gender -->
+		user_tel = #{userInfo.userTel}
+<!-- 		, user_email -->
+<!-- 		, user_password -->
+		, user_zipcode = #{userInfo.userZipCode}
+		, user_address = #{userInfo.userAddress}
+		, user_detailaddress = #{userInfo.userDetailAddress}
+<!-- 		, resume_code -->
+<!-- 		, user_type -->
+		WHERE USER_TYPE = 1
+		AND USER_EMAIL = #{userInfo.userEmail}
+	</update>
+	
+	<delete id="deleteUserByEmail">
+		DELETE FROM user_info
+		where user_email = #{userEmail}
+	</delete>
 </mapper>

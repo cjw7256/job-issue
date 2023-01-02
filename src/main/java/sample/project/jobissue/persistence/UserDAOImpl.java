@@ -50,5 +50,26 @@ public class UserDAOImpl implements UserDAO {
 		UserVO userVO = userMapper.selectUserByEmail(userEmail);
 		return userVO;
 	}
+	
+	@Override
+	public UserVO findUserByTel(String userTel) throws Exception {
+		// TODO Auto-generated method stub
+		UserVO userVO = userMapper.selectUserByTel(userTel);
+		return userVO;
+	}
+
+	@Override
+	public Integer modifyUserInfo(UserRegisterForm userRegisterForm) throws Exception {
+		// TODO Auto-generated method stub
+		Integer result = userMapper.updateUserInfo(userRegisterForm);
+		return result;
+	}
+
+	@Override
+	public Integer dropUserByEmail(String userEmail) throws Exception {
+		// TODO Auto-generated method stub
+		Integer result = userMapper.deleteUserByEmail(userEmail);
+		return result;
+	}
 
 }
