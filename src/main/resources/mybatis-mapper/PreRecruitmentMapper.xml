@@ -120,7 +120,7 @@
 	<delete id="deleteByAnnouncementCode">
 		delete from preAppRecru
 		where
-		announcementCode=#{announcementCode}
+		announcement_Code=#{announcementCode}
 	</delete>
 
 	<update id="update">

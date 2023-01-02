@@ -11,8 +11,9 @@
     background-color: rgb(240, 241, 241);
 /*     margin-top: 50px; */
     border-top: solid 3px rgb(43, 94, 189);
-    display: inline-block;
-    
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #resumeTitle{
@@ -29,11 +30,10 @@
 .card{
     margin-top: 50px;
     width: 90%;
-    position: relative;
-    left: 5%;
     height: auto;
     border-radius: 0;
     margin-bottom: 50px;
+    display: inline-block;
 }
 
 .form-select {
@@ -49,6 +49,7 @@
     position: relative;
     left: 10%;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 @media only screen and (max-width:688px) {

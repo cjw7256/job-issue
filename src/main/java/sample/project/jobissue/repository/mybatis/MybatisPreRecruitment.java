@@ -101,6 +101,8 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 					preRecruitment.getAnnouncementCode(), preRecruitment.getEmployTypeCode());
 			prMapper.insertPreMulWork(
 					preRecruitment.getAnnouncementCode(), preRecruitment.getWorkingAreaCode());
+		
+			log.info("update info {}", preRecruitment);
 		} catch (Exception e) {
 			log.error("{}", e.getMessage());
 			log.error("preRecruitment update error {} {}"
@@ -129,7 +131,8 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	@Override
 	public void deleteByAnnouncementCode(int announcementCode) {
 		// TODO Auto-generated method stub
-		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(announcementCode);
+//		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(announcementCode);
+		prMapper.deleteByAnnouncementCode(announcementCode);
 		log.info("deleteByAnnoncement {}", announcementCode);
 		
 		

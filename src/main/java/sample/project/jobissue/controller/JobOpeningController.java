@@ -116,20 +116,13 @@ public class JobOpeningController {
 	
 	@GetMapping("jobOpen/delete/{announcementCode}")
 	public String deleteAnnouncement(Model model, HttpServletRequest req
-//			, @PathVariable("announcementCode") int announcementCode
+			, @PathVariable("announcementCode") int announcementCode
 			) {
-//		
-//		HttpSession session = req.getSession(false);
-//		CorporationVO corVO = (CorporationVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		//세션은 corVO 인데 필요한건 preRecruitment안에 있는 announcementCode...
-		
-		PreRecruitment preRecruitment = new PreRecruitment();
-		
 		preRecruitRepository
-		.deleteByAnnouncementCode(preRecruitment.getAnnouncementCode());
+		.deleteByAnnouncementCode(announcementCode);
+		log.info("delete {}", announcementCode);
 		
-		
-		return "corporation/manageOpening";
+		return "redirect:/manageOpening";
 	}
 	
 	@GetMapping("update/{announcementCode}")
