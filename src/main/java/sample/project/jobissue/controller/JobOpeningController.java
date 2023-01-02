@@ -53,9 +53,10 @@ public class JobOpeningController {
 		
 		log.info("announcementCode={}",announcementCode);
 		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(announcementCode);
+		log.info("preRecruit {}" , preRecruit);
 		model.addAttribute("preRecruit", preRecruit);
 		
-		return "coporation/jobOpen";
+		return "/corporation/jobOpen";
 	}
 	
 	
@@ -113,7 +114,7 @@ public class JobOpeningController {
 	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
 	//						- jobmapper.xml 에서 insertmulEMP, insertmultWork~ 참고)
 	
-	@GetMapping("/delete/{announcementCode}")
+	@GetMapping("jobOpen/delete/{announcementCode}")
 	public String deleteAnnouncement(Model model, HttpServletRequest req
 //			, @PathVariable("announcementCode") int announcementCode
 			) {
@@ -131,15 +132,15 @@ public class JobOpeningController {
 		return "corporation/manageOpening";
 	}
 	
-	@GetMapping("/update/{announcementCode}")
+	@GetMapping("update/{announcementCode}")
 	public String updateFood(Model model, @PathVariable("announcementCode") int announcementCode) {
 		PreRecruitment preRecruitment = preRecruitRepository.selectByPreAnnCode(announcementCode);
 		model.addAttribute("preRecruit", preRecruitment);
 		
-		return "corporation/update";
+		return "corporation/jobOpeningUpdate";
 	}
 	
-	@PostMapping("/update/{announcementCode}")
+	@PostMapping("update/{announcementCode}")
 	public String updateFoodProcess(Model model
 			, @PathVariable("announcementCode") int announcementCode
 			, @ModelAttribute PreRecruitment preRecruitment ) {
