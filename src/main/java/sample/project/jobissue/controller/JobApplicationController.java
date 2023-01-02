@@ -45,50 +45,29 @@ public class JobApplicationController {
 	public String submitResume(Model model
 			, @PathVariable("resumeUserCode") int resumeUserCode
 			, HttpServletRequest req) {
-		log.info("17번");
 		HttpSession session = req.getSession(false);
-		log.info("18번");
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		log.info("19번");
 		ResumeItem resumeItem = new ResumeItem();
-		log.info("20번");
 		resumeItem.setUserCode(userVO.getUserCode());
-		log.info("21번");
 		resumeItem = jobApplicationRepository.selectByUserResume(resumeUserCode);
-		log.info("22번");
 		model.addAttribute("submitResume", resumeItem);
-		log.info("23번");
-//		model.addAttribute("announcementCode", announcementCode);
-		log.info("24번");
-		log.info("레주메123 {}",resumeItem);
-		log.info("25번");
+		
 		return "submit/submitResume";
 	}
 	
-
-	
-//	수정예정
 	@GetMapping("/dosubmit/{userCode}")
 	public String doSubmit(Model model
 			, HttpServletRequest req) {
-		log.info("26번");
-//		JobItem jobItem2 = jobRepository.selectByAnnCode(jobItem.getAnnouncementCode());
-		log.info("27번");
-//		log.info("여기1 {}",jobItem);
-		log.info("28번");
 		HttpSession session = req.getSession(false);
-		log.info("29번");
+		JobItem jobItem = (JobItem) session.getAttribute("jobItem");
+		jobRepository.selectByAnnCode(jobItem.getAnnouncementCode());
+		session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		log.info("30번");
 		jobApplicationRepository.insertSubmitResume(
-				222, 62, userVO.getUserCode());
-		
+				jobItem.getCorCode(), jobItem.getAnnouncementCode(), userVO.getUserCode());
 		log.info("제출성공");
-				
 		return "resumes/resumes";
 	}
-	
-	
 	
 	
 	

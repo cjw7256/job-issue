@@ -17,6 +17,7 @@
 	SELECT
     (select cor_code from Recruitment where cor_code = #{corCode} and Announcement_Code = #{announcementCode}) as COR_CODE,
     USER_CODE,
+    (select Announcement_Code from Recruitment where cor_code = #{corCode} and Announcement_Code = #{announcementCode}) as Announcement_Code,
     User_ResumeEmail ,
     Military_Status ,
     Marital_Status ,

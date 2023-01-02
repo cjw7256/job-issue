@@ -63,21 +63,12 @@ public class JobController {
 
 	@PostMapping("/list")
 	public String list2(Model model, @RequestParam int listCorporationNo, HttpServletRequest req) {
-		log.info("1번");
 		JobItem jobItem = jobRepository.selectByAnnCode(listCorporationNo);
-		log.info("2번");
 		HttpSession session = req.getSession(false);
-		log.info("3번");
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		log.info("4번");
 		ResumeItem reuItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-		log.info("5번");
-		log.info("userCode {}, {}",reuItem, userVO);
-		log.info("6번");
 		model.addAttribute("list", jobItem);
-		log.info("7번");
 		model.addAttribute("submitResume", reuItem);
-		log.info("8번");
 		return "redirect:/lists/list";
 	}
 
@@ -86,23 +77,13 @@ public class JobController {
 			, @ModelAttribute JobItem jobItem
 			, HttpServletRequest req) {
 		jobItem = jobRepository.selectByAnnCode(listAnnCode);
-		log.info("9번");
-		log.info("list select {}", jobItem);
-		log.info("10번");
 		model.addAttribute("list", jobItem);
-		log.info("11번");
 		HttpSession session = req.getSession(false);
-		
-		log.info("12번");
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		log.info("13번");
 		ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-		log.info("14번");
-		log.info("userCode {}, {}",resumeItem, userVO);
-		log.info("15번");
 		model.addAttribute("submitResume", resumeItem);
-		
-		log.info("16번");
+		session = req.getSession();
+		session.setAttribute("jobItem", jobItem);	
 		
 		return "/lists/list";
 	}
