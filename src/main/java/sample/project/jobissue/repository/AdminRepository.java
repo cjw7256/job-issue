@@ -38,5 +38,15 @@ public interface AdminRepository { //실제 db 연결
 	
 	public boolean updatePreStat(String applyStat, int announcementCode);
 	
+	//변경부분
+	public void deleteRecByAdmin(int annCode);
+	
+	public Integer insertRecruToDel(JobItem jobItem);
+	
+	public UserVO selectUserDetailInfo(int userCode);
+	
+	public void deleteUserByAdmin(int userCode, String resumeCode); 
+	
+	public UserVO selectCorDetailInfo(int userCode);
 	
 }

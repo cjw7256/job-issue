@@ -162,5 +162,58 @@ public class MybatisAdminRepository implements AdminRepository{
 		return result;
 	}
 
+	//변경부분~
+
+	@Override
+	public void deleteRecByAdmin(int annCode) {
+		// TODO Auto-generated method stub
+		log.info("deleteRecByAdmin 실행 - 관리자가 공고 삭제");
+		
+		adminMapper.deleteRecByAdmin(annCode);
+	}
+
+	@Transactional
+	@Override
+	public Integer insertRecruToDel(JobItem jobItem) {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.insertRecruToDel(jobItem); //delRec에 저장
+		//그리고 옵션들도 같이 저장됨!
+		Integer option1 = adminMapper.insertRecToDelEmp(jobItem.getAnnouncementCode(), jobItem.getEmployTypeCode());
+		Integer option2 = adminMapper.insertRecToDelWork(jobItem.getAnnouncementCode(), jobItem.getWorkingAreaCode());
+		Integer option3 = adminMapper.insertRecToDelAca(jobItem.getAnnouncementCode(), jobItem.getAcademicRecordCode());
+		
+		log.info("insertRecruToDel 실행 완료 {}, {}, {}, {}", result, option1, option2, option3);
+		
+		return result;
+	}
+
+	@Override
+	public UserVO selectUserDetailInfo(int userCode) {
+		// TODO Auto-generated method stub
+		UserVO userDetailInfo = adminMapper.selectUserDetailInfo(userCode);
+		
+		return userDetailInfo;
+	}
+
+	@Transactional
+	@Override
+	public void deleteUserByAdmin(int userCode, String resumeCode) {
+		// TODO Auto-generated method stub
+		//userInfo에서 정보 지우고
+		adminMapper.deleteUserByAdmin(userCode);
+		//이력서 테이블에서도...!! - 이력서 작성 여부가 긍정일경우
+		if(resumeCode.equals("Y")) {
+			adminMapper.deleteResumeByAdmin(userCode);
+		}
+		log.info("delete User 완료");
+	}
+
+	@Override
+	public UserVO selectCorDetailInfo(int userCode) {
+		// TODO Auto-generated method stub
+		UserVO corInfo = adminMapper.selectCorDetailInfo(userCode);
+		
+		return corInfo;
+	}
 	
 }

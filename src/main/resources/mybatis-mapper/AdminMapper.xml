@@ -6,21 +6,21 @@
 	namespace="sample.project.jobissue.repository.mybatis.AdminMapper">
 	<!-- 기업 회원 리스트 가져옴 -->
 	<select id="selectCorUserInfoList" resultType="UserVO"> <!-- user가 일반 회원인 경우에는 user_name이 바로 들어오고, cor일 경우에는 cor_code를 이용해 서브 쿼리를 작성해야 함 -->
-		SELECT cor.cor_name userName, ut.userType userType, u.USER_JOINDATE userJoinDate
+		SELECT cor.cor_name userName, ut.userType userType, u.USER_JOINDATE userJoinDate, u.user_Code userCode, u.cor_Code corCode
 		FROM USER_INFO u, corporation_info cor, userTypeCode ut
 		where u.cor_code = cor.cor_code 
 		and u.user_type = ut.usertype_Code
 		and u.user_Type = '2'
-		ORDER BY USER_JOINDATE desc
+		ORDER BY USER_CODE desc
 	</select>
 
 	<!-- 일반 회원 리스트 가져옴  -->
 	<select id="selectUserInfoList" resultType="UserVO"> <!-- user가 일반 회원인 경우에는 user_name이 바로 들어오고, cor일 경우에는 cor_code를 이용해 서브 쿼리를 작성해야 함 -->
-		SELECT u.USER_NAME userName, ut.userType userType, u.USER_JOINDATE userJoinDate
+		SELECT u.USER_NAME userName, ut.userType userType, u.USER_JOINDATE userJoinDate, u.USER_CODE userCode
 		FROM USER_INFO u, userTypeCode ut
 		where u.user_type = ut.usertype_Code
         and u.user_type = '1'
-		ORDER BY USER_JOINDATE desc
+		ORDER BY USER_CODE desc
 	</select>
 	
 	<!-- 공고 승인 대기 리스트를 전부 가져옴  -->
@@ -138,10 +138,102 @@
 	where announcement_code = #{announcementCode}
 	</select>
 
-	<!-- <delete id="deleteFoodItemOptions">
-		delete from foodItemOptions
-		where foodid = #{id}
-	</delete> -->
+	<!-- 공고 리스트에서 해당 공고번호의 공고를 삭제함  -->
+	<delete id="deleteRecByAdmin">
+		delete from recruitment
+		where announcement_Code = #{announcementCode}
+	</delete>
+	
+	<!-- <delete></delete> -->
+	
+	
+	<!-- 공고 삭제시, 삭제 대기 임시 테이블로 저장되는 쿼리문들 -->
+	<!-- RECRU -> delRec 로 삭제처리 공고 DB 저장-->
+	<insert id="insertRecruToDel" parameterType="JobItem">
+		insert into delRec
+		values
+		(
+			#{corCode}, #{announcementCode}, #{announcement}, #{recruitFieldCode}, #{salary}, 
+			#{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{recruitWritedate},
+			SYSDATE
+		)
+	</insert>
+	
+	<!-- PRE->RECRU 로 고용형태 등록 -->
+	<insert id="insertRecToDelEmp" parameterType="JobItem">
+		<foreach collection="empOptions" item="item" open="INSERT ALL"
+			close="SELECT * FROM DUAL" separator=" ">
+			INTO delmultiEmp
+			VALUES(#{announcementCode}, #{item})
+		</foreach>
+	</insert>
+	
+	<!-- PRE->RECRU 로 근무지역 등록 -->
+	<insert id="insertRecToDelWork" parameterType="JobItem">
+		<foreach collection="workOptions" item="item" open="INSERT ALL"
+			close="SELECT * FROM DUAL" separator=" ">
+			INTO delmultiWorkArea
+			VALUES(#{announcementCode}, #{item})
+		</foreach>
+	</insert>
+	
+	<!-- PRE->RECRU 로 학력코드 등록 -->
+	<insert id="insertRecToDelAca" parameterType="JobItem">
+		<foreach collection="acaOptions" item="item" open="INSERT ALL"
+			close="SELECT * FROM DUAL" separator=" ">
+			INTO delmultiAcaReco
+			VALUES(#{announcementCode}, #{item})
+		</foreach>
+	</insert>
+	
+	<!-- 일반 회원의 자세한 정보를 가져옴  -->
+	<select id="selectUserDetailInfo" resultType="UserVO"> <!-- user가 일반 회원인 경우에는 user_name이 바로 들어오고, cor일 경우에는 cor_code를 이용해 서브 쿼리를 작성해야 함 -->
+		SELECT u.USER_CODE userCode, u.USER_NAME userName, u.USER_BIRTH userBirth, u.USER_GENDER userGender,
+			   u.USER_TEL userTel, u.USER_EMAIL userEmail, u.USER_JOINDATE userJoinDate, 
+			   u.USER_ZIPCODE userZipCode, u.USER_ADDRESS userAddress, u.USER_DETAILADDRESS userDetailAddress,
+			   u.Resume_CODE resumeCode, ut.userType userType
+		FROM USER_INFO u, userTypeCode ut
+		WHERE u.user_type = ut.usertype_Code
+		AND u.USER_CODE = #{userCode}
+        AND u.user_type = '1'
+		ORDER BY USER_JOINDATE desc
+	</select>
+	
+	<!-- 특정 회원을 찾아 삭제함  -->
+	<delete id="deleteUserByAdmin">
+		delete from USER_INFO
+		where USER_CODE = #{userCode}
+	</delete>
+	
+	<delete id="deleteResumeByAdmin">
+		delete from RESUME
+		where USER_CODE = #{userCode}
+	</delete>
+	
+	<!-- 특정 기업의 자세한 정보를 가져옴 -->
+	<select id="selectCorDetailInfo" resultType="UserVO"> <!-- user가 일반 회원인 경우에는 user_name이 바로 들어오고, cor일 경우에는 cor_code를 이용해 서브 쿼리를 작성해야 함 -->
+		SELECT cor.cor_name userName, u.user_Code userCode, u.cor_Code corCode, u.USER_JOINDATE userJoinDate,
+				u.user_Email
+		FROM USER_INFO u, corporation_info cor, userTypeCode ut
+		where u.cor_code = cor.cor_code 
+		and u.user_type = ut.usertype_Code
+		and u.user_Type = '2'
+		and u.user_code = #{userCode}
+		ORDER BY USER_JOINDATE desc
+	</select>
+	
+	
+	
+	
+	
+	<!-- 검색 기능 이용 :: 검색한 일반 회원 리스트 가져옴(수정 전)  -->
+	<!-- <select id="selectSearchUserInfoList" resultType="UserVO"> 
+		SELECT u.USER_NAME userName, ut.userType userType, u.USER_JOINDATE userJoinDate, u.USER_CODE userCode
+		FROM USER_INFO u, userTypeCode ut
+		where u.user_type = ut.usertype_Code
+        and u.user_type = '1'
+		ORDER BY USER_JOINDATE desc
+	</select>-->
 	
 </mapper>
 
