@@ -1,8 +1,7 @@
 .title{
+margin-top: 50px;
     border-bottom: solid 2px rgb(93, 123, 179);
-    width: 90%;
-    margin-top: 40px;
-    margin-left: 5%;
+    width: 80%;
     padding-bottom: 20px;
     font-weight: bold;
 }
@@ -11,16 +10,29 @@
     background-color: rgb(240, 241, 241);
 /*     margin-top: 50px; */
     border-top: solid 3px rgb(43, 94, 189);
-    height: 1000px; /*임시 설정*/
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
+
+#resumeTitle{
+	text-align: center;
+	}
+
+#button2{
+    width: 100px;
+    position: relative;
+    left: 45%;
+}	
+	
 
 .card{
     margin-top: 50px;
     width: 90%;
-    position: relative;
-    left: 5%;
-    height: 50%;
+    height: auto;
     border-radius: 0;
+    margin-bottom: 50px;
+    display: inline-block;
 }
 
 .form-select {
@@ -36,6 +48,7 @@
     position: relative;
     left: 10%;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 @media only screen and (max-width:688px) {

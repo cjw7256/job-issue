@@ -206,7 +206,7 @@ public class JobController {
 		String jobItem = "";
 
 		StringBuilder urlBuilder = new StringBuilder("https://openapi.gg.go.kr/GGJOBABARECRUSTM"); /* URL */
-		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=929c622403f44d6bb2a2a999bc9e742a");/* Service Key 변경 필요*/
+		urlBuilder.append("?" + URLEncoder.encode("Key", "UTF-8") + "=1195502f8abe406db404b79b30edf223");/* Service Key 변경 필요*/
 		urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("pIndex","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
 		urlBuilder.append("&" + URLEncoder.encode("pSize","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8"));
