@@ -41,6 +41,9 @@
  #searchRow{
  	width: 100%;
  } 
+ .row{
+ flex-wrap: inherit;
+ }
  
   .searchImg {
     position: relative;

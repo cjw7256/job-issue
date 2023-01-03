@@ -13,7 +13,7 @@
 		<div id="login">
 			<div id="login_form">
 				<h1 align="center">회원정보수정</h1>
-				<hr style="margin-bottom: 15px;">
+				<hr>
 				<div class="">
 					<form action="/user/update" method="post">
 						<table>
@@ -45,7 +45,7 @@
 							<tr>
 								<td>* 우편번호</td>
 								<td><input type="text" name="userZipCode" id="userZipCode"
-									th:value="${userVO.userZipCode}"></td>
+									th:value="${userVO.userZipCode}" readonly></td>
 								<td><input type="button"
 									onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td>
 								<!-- 배열로 값을 받았다면 ${addreess[0]}으로 표기하여 출력할수 있다-->
@@ -54,7 +54,7 @@
 							<tr>
 								<td>* 주소</td>
 								<td><input type="text" name="userAddress" id="userAddress"
-									th:value="${userVO.userAddress}"></td>
+									th:value="${userVO.userAddress}" readonly></td>
 							</tr>
 							<tr>
 								<td>* 상세주소</td>
@@ -66,10 +66,9 @@
 									<input type="submit" th:value="수정하기">
 									<button type="button"
 										th:onclick="removeUser([[${userVO.userEmail}]]);">탈퇴하기</button>
-									<!-- //type을 button으로 꼭 적어줘야! submit이 되지 않는다!! 꼭 기억하기! --></td>
-									<td colspan="2" align="center">
-									<button type="button"
-										th:onclick="|location.href='@{/}'|">취소하기</button>
+									<!-- //type을 button으로 꼭 적어줘야! submit이 되지 않는다!! 꼭 기억하기! -->
+									<button type="button" th:onclick="|location.href='@{/}'|">취소하기</button>
+								</td>
 							</tr>
 						</table>
 					</form>

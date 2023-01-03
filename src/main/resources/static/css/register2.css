@@ -92,9 +92,9 @@
 	background: rgb(43, 94, 189);
 }
 
-.hr {
+hr {
 	margin-top: 20px;
-	border:solid 2px rgb(93, 123, 179);
+	border:solid 1px rgb(93, 123, 179);
 }
 
 .body {

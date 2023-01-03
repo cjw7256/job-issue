@@ -92,6 +92,16 @@ public class HomeController {
 		List<JobItem> jobItemList = boardService.findHomeByName(si);
 		model.addAttribute("jobItemList", jobItemList);
 		
+		HttpSession session = req.getSession(false);
+		if(session != null) {
+			UserVO userVO = (UserVO) session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+			model.addAttribute("userVO", userVO);
+		} else {
+			model.addAttribute("userVO", null);	
+		}
+		
+		
+		
 		return "search";
 	}
 }

@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sample.project.jobissue.domain.PageMaker;
+import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.service.UserService;
 import sample.project.jobissue.validation.UserRegisterForm;

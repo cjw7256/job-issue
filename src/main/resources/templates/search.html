@@ -8,16 +8,21 @@
 
 </head>
 <body>
-	<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
-	<form th:action method="get">
-		<input class="form-control" type="text" id="keyword" name="keyword"
-			th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}"
-			placeholder="검색어를 입력하세요" /> <input class="form-control" type="text"
-			id="keyword" name="keyword" th:if="${pageMaker == null}"
-			placeholder="검색어를 입력하세요" />
-		<button th:href="@{|/search|}" id="searchBtn" type="submit"
-			class="btn-primary">Search</button>
-	</form>
+	<div th:if="${userVO != null}">
+		<th:block th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></th:block>
+	</div>
+	<div th:if="${userVO == null}" >
+		<th:block th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></th:block>
+	</div>
+<!-- 	<form th:action method="get"> -->
+<!-- 		<input class="form-control" type="text" id="keyword" name="keyword" -->
+<!-- 			th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}" -->
+<!-- 			placeholder="검색어를 입력하세요" /> <input class="form-control" type="text" -->
+<!-- 			id="keyword" name="keyword" th:if="${pageMaker == null}" -->
+<!-- 			placeholder="검색어를 입력하세요" /> -->
+<!-- 		<button th:href="@{|/search|}" id="searchBtn" type="submit" -->
+<!-- 			class="btn-primary">Search</button> -->
+<!-- 	</form> -->
 	<div>
 		<table class="table table-hover">
 			<thead>

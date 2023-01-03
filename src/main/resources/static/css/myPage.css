@@ -1,6 +1,6 @@
-/* * { */
-/*   box-sizing: border-box; */
-/* } */
+* {
+  box-sizing: border-box;
+}
 
 .a {
 	text-decoration: none;
@@ -67,24 +67,25 @@
 	line-height:20px;
 }
 
-.btn {
-	width: 310px;
-	height: 40px;
+button {
+	width: 80px;
+	height: 32px;
 	font-size: 15px;
 	background-color:  rgb(93, 123, 179);
 	color: #fff;
-	border: none;
+	border: solid 1px #c0c0c0;
 	cursor: pointer;
 	border-radius: 5px;
 }
 
-.btn:hover {
+button:hover {
 	background: rgb(43, 94, 189);
 }
 
-.hr {
+hr {
+	opacity:1;
 	margin-top: 20px;
-	border:solid 2px rgb(93, 123, 179);
+	border:solid 1px rgb(93, 123, 179);
 }
 
 .body {
