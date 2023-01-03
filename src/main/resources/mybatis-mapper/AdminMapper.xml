@@ -243,14 +243,13 @@
 		where cor_code = #{corCode}
 	</delete>
 	
-	<!-- 안 되면 resultMap 이용하기-->
-	<select id="selectRecCodes"> 
+	<select id="selectRecCodes" resultType="Integer"> 
 		SELECT announcement_Code
 		FROM Recruitment
 		WHERE COR_CODE = #{corCode}
 	</select>
 	
-	<select id="selectPreRecCodes"> 
+	<select id="selectPreRecCodes" resultType="Integer"> 
 		SELECT announcement_Code
 		FROM preAppRecru
 		WHERE COR_CODE = #{corCode}
