@@ -153,7 +153,7 @@ public class UserRegisterController {
 			// 입력한 경우
 			// 사용가능한 비밀번호 제한
 			Pattern pattern = Pattern
-					.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$");
+					.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$");
 			Matcher matcher = pattern.matcher(userRegisterForm.getUserPassword());
 			if (!matcher.matches()) {
 				errors.rejectValue("userPassword", null, "비밀번호는 8~16자리수여야 합니다. 영문 대소문자, 숫자, 특수문자를 1개 이상 포함해야 합니다.");

@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
+import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.service.UserService;
 import sample.project.jobissue.validation.UserRegisterForm;
 
@@ -27,6 +28,7 @@ import sample.project.jobissue.validation.UserRegisterForm;
 public class MyPageController {
 
 	private final UserService userService;
+	private final AdminRepository adminRepository;
 
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
 	public String viewMyPage(HttpServletRequest request, Model model) {
@@ -93,6 +95,9 @@ public class MyPageController {
 		Integer result;
 		try {
 			if (userEmail.equals(curUserEmail)) {
+				if(userVO.getResumeCode().equals("Y")) {
+					adminRepository.deleteResumeByDrop(userVO.getUserCode());
+				}
 				result = userService.dropUserByEmail(userEmail);
 				log.info("delete UserEmail : {}, Result : {}", userEmail, result);
 				session.invalidate();

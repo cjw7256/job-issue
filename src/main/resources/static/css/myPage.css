@@ -23,7 +23,7 @@
 	background : rgb(240, 241, 241);
 	position: absolute;
 	height: 500;
-	top: 50%;
+	top: 45%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	background: #fff;
@@ -67,7 +67,7 @@
 	line-height:20px;
 }
 
-button {
+button submit{
 	width: 80px;
 	height: 32px;
 	font-size: 15px;

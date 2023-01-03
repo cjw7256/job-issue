@@ -211,7 +211,7 @@ public class MybatisAdminRepository implements AdminRepository{
 		}
 		log.info("delete User 완료");
 	}
-
+	
 	@Override
 	public UserVO selectCorDetailInfo(int userCode) {
 		// TODO Auto-generated method stub
@@ -263,5 +263,13 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
 	}
+	
+	@Override
+	   public void deleteResumeByDrop(int userCode) {
+	      // TODO Auto-generated method stub
+	      adminMapper.deleteResumeByAdmin(userCode);
+	      
+	      log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
+	   }
 	
 }
