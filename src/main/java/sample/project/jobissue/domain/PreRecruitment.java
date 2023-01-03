@@ -10,7 +10,7 @@ public class PreRecruitment {
 
 	private int announcementCode; //공고 코드
 	private int corCode;          //기업 코드
-	private String corName;
+	private String corName;		  //기업이름
 	private String announcement;  //공고명
 	private String recruitFieldCode; //모집분야 코드
 	private String recruitField;  //모집분야

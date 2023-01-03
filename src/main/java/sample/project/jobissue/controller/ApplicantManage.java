@@ -24,16 +24,16 @@ public class ApplicantManage {
 	@GetMapping
 	public String manageOpening(Model model, HttpServletRequest req){
 		
-		HttpSession session = req.getSession(false);
-		
-		if(session == null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) == null) {
-			log.info("Session empty redirect to login Page");
-			return "redirect:/user/login";
-		}
-		
-		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		int corCode = userVO.getCorCode();
-		
+//		HttpSession session = req.getSession(false);
+//		
+//		if(session == null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) == null) {
+//			log.info("Session empty redirect to login Page");
+//			return "redirect:/user/login";
+//		}
+//		
+//		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+//		int corCode = userVO.getCorCode();
+//		
 //		List<JobItem> jobItem = jobRepository
 		
 		return "corporation/applicantManage";

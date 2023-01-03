@@ -12,22 +12,26 @@
             <h3 class="title">지원자 확인</h3>
             <!-- 반복문 사용 -->
             <div class="accordion accordion-flush" id="accordionFlushExample">
-                <div class="accordion-item">
+                <div class="accordion-item" th:each="recruit : ${Recruit}">
                     <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <button class="accordion-button collapsed"
+                         type="button" data-bs-toggle="collapse"
+                          data-bs-target="#flush-collapseOne" 
+                          aria-expanded="false" aria-controls="flush-collapseOne"
+                          th:text="${recruit.announcement}">
                         올린 공고 명
                     </button>
                     </h2>
                 <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <table class="table">
+                        <table class="table" th:each="submitResume : ${SubmitResume}">
                             <thead>
                               <tr>
                                 <th scope="col">#</th>
-                                <th scope="col" width="15%">이름</th>
-                                <th scope="col" width="15%">성별</th>
-                                <th scope="col" width="15%">나이</th>
-                                <th scope="col" width="50%">이력서</th>
+                                <th scope="col" width="15%" th:text="${submitResume.userName}">이름</th>
+                                <th scope="col" width="15%" th:text="${submitResume.userGender}">성별</th>
+                                <th scope="col" width="15%" th:text="${submitResume.userAge}">나이</th>
+                                <th scope="col" width="50%"><a th:href="@{|/resume/${submitResume.}"></a>이력서</th>
                               </tr>
                             </thead>
                             <tbody>
