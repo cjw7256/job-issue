@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,9 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sample.project.jobissue.domain.UserVO;
+import sample.project.jobissue.domain.UserTypeCode;
+import sample.project.jobissue.repository.JobRepository;
+import sample.project.jobissue.service.CorporationService;
 import sample.project.jobissue.service.UserService;
-import sample.project.jobissue.validation.LoginForm;
 import sample.project.jobissue.validation.UserRegisterForm;
 
 @Slf4j

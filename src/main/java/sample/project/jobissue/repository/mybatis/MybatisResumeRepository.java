@@ -1,14 +1,11 @@
 package sample.project.jobissue.repository.mybatis;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.ResumeRepository;
@@ -65,8 +62,7 @@ public class MybatisResumeRepository implements ResumeRepository {
 		log.info("resumeItem {}",resumeItem);
 		return resumeItem;
 	}
-	
-	
+
 	@Override
 	@Transactional
 	public boolean update(int userCode, ResumeItem resumeItem) {
@@ -98,60 +94,5 @@ public class MybatisResumeRepository implements ResumeRepository {
 		}
 		return result;
 	}
-
-	@Override
-	public List<JobItem> selectBySubmit(int usercCode) {
-		// TODO Auto-generated method stub
-		List<JobItem> jobItems = null;
-		try {
-			jobItems = resumeMapper.selectBySubmit(usercCode);
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error(e.getMessage());
-		}
-		return jobItems;
-	}
-	
-	@Override
-	public JobItem selectByAnnCode(int submitListAnnCode) {
-		// TODO Auto-generated method stub
-		JobItem jobItem = resumeMapper.selectByAnnCode(submitListAnnCode);
-		log.info("selectByAnnCode {}", submitListAnnCode);
-
-		return jobItem;
-	}
-
-	
-
-	public void insertMulEmp(int announcementCode, List<String> employTypeCode) {
-		Integer result = resumeMapper.insertMulEmp(announcementCode, employTypeCode);
-		log.info("insertMulOp {}", result);
-	}
-	
-	public void insertMulWork(int announcementCode, List<String> workAreaCode ) {
-		Integer result = resumeMapper.insertMulWork(announcementCode, workAreaCode);
-		log.info("insertMulWork {}", result);
-	};
-
-	public void insertMulAca(int announcementCode, List<String> acaCode ){
-		Integer result = resumeMapper.insertMulAca(announcementCode, acaCode);
-		log.info("insertMulAca {}", result);
-	}
-
-	@Override
-	@Transactional
-	public boolean deleteSubmitResume(int userCode, int submitListAnnCode) {
-		// TODO Auto-generated method stub
-		boolean result = false;
-		try {
-			resumeMapper.deleteSubmitResume(userCode, submitListAnnCode);
-			result = true;
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.error("{}", e.getMessage());
-		}
-		return result;
-	}
-	
 	
 }

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
-import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.UserVO;
 
 @Mapper
 public interface JobMapper {
@@ -14,6 +14,10 @@ public interface JobMapper {
 	public Integer insertRecruitInit(JobItem jobItem);
 	
 	public Integer insertCorInfo(String corName);
+	
+	public Integer insertCorInitInfo(UserVO user);
+	
+	public Integer insertUserInfoAsCor(UserVO user);
 	
 	public Integer insertMulEmp(@Param("announcementCode") int announcementCode, @Param("empOptions") List<String> options );
 

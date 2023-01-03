@@ -43,35 +43,44 @@ public class UserLoginController {
 
 	// 로그인 처리
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginPOST(@ModelAttribute LoginForm loginForm, HttpSession httpSession, Model model
-			, HttpServletRequest req
-			, HttpServletResponse resp, BindingResult bindingResult
-			, @RequestParam(name="redirectURL", defaultValue = "/") String redirectURL ) throws Exception {
+	public String loginPOST(@ModelAttribute LoginForm loginForm, HttpSession httpSession, Model model,
+			HttpServletRequest req, HttpServletResponse resp, BindingResult bindingResult,
+			@RequestParam(name = "redirectURL", defaultValue = "/") String redirectURL) throws Exception {
 
 		validateLoginForm(loginForm, bindingResult);
-		
-		if(bindingResult.hasErrors()) {
+
+		if (bindingResult.hasErrors()) {
 			return "/user/login";
 		}
-		
+
 		UserVO userVO = userService.login(loginForm);
 
 		if (userVO == null) {
 			bindingResult.reject("loginForm", "아이디 또는 비밀번호를 확인하세요.");
 			return "/user/login";
 		}
-		
-		
+
 		sessionManager.create(userVO, resp);
 		model.addAttribute("userVO", userVO);
-		
+
 		log.info("로그인 성공 : {} ", userVO);
 		httpSession = req.getSession();
 		httpSession.setAttribute(sessionManager.SESSION_COOKIE_NAME, userVO);
 
-		return "redirect:" + redirectURL; //로그인 후 보여줄 화면으로 연결
+		return "redirect:" + redirectURL; // 로그인 후 보여줄 화면으로 연결
 	}
-	
+
+	@RequestMapping("/logout")
+	public String logout(HttpServletResponse resp, HttpServletRequest req) {
+		HttpSession session = req.getSession(false);
+
+		if (session != null) {
+			session.invalidate();
+		}
+
+		return "redirect:/";
+	}
+
 	public void validateLoginForm(LoginForm loginForm, Errors errors) {
 
 		if (!StringUtils.hasText(loginForm.getUserEmail())) {
