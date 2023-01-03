@@ -59,4 +59,27 @@ public interface AdminMapper {
 		public void deleteResumeByAdmin(int userCode);
 		
 		public UserVO selectCorDetailInfo(int userCode);
+		
+		//위에서 공고 삭제시 누락된 옵션 delete문들
+				public void deleteEmpOptByAdmin(int annCode);
+				
+				public void deleteWorkOptByAdmin(int annCode);
+				
+				public void deleteAcaOptByAdmin(int annCode);
+				
+				//추가 부분 :: 기업 회원 정보 delete
+				
+				public void deleteCorInfoByAdmin(int corCode);
+				
+				public List<Integer> selectRecCodes(int corCode); //announcemnet코드를 전부 넣음
+				
+				public List<Integer> selectPreRecCodes(int corCode);
+				
+				public void deletePreRecByAdmin(int annCode);
+				
+				public void deletePreEmpOptByAdmin(int annCode);
+				
+				public void deletePreWorkOptByAdmin(int annCode);
+				
+				public void deletePreAcaOptByAdmin(int annCode);
 }

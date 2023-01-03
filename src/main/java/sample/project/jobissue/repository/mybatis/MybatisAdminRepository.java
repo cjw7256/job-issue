@@ -169,7 +169,12 @@ public class MybatisAdminRepository implements AdminRepository{
 		// TODO Auto-generated method stub
 		log.info("deleteRecByAdmin 실행 - 관리자가 공고 삭제");
 		
-		adminMapper.deleteRecByAdmin(annCode);
+		adminMapper.deleteRecByAdmin(annCode); //공고 삭제
+		
+		adminMapper.deleteEmpOptByAdmin(annCode); //공고 옵션 삭제
+		adminMapper.deleteWorkOptByAdmin(annCode);
+		adminMapper.deleteAcaOptByAdmin(annCode);
+		
 	}
 
 	@Transactional
@@ -214,6 +219,45 @@ public class MybatisAdminRepository implements AdminRepository{
 		UserVO corInfo = adminMapper.selectCorDetailInfo(userCode);
 		
 		return corInfo;
+	}
+	
+	@Override
+	public void deleteCorUserByAdmin(int userCode, int corCode) {
+		// TODO Auto-generated method stub
+		//메소드 실행 -> corporation info , user_info, recruitment, pre~ 전부 지워져야 함
+		adminMapper.deleteUserByAdmin(userCode); //user_info에서 정보 삭제
+		adminMapper.deleteCorInfoByAdmin(corCode); //cor_info에서 정보 삭제
+		
+		//pre 삭제
+		List<Integer> preAnnCodes = adminMapper.selectPreRecCodes(corCode);
+	}
+
+	@Override
+	public List<Integer> selectRecCodes(int corCode) {
+		// TODO Auto-generated method stub
+		List<Integer> annCodes = adminMapper.selectRecCodes(corCode);
+		
+		return annCodes;
+	}
+
+	@Override
+	public List<Integer> selectPreRecCodes(int corCode) {
+		// TODO Auto-generated method stub
+		List<Integer> annCodes = adminMapper.selectPreRecCodes(corCode);
+		
+		return annCodes;
+	}
+
+	@Override
+	public void deletePreRecByAdmin(int annCode) {
+		// TODO Auto-generated method stub
+		adminMapper.deletePreRecByAdmin(annCode);
+		
+		adminMapper.deletePreEmpOptByAdmin(annCode);
+		adminMapper.deletePreAcaOptByAdmin(annCode);
+		adminMapper.deletePreWorkOptByAdmin(annCode);
+		
+		log.info("임시 공고 테이블 데이터 삭제 완료");		
 	}
 	
 }

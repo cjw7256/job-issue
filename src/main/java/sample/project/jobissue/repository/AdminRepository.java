@@ -49,4 +49,13 @@ public interface AdminRepository { //실제 db 연결
 	
 	public UserVO selectCorDetailInfo(int userCode);
 	
+	//here
+		public void deleteCorUserByAdmin(int userCode, int corCode);
+		
+		public List<Integer> selectRecCodes(int corCode);
+		
+		public List<Integer> selectPreRecCodes(int corCode);
+		
+		public void deletePreRecByAdmin(int annCode);
+	
 }

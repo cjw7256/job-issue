@@ -84,8 +84,7 @@
 					<div class="bundle">
 						<div class="mb-3 row">
 							<label for="staticUserCode" class="col-sm-2 col-form-label">
-								회원번호
-							</label>
+								회원번호 </label>
 							<div class="col-sm-10">
 								<input type="number" readonly class="form-control-plaintext"
 									id="staticUserCode" th:value="${corDetail.userCode}">
@@ -93,8 +92,7 @@
 						</div>
 						<div class="mb-3 row">
 							<label for="staticUserCode" class="col-sm-2 col-form-label">
-								기업번호
-							</label>
+								기업번호 </label>
 							<div class="col-sm-10">
 								<input type="number" readonly class="form-control-plaintext"
 									id="staticUserCode" th:value="${corDetail.userCode}">
@@ -102,14 +100,13 @@
 						</div>
 						<div class="mb-3 row">
 							<label for="staticUserName" class="col-sm-2 col-form-label">
-								회원명
-							</label>
+								회원명 </label>
 							<div class="col-sm-10">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticUserName" th:value="${corDetail.userName}">
 							</div>
 						</div>
-					<!-- 	<div class="mb-3 row">
+						<!-- 	<div class="mb-3 row">
 							<label for="staticUserTel" class="col-sm-2 col-form-label">
 								전화번호
 							</label>
@@ -120,14 +117,13 @@
 						</div> !-->
 						<div class="mb-3 row">
 							<label for="staticUserEmail" class="col-sm-2 col-form-label">
-								이메일(아이디)
-							</label>
+								이메일(아이디) </label>
 							<div class="col-sm-10">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticUserEmail" th:value="${corDetail.userEmail}">
 							</div>
 						</div>
-					<!-- 	<div class="mb-3 row">
+						<!-- 	<div class="mb-3 row">
 							<label for="staticAddress" class="col-sm-2 col-form-label">
 								주소
 							</label>
@@ -142,16 +138,17 @@
 						</div> !-->
 						<div class="mb-3 row">
 							<label for="staticUserJoinDate" class="col-sm-2 col-form-label">
-								가입일자
-							</label>
+								가입일자 </label>
 							<div class="col-sm-10">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticUserJoinDate" th:value="${corDetail.userJoinDate}">
 							</div>
 						</div>
-						
+
 						<form action="delInfo" method="post">
-							<input type="hidden" name="userCode" th:value=${corDetail.userCode}>
+							<input type="hidden" name="userCode"
+								th:value=${corDetail.userCode}> <input type="hidden"
+								name="corCode" th:value=${corDetail.corCode}>
 							<div class="buttonSet">
 								<button type="submit" class="btn btn-secondary">회원정보 삭제</button>
 							</div>
@@ -183,7 +180,7 @@
 						});
 					});
 				</script>
-				
+
 				<script
 					src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
 					integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"

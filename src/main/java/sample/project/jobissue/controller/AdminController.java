@@ -282,18 +282,37 @@ public class AdminController {
 		return "/admin/manageCorDetail";
 	}
 
-//	//회원 관리 페이지 - 기업 회원 정보 삭제 처리
-//	@PostMapping("/manageCor/delInfo")
-//	public String delUserDetail(@RequestParam("userCode") int userCode) { 
-//		log.info("userCode {}", userCode);
-//
-//		//메소드 실행
-//		//					adminRepository.deleteUserByAdmin(userCode, resumeCode);
-//
-//		log.info("기업 회원정보 삭제 처리 완료");
-//
-//		return "redirect:/adminPage/manageCor";
-//	}
+	//회원 관리 페이지 - 기업 회원 정보 삭제 처리
+		@PostMapping("/manageCor/delInfo")
+		public String delUserDetail(@RequestParam("userCode") int userCode, @RequestParam("corCode") int corCode) { 
+			log.info("corCode {}", corCode);
+
+			//메소드 실행 -> corporation info , user_info, recruitment, pre~ 전부 지워져야 함
+			adminRepository.deleteCorUserByAdmin(userCode, corCode);
+
+			//recru 삭제
+			List<Integer> annCodes =  adminRepository.selectRecCodes(corCode);
+			
+			if(!annCodes.isEmpty() & annCodes != null) {
+				for(int annCode : annCodes) {
+					adminRepository.deleteRecByAdmin(annCode); //돌면서 annCode를 넣어주면서 삭제할 수 있게!
+				}
+			}
+			
+			//pre~ 삭제
+			List<Integer> preAnnCodes = adminRepository.selectPreRecCodes(corCode);
+			
+			if(!preAnnCodes.isEmpty() & preAnnCodes != null) {
+				for(int preAnnCode : preAnnCodes) {
+					adminRepository.deletePreRecByAdmin(preAnnCode); //돌면서 annCode를 넣어주면서 삭제할 수 있게!
+				}
+			}
+			
+			log.info("기업 회원정보 삭제 처리 완료");
+
+			return "redirect:/adminPage/manageCor";
+		}
+
 
 
 

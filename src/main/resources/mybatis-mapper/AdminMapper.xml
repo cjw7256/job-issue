@@ -144,7 +144,21 @@
 		where announcement_Code = #{announcementCode}
 	</delete>
 	
-	<!-- <delete></delete> -->
+	<!--  공고 삭제시 옵션도 같이 삭제!-->
+	<delete id="deleteEmpOptByAdmin">
+		delete from multiEmp
+		where announcement_Code = #{announcementCode}
+	</delete>
+	
+	<delete id="deleteWorkOptByAdmin">
+		delete from multiWorkArea
+		where announcement_Code = #{announcementCode}
+	</delete>
+	
+	<delete id="deleteAcaOptByAdmin">
+		delete from multiAcaReco
+		where announcement_Code = #{announcementCode}
+	</delete>
 	
 	
 	<!-- 공고 삭제시, 삭제 대기 임시 테이블로 저장되는 쿼리문들 -->
@@ -223,6 +237,47 @@
 	</select>
 	
 	
+	<!-- 기업 회원 삭제 시, 정보 삭제 쿼리문(아래로 이어짐)-->
+	<delete id="deleteCorInfoByAdmin">
+		delete from corporation_info
+		where cor_code = #{corCode}
+	</delete>
+	
+	<!-- 안 되면 resultMap 이용하기-->
+	<select id="selectRecCodes"> 
+		SELECT announcement_Code
+		FROM Recruitment
+		WHERE COR_CODE = #{corCode}
+	</select>
+	
+	<select id="selectPreRecCodes"> 
+		SELECT announcement_Code
+		FROM preAppRecru
+		WHERE COR_CODE = #{corCode}
+	</select>
+	
+	<!-- 임시공고 테이블 삭제-->
+	<!-- 공고 리스트에서 해당 공고번호의 공고를 삭제함  -->
+	<delete id="deletePreRecByAdmin">
+		delete from preAppRecru
+		where announcement_Code = #{announcementCode}
+	</delete>
+	
+	<!--  공고 삭제시 옵션도 같이 삭제!-->
+	<delete id="deletePreEmpOptByAdmin">
+		delete from preAppRecru
+		where announcement_Code = #{announcementCode}
+	</delete>
+	
+	<delete id="deletePreWorkOptByAdmin">
+		delete from preAppRecru
+		where announcement_Code = #{announcementCode}
+	</delete>
+	
+	<delete id="deletePreAcaOptByAdmin">
+		delete from preAppRecru
+		where announcement_Code = #{announcementCode}
+	</delete>
 	
 	
 	
