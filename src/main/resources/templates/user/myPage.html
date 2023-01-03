@@ -2,43 +2,88 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel = "stylesheet" href="/css/register2.css">
+<th:block th:replace="/navbar/afterLoginNavBar2.html::headerNavBarHead"></th:block>
+<title>회원정보 수정</title>
+<link rel="stylesheet" href="/css/myPage.css">
 </head>
 
-<body class="hold-transition register-page" style="
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-">
+<body class="hold-transition register-page">
+	<div th:replace="/navbar/afterLoginNavBar2.html :: headerNavBar"></div>
 	<div id="con">
 		<div id="login">
 			<div id="login_form">
-				<!--로그인 폼-->
+				<h1 align="center">회원정보수정</h1>
+				<hr>
+				<div class="">
+					<form action="/user/update" method="post">
+						<table>
+							<tr>
+								<td>* 아이디</td>
+								<td><input type="email" name="userEmail"
+									th:value="${userVO.userEmail}" readonly></td>
+							</tr>
+							<tr>
+								<td>* 비밀번호</td>
+								<td><input type="password" name="userPassword"></td>
+							</tr>
+							<tr>
+								<td>* 이름</td>
+								<td><input type="text" name="userName"
+									th:value="${userVO.userName}" readonly></td>
+							</tr>
+							<tr>
+								<td>* 성별</td>
+								<td><input type="text" name="userGender"
+									th:value="${userVO.userGender}" readonly></td>
+							</tr>
+							<tr>
+								<td>* 전화번호</td>
+								<td><input type="text" name="userTel"
+									th:value="${userVO.userTel}" oninput="autoHyphen2(this)"
+									maxlength="13"></td>
+							</tr>
+							<tr>
+								<td>* 우편번호</td>
+								<td><input type="text" name="userZipCode" id="userZipCode"
+									th:value="${userVO.userZipCode}" readonly></td>
+								<td><input type="button"
+									onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td>
+								<!-- 배열로 값을 받았다면 ${addreess[0]}으로 표기하여 출력할수 있다-->
+							</tr>
 
-				<div class="register-box">
-
-					<div class="card">
-						<div class="card-body register-card-body">
-							<h3 class="login">회원가입</h3>
-							<hr>
-
-							<button th:onclick="|location.href='@{/user/register}'|" class="btn">개인용</button>
-							<button th:onclick="|location.href='@{/user/register/cop}'|" class="btn">기업용</button>
-							
-							<div class="align-center margintop">
-								<a href="/user/login" class="text-center">로그인 페이지로 이동</a>
-							</div>
-						</div>
-						<!-- /.form-box -->
-					</div>
-					<!-- /.card -->
+							<tr>
+								<td>* 주소</td>
+								<td><input type="text" name="userAddress" id="userAddress"
+									th:value="${userVO.userAddress}" readonly></td>
+							</tr>
+							<tr>
+								<td>* 상세주소</td>
+								<td><input type="text" name="userDetailAddress"
+									id="userDetailAddress" th:value="${userVO.userDetailAddress}"></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<input type="submit" th:value="수정하기">
+									<button type="button"
+										th:onclick="removeUser([[${userVO.userEmail}]]);">탈퇴하기</button>
+									<!-- //type을 button으로 꼭 적어줘야! submit이 되지 않는다!! 꼭 기억하기! -->
+									<button type="button" th:onclick="|location.href='@{/}'|">취소하기</button>
+								</td>
+							</tr>
+						</table>
+					</form>
 				</div>
-
 			</div>
 		</div>
 	</div>
+
+	<script>
+			function removeUser(userEmail) {
+				if(window.confirm("탈퇴하시겠습니까?")){
+					location.href="/user/drop/" + userEmail;
+				}
+			}
+	</script>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -85,11 +130,12 @@
                 document.getElementById('userZipCode').value = data.zonecode;
 //                 document.getElementById("sample6_address").value = addr;
                 // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("userDetailAddress").value = "";
                 document.getElementById("userDetailAddress").focus();
             }
         }).open();
     }
-</script>
+	</script>
 	<script>
 		const autoHyphen2 = (target) => {
 		 target.value = target.value

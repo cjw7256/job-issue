@@ -3,159 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel = "stylesheet" href="/css/register.css">
+<link rel="stylesheet" href="/css/register.css">
 </head>
 
-<body class="hold-transition register-page" style="
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-">
+<body class="hold-transition register-page"
+	style="margin-top: 0px; margin-left: 0px; margin-bottom: 0px; margin-right: 0px;">
 	<div id="con">
 		<div id="login">
 			<div id="login_form">
 				<!--로그인 폼-->
+				<h3 class="login">회원가입(개인)</h3>
 
-				<div class="register-box">
+				<form action="/user/register" method="post"
+					th:object="${userRegisterForm}">
+					<div th:if="${#fields.hasGlobalErrors()}">
+						<p th:each="error : ${#fields.globalErrors()}" th:text="${error}">글로벌오류</p>
+					</div>
+					<hr
+						style="margin-bottom: 15px; border: solid 1px rgb(93, 123, 179)">
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">아이디</span>
+							<input type="email" name="userEmail" class="form-control size"
+							placeholder="exsample@sample.com" th:field="*{userEmail}">
+							<div th:errors="*{userEmail}"></div>
+						</label>
+					</div>
 
-					<div class="card">
-						<div class="card-body register-card-body">
-							<h3 class="login">회원가입(개인)</h3>
+					<!--아이디-->
 
-							<form action="/user/register" method="post"
-								th:object="${userRegisterForm}">
-								<div th:if="${#fields.hasGlobalErrors()}">
-									<p th:each="error : ${#fields.globalErrors()}"
-										th:text="${error}">글로벌오류</p>
-								</div>
-								<hr style="margin-bottom:15px; border:solid 1px rgb(93, 123, 179)">
-								<div class="login-input-row-con">
-									<label> <span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">아이디</span>
-										<input type="email" name="userEmail" class="form-control size"
-										placeholder="exsample@sample.com" th:field="*{userEmail}">
-										<div th:errors="*{userEmail}"></div>
-									</label>
-								</div>
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">이름</span>
+							<input type="text" name="userName" class="form-control size"
+							placeholder="이름" th:field="*{userName}">
+							<div th:errors="*{userName}"></div>
+						</label>
+					</div>
 
-								<!--아이디-->
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">생년월일</span>
+							<input type="date" name="userBirth" class="form-control size"
+							max="9999-12-31" placeholder="생년월일" th:field="*{userBirth}">
+							<div th:errors="*{userBirth}"></div>
+						</label>
+					</div>
 
-								<div class="login-input-row-con">
-									<label> <span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">이름</span>
-										<input type="text" name="userName" class="form-control size"
-										placeholder="이름" th:field="*{userName}">
-										<div th:errors="*{userName}"></div>
-									</label>
-								</div>
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">비밀번호</span>
+							<input type="password" name="userPassword"
+							class="form-control size" placeholder="비밀번호"
+							th:field="*{userPassword}">
+							<div th:errors="*{userPassword}"></div>
+						</label>
+					</div>
 
-								<div class="login-input-row-con">
-									<label> <span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">생년월일</span>
-										<input type="date" name="userBirth" class="form-control size"
-										max="9999-12-31" placeholder="생년월일" th:field="*{userBirth}">
-										<div th:errors="*{userBirth}"></div>
-									</label>
-								</div>
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">비밀번호
+								확인</span> <input type="password" class="form-control size"
+							placeholder="비밀번호 확인" name="userPasswordConfirm"
+							th:field="*{userPasswordConfirm}">
+							<div th:errors="*{userPasswordConfirm}"></div>
+						</label>
+					</div>
 
-								<div class="login-input-row-con">
-									<label> <span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">비밀번호</span>
-										<input type="password" name="userPassword"
-										class="form-control size" placeholder="비밀번호"
-										th:field="*{userPassword}">
-										<div th:errors="*{userPassword}"></div>
-									</label>
-								</div>
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">성별</span>
+						</label> <select style="margin: 7px; border: solid 0.5px;"
+							th:field="*{userGender}">
+							<option th:value="N" th:text="'선택'"></option>
+							<option th:value="남자" th:text="'남자'"></option>
+							<option th:value="여자" th:text="'여자'"></option>
+						</select>
+						<div th:errors="*{userGender}"></div>
 
-								<div class="login-input-row-con">
-									<label> <span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">비밀번호
-											확인</span> <input type="password" class="form-control size"
-										placeholder="비밀번호 확인" name="userPasswordConfirm"
-										th:field="*{userPasswordConfirm}">
-										<div th:errors="*{userPasswordConfirm}"></div>
-									</label>
-								</div>
+					</div>
 
-								<div class="login-input-row-con">
-									<label> 
-									<span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">성별</span>
-									</label>
-										<select style="margin:7px; border:solid 0.5px;" th:field="*{userGender}">
-											<option th:value="N" th:text="'선택'"></option>
-											<option th:value="남자" th:text="'남자'"></option>
-											<option th:value="여자" th:text="'여자'"></option>
-									</select>
-										<div th:errors="*{userGender}"></div>
-									
-								</div>
+					<div class="login-input-row-con">
+						<label> <span class="login_form_subject_left"
+							style="text-align: left; font-size: 12px; color: #666">전화번호</span>
+							<input type="text" name="userTel" class="form-control size"
+							th:field="*{userTel}" oninput="autoHyphen2(this)" maxlength="13"
+							placeholder="전화번호">
+							<div th:errors="*{userTel}"></div>
+						</label>
+					</div>
 
-								<div class="login-input-row-con">
-									<label> <span class="login_form_subject_left"
-										style="text-align: left; font-size: 12px; color: #666">전화번호</span>
-										<input type="text" name="userTel" class="form-control size"
-										th:field="*{userTel}" oninput="autoHyphen2(this)"
-										maxlength="13" placeholder="전화번호">
-										<div th:errors="*{userTel}"></div>
-									</label>
-								</div>
-
-								<div class="login-input-row-con">
-									<label>
-										<p style="text-align: left; font-size: 12px; color: #666">우편번호</p>
-										<input type="text" name="userZipCode"
-										class="form-control size" th:field="*{userZipCode}"
-										id="userZipCode" placeholder="우편번호" readonly> <!-- 						<div class="input-group-append"> -->
-										<!-- 							<div class="input-group-text"> --> <!-- 								<span class="fas fa-lock"></span> -->
-										<!-- 							</div> --> <!-- 						</div> --> <input
-										type="button" onclick="sample6_execDaumPostcode()"
-										value="우편번호 찾기">
-										<div th:errors="*{userAddress}"></div>
-								</div>
+					<div class="login-input-row-con">
+						<label>
+							<p style="text-align: left; font-size: 12px; color: #666">우편번호</p>
+							<input type="text" name="userZipCode" class="form-control size"
+							th:field="*{userZipCode}" id="userZipCode" placeholder="우편번호"
+							readonly> <input type="button"
+							onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+							<div th:errors="*{userAddress}"></div>
+					</div>
 
 
-								<div class="login-input-row-con">
-									<input type="text" name="userAddress" class="form-control size"
-										th:field="*{userAddress}" id="userAddress" placeholder="주소"
-										readonly>
-								</div>
+					<div class="login-input-row-con">
+						<input type="text" name="userAddress" class="form-control size"
+							th:field="*{userAddress}" id="userAddress" placeholder="주소"
+							readonly>
+					</div>
 
-								<div class="login-input-row-con">
-									<input type="text" name="userDetailAddress"
-										class="form-control size" th:field="*{userDetailAddress}"
-										id="userDetailAddress" placeholder="상세주소">
-									</label>
-								</div>
-								<div class="row">
-									<div class="col-8">
-										<div class="icheck-primary" style="margin-top: 8px; margin-bottom: 10px;">
-											<input type="checkbox" id="agreeTerms" name="terms"
-												value="agree"> <label for="agreeTerms"> 약관에
-												동의합니다 <a href="#">약관</a>
-											</label>
-										</div>
-									</div>
-									
-									<div class="col-4 align-center">
-										<button type="submit" class="btn btn-primary btn-block">회원가입</button>
-									</div>
-									<!-- /.col -->
-								</div>
-							</form><br>
-							<div class="align-center">
-								<a href="/user/login" class="text-center">로그인 페이지로 이동</a>
+					<div class="login-input-row-con">
+						<input type="text" name="userDetailAddress"
+							class="form-control size" th:field="*{userDetailAddress}"
+							id="userDetailAddress" placeholder="상세주소"> </label>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<div class="icheck-primary"
+								style="margin-top: 8px; margin-bottom: 10px;">
+								<input type="checkbox" id="agreeTerms" name="terms"
+									value="agree"> <label for="agreeTerms"> 약관에
+									동의합니다 <a href="#">약관</a>
+								</label>
 							</div>
 						</div>
-						<!-- /.form-box -->
-					</div>
-					<!-- /.card -->
-				</div>
 
+						<div class="col-4 align-center">
+							<button type="submit" class="btn btn-primary btn-block">회원가입</button>
+						</div>
+						<!-- /.col -->
+					</div>
+				</form>
+				<br>
+				<div class="align-center">
+					<a href="/user/login" class="text-center">로그인 페이지로 이동</a>
+				</div>
 			</div>
+			<!-- /.form-box -->
 		</div>
+		<!-- /.card -->
 	</div>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -207,13 +191,28 @@
             }
         }).open();
     }
-</script>
+	</script>
 	<script>
 		const autoHyphen2 = (target) => {
 		 target.value = target.value
 		   .replace(/[^0-9]/g, '')
 		  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 		}
+	</script>
+	<script>
+	var today = new Date();
+	var endDay = new Date( today.getFullYear()-13, today.getMonth(), today.getDate() );
+
+	$('[name=userBirth]').datepicker({
+		dateFormat: 'yy-mm-dd',
+		changeYear: true,
+		changeMonth: true,	
+		showMonthAfterYear: true,
+		dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+		monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		maxDate: endDay
+		//beforeShowDay: after	//오늘 이후로 선택 못하게 하는 함수
+	});
 	</script>
 </body>
 </html>

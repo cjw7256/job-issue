@@ -32,4 +32,22 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userDAO.findUserByEmail(userEmail);
 	}
+	
+	@Override
+	public UserVO findUserByTel(String userTel) throws Exception {
+		// TODO Auto-generated method stub
+		return userDAO.findUserByTel(userTel);
+	}
+
+	@Override
+	public Integer modifyUserInfo(UserRegisterForm userRegisterForm) throws Exception {
+		// TODO Auto-generated method stub
+		return userDAO.modifyUserInfo(userRegisterForm);
+	}
+
+	@Override
+	public Integer dropUserByEmail(String userEmail) throws Exception {
+		// TODO Auto-generated method stub
+		return userDAO.dropUserByEmail(userEmail);
+	}
 }

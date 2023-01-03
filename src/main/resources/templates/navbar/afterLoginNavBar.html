@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-		 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:fragment="headerNavBarHead">
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,26 +18,29 @@
 		<ul class="nav justify-content-end" id="topBar">
 			<li class="nav-item"><a class="nav-link active"
 				aria-current="page" th:onclick="|location.href='@{/}'|">Mainpage</a></li>
-			<li class="nav-item"><a class="nav-link" href="/mypage">MyPage</a>
+			<li class="nav-item"><a class="nav-link" href="/user/myPage">MyPage</a>
 			</li>
-			<li class="nav-item"><a class="nav-link" href="/logout">
+			<li class="nav-item"><a class="nav-link" href="/user/logout">
 					LogOut</a></li>
 		</ul>
 
 		<div>
 			<div class="row" id="searchRow">
-				<img id="logo" src="/images/logo.png" th:onclick="|location.href='@{/}'|"></img>
+				<img id="logo" src="/images/logo.png"
+					th:onclick="|location.href='@{/}'|"></img>
 
-				<div class="input-group mb-3" id="search">
-					<input type="text" class="form-control" id="searchForm"
-					 placeholder="검색어를 입력하세요."
-						aria-label="Recipient's username" aria-describedby="button-addon2">
-					<button class="btn btn-outline-secondary" type="button"
-						id="search-button">
-						<img class="searchImg" src="/images/search.png"></img>
-					</button>
-				</div>
-
+				<form th:action="|@{/search}|" method="get">
+					<div class="input-group mb-3" id="search">
+						<input type="text" class="form-control" id="keyword" name="keyword"
+							th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}"
+							placeholder="검색어를 입력하세요" aria-label="Recipient's username"
+							aria-describedby="button-addon2">
+						<button class="btn btn-outline-secondary" type="button"
+							id="search-button">
+							<img class="searchImg" src="/images/search.png"></img>
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -64,15 +67,16 @@
 
 						<!-- {/* 기업서비스 */} -->
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/corporationService"
+							class="nav-link dropdown-toggle" th:href="@{|/manageOpening}"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								기업 서비스 </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" th:onclick="|location.href='@{/jobOpening}'|">공고 등록</a></li>
-								<li><a class="dropdown-item" th:onclick="|location.href='@{/manageOpening}'|">공고
-										관리</a></li>
-								<li><a class="dropdown-item" href="/applicantManage">지원자
-										관리</a></li>
+								<li><a class="dropdown-item"
+									th:onclick="|location.href='@{/jobOpening}'|">공고 등록</a></li>
+								<li><a class="dropdown-item"
+									th:onclick="|location.href='@{/manageOpening}'|">공고 관리</a></li>
+								<li><a class="dropdown-item"
+									th:onclick="|location.href='@{/applicantManage}'|">지원자 관리</a></li>
 							</ul></li>
 
 
@@ -99,8 +103,6 @@
 				</div>
 			</div>
 		</nav>
-
-
 
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
