@@ -34,6 +34,7 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute("loginUser");
 
+		log.info("userInfo {}", userVO);
 		String UserEmail = userVO.getUserEmail();
 
 		model.addAttribute("userVO", userVO);

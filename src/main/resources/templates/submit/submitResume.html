@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-	<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
     <link rel="stylesheet" href="/css/jobOpening.css">
-<title>이력서 insert 페이지</title>
+<title>이력서 관리 페이지</title>
 </head>
 <body>
 <div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
 	<div>
 		<div class="body">
 		<div class="card">
-			<h1 class="title">이력서 등록</h1>
+			<h1 class="title">이력서 상세페이지</h1>
 		<div>
-			<form action="" method="post" th:object="${resumeItem}">
+			<form action="" method="post" th:object="${submitResume}">
 				<div class="bundle">
         			<div class="row" >
             			이력서제목 :
             				<input class="form-control form-control-sm" id="ResumeTitle"
             					type="text" placeholder="이력서제목을 입력해주세요."
-            					aria-label=".form-control-sm example" th:field="*{ResumeTitle}">
+            					aria-label=".form-control-sm example" th:field="*{ResumeTitle}"disabled>
         			</div>
         		</div>
 				<div class="bundle">
@@ -27,14 +27,15 @@
             			사용할이메일 :
             				<input class="form-control form-control-sm" id="UserResumeEmail"
             					type="text" placeholder="사용할 이메일을 입력해주세요."
-            					aria-label=".form-control-sm example" th:field="*{UserResumeEmail}">
+            					aria-label=".form-control-sm example" th:field="*{UserResumeEmail}"disabled>
         			</div>
         		</div>
-				
+
 				<div class="container">
         			<div class="row">
         				희망 고용 형태 : 
     					<select 
+    					disabled
     					id="recruitField"
     					class="form-select" 
     					th:field="*{employTypeCode}"
@@ -49,11 +50,12 @@
 			    		</select>
     				</div>
 				</div>
-				
+
 				<div class="container">
         			<div class="row">
         				선호 직종 형태 : 
     					<select 
+    					disabled
     					id="recruitField"
     					class="form-select" 
     					th:field="*{recruitFieldCode}"
@@ -67,11 +69,12 @@
 			    		</select>
     				</div>
 				</div>
-				
+
 				<div class="container">
         			<div class="row">
         				최종학력 : 
     					<select 
+    					disabled
     					id="recruitField"
     					class="form-select" 
     					th:field="*{academicRecordCode}"
@@ -85,11 +88,12 @@
 			    		</select>
     				</div>
 				</div>
-				
+
 				<div class="container">
         			<div class="row">
         				경력 : 
     					<select 
+    					disabled
     					id="recruitField"
     					class="form-select" 
     					th:field="*{careerCode}"
@@ -103,12 +107,12 @@
 			    		</select>
     				</div>
 				</div>
-				
-			
+
+
 				<div class="bundle">
     				<div>병역여부</div>
     				<div th:each="type : ${militaryStatuses}" class="form-check form-check-inline">
-        				<input type="radio" th:field="*{MilitaryStatus}" th:value="${type.name()}"
+        				<input disabled type="radio" th:field="*{MilitaryStatus}" th:value="${type.name()}"
                				class="form-check-input">
         				<label th:for="${#ids.prev('MilitaryStatus')}" th:text="${type.description}"
                				class="form-check-label">
@@ -116,11 +120,11 @@
         				</label>
     				</div>
 				</div>
-				
+
 				<div class="bundle">
     				<div>결혼여부</div>
     				<div th:each="type : ${maritalStatuses}" class="form-check form-check-inline">
-        				<input type="radio" th:field="*{MaritalStatus}" th:value="${type.name()}"
+        				<input disabled type="radio" th:field="*{MaritalStatus}" th:value="${type.name()}"
                				class="form-check-input">
         				<label th:for="${#ids.prev('MaritalStatus')}" th:text="${type.description}"
                				class="form-check-label">
@@ -128,43 +132,43 @@
         				</label>
     				</div>
 				</div>
-				
+
 				<div class="bundle">
 				<label for="floatingTextarea">자격증</label>
-  					<textarea class="form-control" placeholder="보유한 자격증을 자유롭게 적어주세요."
+  					<textarea disabled class="form-control" placeholder="보유한 자격증을 자유롭게 적어주세요."
   					 id="License" th:field="*{License}"></textarea>
-  					
+
 				</div>
-				
+
 				<div class="bundle">
 				<label for="floatingTextarea">대외활동</label>
-  					<textarea class="form-control" placeholder="대외활동을 자유롭게 적어주세요."
+  					<textarea disabled class="form-control" placeholder="대외활동을 자유롭게 적어주세요."
   					 id="Activity" th:field="*{Activity}"></textarea>
-  					
+
 				</div>
-				
+
 				<div class="bundle">
         			<div class="row" >
             			자기소개서 :
-            				<input class="form-control form-control-sm" id="CoverLetter"
+            				<input disabled class="form-control form-control-sm" id="CoverLetter"
             					type="text" placeholder="자기소개서를 입력해주세요."
             					aria-label=".form-control-sm example" th:field="*{CoverLetter}">
         			</div>
         		</div>
-        		
+
         		<div class="bundle">
         			<div class="row" >
             			포트폴리오 :
-            				<input class="form-control form-control-sm" id="Portfolio"
+            				<input disabled class="form-control form-control-sm" id="Portfolio"
             					type="text" placeholder="포트폴리오를 입력해주세요."
             					aria-label=".form-control-sm example" th:field="*{Portfolio}">
         			</div>
         		</div>
-        		
+
 				<div class="bundle">
     				<div>열람여부</div>
     				<div th:each="type : ${readingCodes}" class="form-check form-check-inline">
-        				<input type="radio" th:field="*{ReadingCode}" th:value="${type.name()}"
+        				<input disabled type="radio" th:field="*{ReadingCode}" th:value="${type.name()}"
                				class="form-check-input">
         				<label th:for="${#ids.prev('ReadingCode')}" th:text="${type.description}"
                				class="form-check-label">
@@ -173,16 +177,17 @@
     				</div>
 				</div>
 				
-				
-				<div class="buttonSet">
-			        <button type="submit" id="opening" class="btn btn-primary">저장하기</button>
-        			<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">취소하기</button>
-    			</div>
+							
 			</form>
 		</div>
-		
+			<div class="buttonSet">
+				
+				<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/submit/dosubmit/{userCode}(userCode=${submitResume.userCode})}'|">제출</button>
+				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">취소</button>
+			</div>
 		</div>
 		</div>
 	</div>
+	
 </body>
 </html>
