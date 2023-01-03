@@ -99,10 +99,10 @@
 			 		<th>신청일시</th>
 			 	</thead>
 			 	<tbody>
-			 		<tr th:each="list : ${preRecList}" th:if="${listStat.index}<5">
-			 			<td th:text="${list.announcement}">공고명</td>
-			 			<td th:text="${list.corName}">기업명</td>
-			 			<td th:text="${list.recruitWriteDate}">신청일시</td>
+			 		<tr th:each="list : ${preRecList}"> 		
+				 		<td th:text="${list.announcement}">공고명</td>
+				 		<td th:text="${list.corName}">기업명</td>
+				 		<td th:text="${list.recruitWriteDate}">신청일시</td>
 			 		</tr>
 			 	</tbody>
 			</table>
@@ -113,13 +113,13 @@
 			<h2><b>최근 가입한 일반 회원</b></h2>
 			<table class="table table-hover">
 			 	<thead>
-			 		<th>회원 타입</th>
+			 		<th>회원번호</th>
 			 		<th>회원명</th>
 			 		<th>가입일시</th>
 			 	</thead>
 			 	<tbody> 
-			 		<tr th:each="users : ${userList}" th:if="${usersStat.index}<5">
-			 			<td th:text="${users.userType}">회원 타입</td>
+			 		<tr th:each="users : ${userList}">
+			 			<td th:text="${users.userCode}">회원코드</td>
 			 			<td th:text="${users.userName}">회원명</td>
 			 			<td th:text="${users.userJoinDate}">가입일시</td>
 			 		</tr>
@@ -132,13 +132,13 @@
 			<h2><b>최근 가입한 기업 회원</b></h2>
 			<table class="table table-hover">
 			 	<thead>
-			 		<th>회원 타입</th>
+			 		<th>회원번호</th>
 			 		<th>회원명</th>
 			 		<th>가입일시</th>
 			 	</thead>
 			 	<tbody> 
-			 		<tr th:each="users : ${corUserList}" th:if="${usersStat.index}<5">
-			 			<td th:text="${users.userType}">회원 타입</td>
+			 		<tr th:each="users : ${corUserList}">
+			 			<td th:text="${users.userCode}">회원코드</td>
 			 			<td th:text="${users.userName}">회원명</td>
 			 			<td th:text="${users.userJoinDate}">가입일시</td>
 			 		</tr>

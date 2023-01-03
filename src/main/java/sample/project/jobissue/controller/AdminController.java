@@ -30,6 +30,7 @@ import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.JobRepository;
+import sample.project.jobissue.service.AdminService;
 import sample.project.jobissue.session.SessionManager;
 
 @Slf4j
@@ -40,6 +41,7 @@ public class AdminController {
 
 	private final JobRepository jobRepository;
 	private final AdminRepository adminRepository;
+	private final AdminService adminService;
 
 	@GetMapping
 	public String mainAdminPage(Model model, HttpServletRequest req, HttpServletResponse resp) { //관리자 페이지 처음 들어왔을 때 보이는 화면->무엇을 보이게 할 것인지?
@@ -87,11 +89,11 @@ public class AdminController {
 		}
 		log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
 
-		List<PreRecruitment>preRecList = adminRepository.selectPreAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
+		List<PreRecruitment>preRecList = adminRepository.selPreForMain(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
-		List<UserVO> corUserList = adminRepository.selectCorUserInfoList(); //userinfo쪽에서 받아오는 회원 정보를 출력하기 위해 데이터 넘김
+		List<UserVO> corUserList = adminRepository.selCorForMain(); //userinfo쪽에서 받아오는 회원 정보를 출력하기 위해 데이터 넘김
 
-		List<UserVO> userList = adminRepository.selectUserInfoList();
+		List<UserVO> userList = adminRepository.selUserForMain();
 
 		model.addAttribute("user", userVO);
 		model.addAttribute("preRecList", preRecList);
@@ -103,25 +105,17 @@ public class AdminController {
 
 	@GetMapping("/applyRec")
 	public String applyAnnPage(Model model) { //공고 신청 리스트가 보이는 화면 - 승인을 기다리는 공고 리스트가 보임
-
 		List<PreRecruitment>preRecList = adminRepository.selectPreAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
-		List<UserVO> corUserList = adminRepository.selectCorUserInfoList(); //userinfo쪽에서 받아오는 회원 정보를 출력하기 위해 데이터 넘김
-
-		List<UserVO> userList = adminRepository.selectUserInfoList();
-
 		model.addAttribute("preRecList", preRecList);
-		model.addAttribute("corUserList", corUserList);
-		model.addAttribute("userList", userList);
-
+		
 		return "/admin/applyRecruit";
 	}
 
 	//공고 승인 - 공고 상세 페이지
 	@GetMapping("/applyRec/{announcementCode}")
 	public String applyAnnDetailPage(Model model, @PathVariable("announcementCode") int annCode) {
-
-		//특정 공고
+		//특정 공고를 찾아오는 페이지
 		PreRecruitment preRec = adminRepository.selectPreByAnnCode(annCode);
 
 		log.info("preRec {}", preRec);
@@ -131,49 +125,15 @@ public class AdminController {
 	}
 
 	@Transactional
-	@PostMapping("/applyRec/applyPost") //공고 승인 처리
+	@PostMapping("/applyRec/applyPost") //공고 승인 처리 페이지
 	public String applyAnnPostPage(@RequestParam int annCode) {
-		PreRecruitment preRec = adminRepository.selectPreByAnnCode(annCode); //공고 번호로 임시 저장된 공고 찾기
-
-		log.info("applyAnnPostPage pre {}", preRec);
-
-		preRec.setRecruitField("01"); //값이 너무 커서 안 들어간대서 임시로 저장
-
-		//임시 저장된 공고 저장하기
-		adminRepository.insertPreToRecru(preRec);
-
-		adminRepository.insertPreToMulEmp(annCode, preRec.getEmployType());
-		adminRepository.insertPreToMulWork(annCode, preRec.getWorkingArea());
-		adminRepository.insertPreToMulAca(annCode, preRec.getAcademicRecord());
-
-		log.info("applyAnnPostPage 임시 저장된 공고 -> 승인 완료");
-
-		//임시 저장 공고 승인 코드 변경하기~
-		preRec.setApplyStat("01"); //이쪽 경로로 들어오면 stat을 01로 바꿔줌(승인되었다는 거니까)
-
-		adminRepository.updatePreStat(preRec.getApplyStat(), annCode);
-
-		log.info("applyAnnPostPage 승인코드 변경 완료");
-
+		adminService.applyRec(annCode);
 		return "redirect:/adminPage/applyRec";
 	}
 
-
 	@PostMapping("/applyRec/rejPost") //공고 거절 처리
 	public String rejectAnnPostPage(@RequestParam int annCode) { 
-
-		log.info("rej {}", annCode);	
-
-		PreRecruitment preRec = adminRepository.selectPreByAnnCode(annCode); //공고 번호로 임시 저장된 공고 찾기
-
-		log.info("applyAnnPostPage 임시 저장된 공고 -> 거절");
-
-		//임시 저장 공고 승인 코드 변경 => 거절
-
-		preRec.setApplyStat("02");
-
-		adminRepository.updatePreStat(preRec.getApplyStat(), annCode);
-
+		adminService.rejectRec(annCode);
 		return "redirect:/adminPage/applyRec";
 	}
 
@@ -182,8 +142,6 @@ public class AdminController {
 	public String closedAnnPage(Model model) { 
 		log.info("공고 삭제 페이지");
 		List<JobItem> recAllList = jobRepository.selectAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
-
-		log.info("{}", recAllList.get(0));
 
 		model.addAttribute("recAllList", recAllList);
 
@@ -196,7 +154,7 @@ public class AdminController {
 		//특정 공고 상세 페이지 정보 띄우기
 		JobItem delRec = jobRepository.selectByAnnCode(annCode);
 
-		log.info("deleteRec {}", delRec);
+		log.info("공고 상세 페이지 deleteRec {}", delRec);
 		model.addAttribute("delRec", delRec);
 
 		return "/admin/delAdminDetail";
@@ -205,22 +163,11 @@ public class AdminController {
 	//공고 삭제 페이지 - 공고 삭제 처리
 	@PostMapping("/deleteRec/delPost")
 	public String closedAnnPostPage(@RequestParam int annCode) { 
-		log.info("annCode {}", annCode);
-
-		//공고 삭제 처리 메소드 - 넘어온 공고번호를 이용, 우선 해당 객체를 찾음
-		JobItem jobItem = jobRepository.selectByAnnCode(annCode);
-
-		//위의 객체를 파라미터로 넘겨서, rec -> del로 정보 추가 
-		adminRepository.insertRecruToDel(jobItem);
-
-		//마찬가지로 넘어온 공고번호를 이용, rec에서 삭제
-		adminRepository.deleteRecByAdmin(annCode);
-
-		log.info("공고 삭제 처리 완료");
-
+		adminService.deleteRec(annCode);
 		return "redirect:/adminPage/deleteRec";
 	}
 
+	
 	//회원 관리 페이지 - 일반 회원 리스트 보여줌
 	@GetMapping("/manageUser")
 	public String manageUserPage(Model model) {
@@ -284,36 +231,13 @@ public class AdminController {
 
 	//회원 관리 페이지 - 기업 회원 정보 삭제 처리
 		@PostMapping("/manageCor/delInfo")
-		public String delUserDetail(@RequestParam("userCode") int userCode, @RequestParam("corCode") int corCode) { 
+		public String delCorDetail(@RequestParam("userCode") int userCode, @RequestParam("corCode") int corCode) { 
 			log.info("corCode {}", corCode);
 
-			//메소드 실행 -> corporation info , user_info, recruitment, pre~ 전부 지워져야 함
-			adminRepository.deleteCorUserByAdmin(userCode, corCode);
-
-			//recru 삭제
-			List<Integer> annCodes =  adminRepository.selectRecCodes(corCode);
-			
-			if(!annCodes.isEmpty() & annCodes != null) {
-				for(int annCode : annCodes) {
-					adminRepository.deleteRecByAdmin(annCode); //돌면서 annCode를 넣어주면서 삭제할 수 있게!
-				}
-			}
-			
-			//pre~ 삭제
-			List<Integer> preAnnCodes = adminRepository.selectPreRecCodes(corCode);
-			
-			if(!preAnnCodes.isEmpty() & preAnnCodes != null) {
-				for(int preAnnCode : preAnnCodes) {
-					adminRepository.deletePreRecByAdmin(preAnnCode); //돌면서 annCode를 넣어주면서 삭제할 수 있게!
-				}
-			}
-			
-			log.info("기업 회원정보 삭제 처리 완료");
+			adminService.deleteCorDetail(userCode, corCode);
 
 			return "redirect:/adminPage/manageCor";
 		}
-
-
 
 
 }
