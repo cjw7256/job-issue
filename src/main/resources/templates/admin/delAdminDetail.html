@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+	crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<link rel="stylesheet" href="/css/adminPage.css">
+<link rel="stylesheet" href="/css/jobOpening.css">
+<title>관리자 페이지</title>
+</head>
+<body>
+	<div class="wrapper">
+		<!-- Sidebar Holder -->
+		<nav id="sidebar">
+			<div class="sidebar-header">
+				<h5>
+					<!-- <b th:text="${user.userName}" style="text-align:center"></b>님이 -->
+					<br> 접속하셨습니다
+				</h5>
+			</div>
+
+			<ul class="list-unstyled components">
+				<a href="/adminPage"><p
+						style="position: relative; left: 35%; font-weight: bold">메인</p></a>
+				<li><a href="#corSubmenu" data-toggle="collapse"
+					aria-expanded="false" class="dropdown-toggle"><b>공고 관리</b></a>
+					<ul class="collapse list-unstyled" id="corSubmenu">
+						<li><a href="/adminPage/applyRec">공고 승인 관리</a></li>
+						<li><a href="/adminPage/deleteRec">공고 삭제 관리</a></li>
+					</ul></li>
+				<li><a href="#userSubmenu" data-toggle="collapse"
+					aria-expanded="false" class="dropdown-toggle"><b>회원 관리</b></a>
+					<ul class="collapse list-unstyled" id="userSubmenu">
+						<li><a href="/adminPage/manageUser">일반 회원 관리</a></li>
+						<li><a href="/adminPage/manageCor">기업 회원 관리</a></li>
+						<!-- <li><a href="#">Page 2</a></li> -->
+					</ul></li>
+			</ul>
+		</nav>
+
+		<!-- Page Content Holder -->
+		<div id="content">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<button type="button" id="sidebarCollapse" class="navbar-btn">
+						<span></span> <span></span> <span></span>
+					</button>
+					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
+						type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<svg class="svg-inline--fa fa-align-justify fa-w-14"
+							aria-hidden="true" data-prefix="fas" data-icon="align-justify"
+							role="img" xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 448 512" data-fa-i2svg="">
+							<path fill="currentColor"
+								d="M0 84V44c0-8.837 7.163-16 16-16h416c8.837 0 16 7.163 16 16v40c0 8.837-7.163 16-16 16H16c-8.837 0-16-7.163-16-16zm16 144h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 256h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0-128h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
+						<!-- <i class="fas fa-align-justify"></i> -->
+					</button>
+
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="nav navbar-nav ml-auto">
+							<li class="nav-item"><a class="nav-link"
+								href=" /adminPage/applyRec">공고 승인 관리</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="/adminPage/deleteRec">공고 삭제 관리</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+			<h2>
+				<b>공고 상세</b>
+			</h2>
+			
+			<div class="body">
+				<div class="card">
+					<div class="bundle">
+						<div class="mb-3 row">
+							<label for="staticAnnouncementCode" class="col-sm-2 col-form-label">
+								공고번호
+							</label>
+							<div class="col-sm-10">
+								<input type="number" readonly class="form-control-plaintext"
+									id="staticAnnouncementCode" th:value="${delRec.announcementCode}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticAnnouncement" class="col-sm-2 col-form-label">
+								공고명
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticAnnouncement" th:value="${delRec.announcement}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticCorName" class="col-sm-2 col-form-label">
+								기업명
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticCorName" th:value="${delRec.corName}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticRecruitField" class="col-sm-2 col-form-label">
+								모집분야
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticRecruitField" th:value="${delRec.recruitField}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticSalary" class="col-sm-2 col-form-label">
+								급여
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticSalary" th:value="${delRec.salary}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticCareer" class="col-sm-2 col-form-label">
+								경력
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticCareer" th:value="${delRec.career}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticRecruitPerson" class="col-sm-2 col-form-label">
+								모집인원
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticRecruitPerson" th:value="${delRec.recruitPerson}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticEmployType" class="col-sm-2 col-form-label">
+								고용형태
+							</label>
+							<div class="col-sm-10" >
+								<input type="hidden" readonly class="form-control-plaintext"
+									id="staticEmployType" th:value="${delRec.employType}">
+								<div th:each="emt : ${delRec.employType}">
+									<span readonly class="form-control-plaintext" th:text="${emt}">
+								</div>
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticWorkingArea" class="col-sm-2 col-form-label">
+								근무지역
+							</label>
+							<div class="col-sm-10" >
+								<input type="hidden" readonly class="form-control-plaintext"
+									id="staticWorkingArea" th:value="${delRec.workingArea}">
+								<div th:each="wa : ${delRec.workingArea}">
+									<span readonly class="form-control-plaintext" th:text="${wa}">
+								</div>
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticAcademicRecord" class="col-sm-2 col-form-label">
+								학력
+							</label>
+							<div class="col-sm-10" >
+								<input type="hidden" readonly class="form-control-plaintext"
+									id="staticAcademicRecord" th:value="${delRec.academicRecord}">
+								<div th:each="aca : ${delRec.academicRecord}">
+									<span readonly class="form-control-plaintext" th:text="${aca}">
+								</div>
+							</div>
+						</div>
+						<div class="mb-2 row">
+							<label for="staticReceiptStartDate" class="col-sm-2 col-form-label">
+								게시 시작일
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticReceiptStartDate" th:value="${delRec.receiptStartDate}">
+							</div>
+						</div>
+						<div class="mb-2 row">
+							<label for="staticReceiptEndDate" class="col-sm-2 col-form-label">
+								게시 종료일
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticReceiptEndDate" th:value="${delRec.receiptEndDate}">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="staticRecruitWriteDate" class="col-sm-2 col-form-label">
+								공고 작성일
+							</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticRecruitWriteDate" th:value="${delRec.recruitWritedate}">
+							</div>
+						</div>
+						<form action="delPost" method="post">
+							<input type="hidden" name="annCode" th:value=${delRec.announcementCode}>
+							<div class="buttonSet">
+								<button type="submit" class="btn btn-primary">공고 삭제</button>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<!-- script!!!!  -->
+				<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+					integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+					crossorigin="anonymous"></script>
+
+				<script
+					src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+					integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+					crossorigin="anonymous"></script>
+
+				<script
+					src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+					integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+					crossorigin="anonymous"></script>
+
+
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$('#sidebarCollapse').on('click', function() {
+							$('#sidebar').toggleClass('active');
+							$(this).toggleClass('active');
+						});
+					});
+				</script>
+				
+				<script
+					src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+					integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+					crossorigin="anonymous"></script>
+</body>
+</html>

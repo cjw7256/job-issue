@@ -85,9 +85,9 @@ public class MybatisJobRepository implements JobRepository{
 		// TODO Auto-generated method stub
 		JobItem jobItem = jobMapper.selectByAnnCode(listAnnCode);
 		log.info("selectByAnnCode {}", listAnnCode);
+		log.info("select complete {}", jobItem);
 
 		return jobItem;
 	}
-
 	
 }

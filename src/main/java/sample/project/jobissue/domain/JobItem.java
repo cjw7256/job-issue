@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class JobItem {
@@ -32,5 +33,8 @@ public class JobItem {
 	
 	private LocalDate receiptStartDate;
 	private LocalDate receiptEndDate;
-
+	
+	private LocalDate recruitWritedate;
+	
+	
 }
