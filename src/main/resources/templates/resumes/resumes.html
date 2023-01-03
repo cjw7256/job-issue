@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
     <link rel="styleSheet" href="/css/manageOpening.css">
 <title>이력서 관리 페이지</title>
 </head>
 <body>
-<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
+<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
 	<div>
 		<div class="body">
 		<div class="card">
@@ -22,7 +22,7 @@
       <tbody>
             <!-- for문 사용 -->
           <tr th:each="resume : ${resumes}">
-            	<td id="resumeTitle"><a th:href="@{|/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
+            	<td id="resumeTitle"><a th:href="@{|/resumes/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
           </tr>
           </tbody>
         </table>

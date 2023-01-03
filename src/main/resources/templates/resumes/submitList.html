@@ -10,7 +10,7 @@
 
 	<div class="body">
     <div class="card" >
-    	<h1 class="title">채용정보 상세 페이지</h1>
+    	<h1 class="title">지원현황 채용정보 상세 페이지</h1>
 	<div>
 		<table class="table table-hover">
 			<thead>
@@ -26,16 +26,16 @@
 
 			<tbody>
 				<tr>
-					<td th:text="${list.corName}">회사명</td>
-					<td th:text="${list.announcement}">채용내용</td>
-					<td th:text="${list.salary}">급여</td>
+					<td th:text="${submitList.corName}">회사명</td>
+					<td th:text="${submitList.announcement}">채용내용</td>
+					<td th:text="${submitList.salary}">급여</td>
 					<td>
-						<span th:each="option : ${list.employType}" th:text="|${option} |">채용타입</span>
+						<span th:each="option : ${submitList.employType}" th:text="|${option} |">채용타입</span>
 					</td>
 					<td>
-						<span th:each="option : ${list.workingArea}" th:text="|${option} |">근무지역</span>
+						<span th:each="option : ${submitList.workingArea}" th:text="|${option} |">근무지역</span>
 					</td>
-					<td th:text="${list.career}">경력</td>
+					<td th:text="${submitList.career}">경력</td>
 				</tr>
 			</tbody>
 					
@@ -52,19 +52,19 @@
 					<tr>
 			
 					<td>
-						<span th:each="option : ${list.academicRecord}" th:text="|${option} |">학력</span>
+						<span th:each="option : ${submitList.academicRecord}" th:text="|${option} |">학력</span>
 					</td>
-					<td th:text="${list.recruitField}">직종</td>
-					<td th:text="${list.recruitPerson}">모집인원</td>
-					<td th:text="${list.receiptStartDate}">시작일</td>
-					<td th:text="${list.receiptEndDate}">마감일</td>
+					<td th:text="${submitList.recruitField}">직종</td>
+					<td th:text="${submitList.recruitPerson}">모집인원</td>
+					<td th:text="${submitList.receiptStartDate}">시작일</td>
+					<td th:text="${submitList.receiptEndDate}">마감일</td>
 					</tr>
 			</tbody>
 		</table>
 				
 				<div class="buttonSet">
-					<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/submit/{userCode}(userCode=${submitResume?.userCode})}'|">지원하기</button>
-					<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/lists}'|">뒤로가기</button>
+				<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/resumes/submitResume/delete/{userCode}(userCode=${submitResume2?.userCode})}'|">이력서삭제</button>
+					<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">뒤로가기</button>
 				</div>
 			</div>
 		</div>

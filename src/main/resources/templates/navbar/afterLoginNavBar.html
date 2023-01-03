@@ -59,10 +59,9 @@
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								개인 서비스 </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/creatResume">이력서 작성</a></li>
-								<li><a class="dropdown-item" href="/managementResume">이력서
-										관리</a></li>
-								<li><a class="dropdown-item" href="/applyStatus">지원현황</a></li>
+					<li><a class="dropdown-item" th:href="@{|/resumes/insert|}">이력서 작성</a></li>
+                    <li><a class="dropdown-item" th:href="@{|/resumes/resumes|}">이력서 관리</a></li>
+                    <li><a class="dropdown-item" th:href="@{|/resumes/submitLists|}">지원현황</a></li>
 							</ul></li>
 
 						<!-- {/* 기업서비스 */} -->
