@@ -13,7 +13,7 @@
 		<div class="card">
 			<h1 class="title">이력서 상세페이지</h1>
 		<div>
-			<form action="" method="post" th:object="${resume}">
+			<form action="" method="post" th:object="${submitResume}">
 				<div class="bundle">
         			<div class="row" >
             			이력서제목 :
@@ -30,7 +30,7 @@
             					aria-label=".form-control-sm example" th:field="*{UserResumeEmail}"disabled>
         			</div>
         		</div>
-				
+
 				<div class="container">
         			<div class="row">
         				희망 고용 형태 : 
@@ -50,7 +50,7 @@
 			    		</select>
     				</div>
 				</div>
-				
+
 				<div class="container">
         			<div class="row">
         				선호 직종 형태 : 
@@ -69,7 +69,7 @@
 			    		</select>
     				</div>
 				</div>
-				
+
 				<div class="container">
         			<div class="row">
         				최종학력 : 
@@ -88,7 +88,7 @@
 			    		</select>
     				</div>
 				</div>
-				
+
 				<div class="container">
         			<div class="row">
         				경력 : 
@@ -107,8 +107,8 @@
 			    		</select>
     				</div>
 				</div>
-				
-			
+
+
 				<div class="bundle">
     				<div>병역여부</div>
     				<div th:each="type : ${militaryStatuses}" class="form-check form-check-inline">
@@ -120,7 +120,7 @@
         				</label>
     				</div>
 				</div>
-				
+
 				<div class="bundle">
     				<div>결혼여부</div>
     				<div th:each="type : ${maritalStatuses}" class="form-check form-check-inline">
@@ -132,21 +132,21 @@
         				</label>
     				</div>
 				</div>
-				
+
 				<div class="bundle">
 				<label for="floatingTextarea">자격증</label>
   					<textarea disabled class="form-control" placeholder="보유한 자격증을 자유롭게 적어주세요."
   					 id="License" th:field="*{License}"></textarea>
-  					
+
 				</div>
-				
+
 				<div class="bundle">
 				<label for="floatingTextarea">대외활동</label>
   					<textarea disabled class="form-control" placeholder="대외활동을 자유롭게 적어주세요."
   					 id="Activity" th:field="*{Activity}"></textarea>
-  					
+
 				</div>
-				
+
 				<div class="bundle">
         			<div class="row" >
             			자기소개서 :
@@ -155,7 +155,7 @@
             					aria-label=".form-control-sm example" th:field="*{CoverLetter}">
         			</div>
         		</div>
-        		
+
         		<div class="bundle">
         			<div class="row" >
             			포트폴리오 :
@@ -164,7 +164,7 @@
             					aria-label=".form-control-sm example" th:field="*{Portfolio}">
         			</div>
         		</div>
-        		
+
 				<div class="bundle">
     				<div>열람여부</div>
     				<div th:each="type : ${readingCodes}" class="form-check form-check-inline">
@@ -175,13 +175,15 @@
             				열람
         				</label>
     				</div>
-				</div>				
+				</div>
+				
+							
 			</form>
 		</div>
 			<div class="buttonSet">
-				<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/resumes/update/{userCode}(userCode=${resume.userCode})}'|">이력서수정</button>
-				<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/resumes/resume/delete/{userCode}(userCode=${resume.userCode})}'|">이력서삭제</button>
-				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">뒤로가기</button>
+				
+				<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/submit/dosubmit/{userCode}(userCode=${submitResume.userCode})}'|">제출</button>
+				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">취소</button>
 			</div>
 		</div>
 		</div>

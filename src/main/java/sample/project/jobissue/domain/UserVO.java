@@ -8,8 +8,17 @@ import lombok.Data;
 @Data
 public class UserVO {
 
+//    private String userId;
+//    private String userPw;
+//    private String userName;
+//    private String userEmail;
+//    private LocalDateTime userJoinDate;
+//    private LocalDateTime userLoginDate;
+//    private String userSignature;
+//    private String userImg;
+//    private int userPoint;
+
 	  private int userCode;
-	  private int corCode;
 	  private String userName;
 	  private String userBirth;
 	  private String userGender;

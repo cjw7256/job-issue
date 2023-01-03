@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.LoginDTO;
-import sample.project.jobissue.domain.UserTypeCode;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.mybatis.UserMapper;
 import sample.project.jobissue.validation.LoginForm;
@@ -24,12 +23,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void register(UserRegisterForm userRegisterForm) throws Exception {
     	try {
-    		if(UserTypeCode.USER_TYPE_PERSONAL.equals(userRegisterForm.getUserType())) {
-    			userMapper.register(userRegisterForm);		
-    		}
-    		if(UserTypeCode.USER_TYPE_CORPORATION.equals(userRegisterForm.getUserType())) {
-    			userMapper.registerCop(userRegisterForm);		
-    		}
+    	userMapper.register(userRegisterForm);
     	} catch (Exception e) {
 			// TODO: handle exception
     		log.info("register error {}", e.getMessage());

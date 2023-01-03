@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
-<title>채용 공고 리스트</title>
+<title>지원한 채용 공고 리스트</title>
 </head>
 <body>
 <div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
@@ -11,7 +11,7 @@
 	
 	  <div class="body">
     <div class="card">
-    <h3 class="title">채용정보 전체리스트</h3>
+    <h3 class="title">지원현황</h3>
 		<table class="table table-hover">
 			<thead>
 				<tr>
@@ -22,10 +22,10 @@
 			</thead>
 
 			<tbody>
-				<tr th:each="list : ${lists}" >
-					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.corName}">회사명</a></td>
-					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.announcement}">채용내용</a></td>
-					<td th:text="${list.salary}">급여</td>
+				<tr th:each="submitList : ${submitLists}" >
+					<td><a th:href="@{|/resumes/submitLists/${submitList.announcementCode}|}" th:text="${submitList.corName}">회사명</a></td>
+					<td><a th:href="@{|/resumes/submitLists/${submitList.announcementCode}|}" th:text="${submitList.announcement}">채용내용</a></td>
+					<td th:text="${submitList.salary}">급여</td>
 				</tr>
 			</tbody>
 		</table>

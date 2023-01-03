@@ -22,7 +22,7 @@
       <tbody>
             <!-- for문 사용 -->
           <tr th:each="resume : ${resumes}">
-            	<td id="resumeTitle"><a th:href="@{|/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
+            	<td id="resumeTitle"><a th:href="@{|/resumes/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
           </tr>
           </tbody>
         </table>
