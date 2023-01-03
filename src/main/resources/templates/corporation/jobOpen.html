@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+<link rel="stylesheet" href="../css/jobOpening.css">
+<title>공고</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+</head>
+<style>
+</style>
+<body>
+
+		<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+
+	<form action="" method="post" th:object="${preRecruit}">
+		<div class="body">
+			<div class="card">
+
+				<h3 class="title">공고</h3>
+
+
+				<div class="bundle2">
+					<div class="row">
+						공고명 :
+						<div th:text="${preRecruit.announcement}"></div>
+					</div>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						공고 게시 기간 :
+						<div th:text="${preRecruit.receiptStartDate}"></div>
+						~
+						<div th:text="${preRecruit.receiptEndDate}"></div>
+					</div>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						모집분야 :
+						<div th:text="${preRecruit.recruitField}"></div>
+
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						급 여 :
+						<div th:text="${preRecruit.salary}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row" style="">
+						희망 고용 형태 :
+						<div th:text="${preRecruit.employType}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						희망 경력 :
+						<div th:text="${preRecruit.career}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						근무 가능 지역 : 
+						<div th:text="${preRecruit.workingArea}"></div>
+					</div>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						희망 모집 인원 :
+						<div th:text="${preRecruit.recruitPerson}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						희망 학력 :
+						<div th:text="${preRecruit.academicRecord}"></div>
+					</div>
+				</div>
+
+
+				<div class="buttonSet2">
+
+					<button type="button" id="modifyButton" class="btn btn-primary"
+						th:onclick="|location.href='@{/update/{announcementCode}(announcementCode=${preRecruit.announcementCode})}'|">수정</button>
+					<button type="button" class="btn btn-secondary" id=cancelButton
+						th:onclick="|location.href='@{/manageOpening}'|">취소</button>
+					<button type="button" class="btn btn-danger" id=deleteButton
+						th:onclick=
+						"|location.href='@{/jobOpen/delete/{announcementCode}(announcementCode=${preRecruit.announcementCode})}'|">삭제</button>
+				</div>
+				
+			</div>
+		</div>
+	</form>
+
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+	<script src="../js/select.js"></script>
+	<script src="https://kit.fontawesome.com/9ba603b7d5.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

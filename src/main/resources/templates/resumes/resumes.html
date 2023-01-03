@@ -2,27 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+    <link rel="styleSheet" href="/css/manageOpening.css">
 <title>이력서 관리 페이지</title>
 </head>
 <body>
-	<div>이력서 관리 페이지 입니다.</div>
+<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
 	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>작성한이력서</th>
-				</tr>
-			</thead>
+		<div class="body">
+		<div class="card">
+			<h3 class="title">작성한 이력서</h3>
+		
+		<table class="table">
+      <thead>
+        <tr>
+          <th scope="col" width="100%">이력서제목</th>
+        </tr>
+      </thead>
+      <tbody>
+            <!-- for문 사용 -->
+          <tr th:each="resume : ${resumes}">
+            	<td id="resumeTitle"><a th:href="@{|/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
+          </tr>
+          </tbody>
+        </table>
+        
+		<div id="button2">
+			<button  type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">뒤로가기</button>
+		</div>
 			
-			<tbody>
-				<tr th:each="resume : ${resumes}">
-					<td><a th:href="@{|/resumes/${resume.userCode}|}" th:text="${resume.ResumeTitle}">제목</a></td>
-				</tr>
-			</tbody>
-		</table>
-		<button type="button" th:onclick="|location.href='@{/}'|">뒤로가기</button>
-		<button type="button" th:onclick="|location.href='@{/resumes/insert}'|">이력서추가</button>
-		<button type="button" th:onclick="|location.href='@{/resumes/delete}'|">이력서삭제</button>
 	</div>
+	</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>

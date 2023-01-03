@@ -19,9 +19,11 @@ public interface JobRepository {
 	
 	public void insertMulEmp(@Param("announcementCode") int announcementCode, @Param("empOptions") List<String> options );
 
-	public void insertMulWork(@Param("announcementCode") int announcementCode, @Param("workOptions") List<String> options );
+	public void insertMulWork(@Param("announcementCode") int announcementCode
+			, @Param("workOptions") List<String> options );
 
-	public void insertMulAca(@Param("announcementCode") int announcementCode, @Param("acaOptions") List<String> options );
+	public void insertMulAca(@Param("announcementCode") int announcementCode
+			, @Param("acaOptions") List<String> options );
 
 	public List<JobItem> selectAll();
 
