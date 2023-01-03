@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.CareerCode;
-import sample.project.jobissue.domain.CorporationVO;
 import sample.project.jobissue.domain.EmployTypeCode;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.RecruitFieldCode;
