@@ -55,6 +55,7 @@ public class ResumeController {
 	UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 	List<JobItem> jobList = resumeRepository.selectBySubmit(userVO.getUserCode());
 	model.addAttribute("submitLists",jobList);
+	log.info("submitLists {}", jobList);
 
 	return "/resumes/submitLists";
 	}
