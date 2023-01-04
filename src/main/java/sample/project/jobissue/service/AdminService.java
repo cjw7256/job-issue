@@ -3,6 +3,7 @@ package sample.project.jobissue.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class AdminService {
 	 * @author 윤서연
 	 */
 	public void applyRec(int annCode) {
-		//공고 번호로 임시 저장된 공고 찾기
+		//공고 번호로 승인 대기 상태의 공고 찾기
 		PreRecruitment preRec = adminRepository.selectPreByAnnCode(annCode); 
 		log.info("applyAnnPostPage pre {}", preRec);
 		
@@ -35,11 +36,13 @@ public class AdminService {
 	}
 
 	//승인 대기 공고 저장하기
+	@Transactional
 	private void saveRec(int annCode, PreRecruitment preRec) {
 		adminRepository.insertPreToRecru(preRec);
-		adminRepository.insertPreToMulEmp(annCode, preRec.getEmployType());
-		adminRepository.insertPreToMulWork(annCode, preRec.getWorkingArea());
-		adminRepository.insertPreToMulAca(annCode, preRec.getAcademicRecord());
+		
+		adminRepository.insertPreToMulEmp(annCode, preRec.getEmployTypeCode());
+		adminRepository.insertPreToMulWork(annCode, preRec.getWorkingAreaCode());
+		adminRepository.insertPreToMulAca(annCode, preRec.getAcademicRecordCode());
 		log.info("applyAnnPostPage 임시 저장 완료");
 	}
 	

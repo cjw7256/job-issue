@@ -102,9 +102,10 @@ public class AdminController {
 
 		return "/admin/adminMain";
 	}
-
+	
+	//공고 신청 리스트가 보이는 화면 - 승인대기 공고 리스트가 보임
 	@GetMapping("/applyRec")
-	public String applyAnnPage(Model model) { //공고 신청 리스트가 보이는 화면 - 승인을 기다리는 공고 리스트가 보임
+	public String applyAnnPage(Model model) { 
 		List<PreRecruitment>preRecList = adminRepository.selectPreAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
 		model.addAttribute("preRecList", preRecList);

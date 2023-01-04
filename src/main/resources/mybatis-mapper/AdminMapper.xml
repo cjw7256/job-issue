@@ -74,9 +74,11 @@
 	<id property="announcementCode" column="ANNOUNCEMENT_CODE"></id>
 	<result property="corName" column="cor_name"></result>
 	<result property="announcement" column="announcement"></result>
+	<result property="recruitFieldCode" column="RECRUIT_FIELD_Code"></result>
 	<result property="recruitField" column="RECRUIT_FIELD"></result>
 	<result property="salary" column="salary"></result> <!-- // -->
 	<result property="career" column="career"></result>
+	<result property="careerCode" column="career_Code"></result>
 	<result property="recruitPerson" column="RECRUIT_PERSON"></result>
 	<result property="receiptStartDate" column="receipt_start"></result>
 	<result property="receiptEndDate" column="receipt_end"></result>
@@ -90,12 +92,18 @@
 		select="selectPreWorkingArea"></collection>
 	<collection property="academicRecord" column="ANNOUNCEMENT_CODE"
 		select="selectPreAcademicRecord"></collection>
+	<collection property="employTypeCode" column="ANNOUNCEMENT_CODE"
+		select="selectPreEmployTypeCode"></collection>
+	<collection property="workingAreaCode" column="ANNOUNCEMENT_CODE"
+		select="selectPreWorkingAreaCode"></collection>
+	<collection property="academicRecordCode" column="ANNOUNCEMENT_CODE"
+		select="selectPreAcademicRecordCode"></collection>
 	</resultMap>
 	
-	<!-- 채용 상세 정보 -->
+	<!-- 승인 대기중인 채용공고의  상세 정보 -->
 	<select id="selectPreByAnnCode" resultMap="preRecruitmentMap">
 		SELECT par.cor_code, par.Announcement_Code, par.Announcement, par.SALARY, par.RECRUIT_PERSON, par.RECEIPT_START, par.RECEIPT_END, par.Recruit_writeDate, 
-		cor.cor_name, rfc.RECRUIT_FIELD, c.Career, asu.applyStat
+		cor.cor_name, par.Recruit_Field_Code, rfc.RECRUIT_FIELD, par.career_code, c.Career, asu.applyStat
 		FROM preAppRecru par, corporation_info cor, RecruitFieldCode rfc, CareerCode c , applyStatCode asu
 		WHERE par.Announcement_Code = #{annCode} 
 		AND par.cor_code = cor.cor_code
@@ -126,6 +134,23 @@
 		and pma.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
 	</select>
 	
+	<select id="selectPreEmployTypeCode" resultType="String">
+		SELECT NVL(employtype_code, '')
+		FROM premultiEmp
+		WHERE ANNOUNCEMENT_CODE = #{annCode}
+	</select>
+	
+	<select id="selectPreWorkingAreaCode" resultType="String">
+		SELECT NVL(WORKING_AREA_CODE, '')
+		FROM premultiWorkArea 
+		WHERE ANNOUNCEMENT_CODE = #{annCode}
+	</select>
+	
+	<select id="selectPreAcademicRecordCode" resultType="String">
+		select NVL(ACADEMIC_RECORD_CODE, '') 
+		from premultiAcaReco 
+		where ANNOUNCEMENT_CODE = #{annCode}
+	</select>
 	
 	<!-- insert문  -->
 	
@@ -134,8 +159,8 @@
 		insert into Recruitment
 		values
 		(
-			#{corCode}, #{announcementCode}, #{announcement}, #{recruitField}, #{salary}, 
-			#{career}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{recruitWriteDate}
+			#{corCode}, #{announcementCode}, #{announcement}, #{recruitFieldCode}, #{salary}, 
+			#{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{recruitWriteDate}
 		)
 	</insert>
 	

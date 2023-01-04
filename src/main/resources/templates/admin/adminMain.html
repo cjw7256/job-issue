@@ -99,7 +99,8 @@
 			 		<th>신청일시</th>
 			 	</thead>
 			 	<tbody>
-			 		<tr th:each="list : ${preRecList}"> 		
+			 		<tr th:each="list : ${preRecList}" th:onclick="|location.href='@{/adminPage/applyRec/{announcementCode}(announcementCode = ${list.announcementCode})}'|"
+			 		style="cursor:pointer;"> 		
 				 		<td th:text="${list.announcement}">공고명</td>
 				 		<td th:text="${list.corName}">기업명</td>
 				 		<td th:text="${list.recruitWriteDate}">신청일시</td>
@@ -118,7 +119,8 @@
 			 		<th>가입일시</th>
 			 	</thead>
 			 	<tbody> 
-			 		<tr th:each="users : ${userList}">
+			 		<tr th:each="users : ${userList}" th:onclick="|location.href='@{/adminPage/manageUser/{userCode}(userCode = ${users.userCode})}'|"
+			 		style="cursor:pointer;">
 			 			<td th:text="${users.userCode}">회원코드</td>
 			 			<td th:text="${users.userName}">회원명</td>
 			 			<td th:text="${users.userJoinDate}">가입일시</td>
@@ -137,7 +139,8 @@
 			 		<th>가입일시</th>
 			 	</thead>
 			 	<tbody> 
-			 		<tr th:each="users : ${corUserList}">
+			 		<tr th:each="users : ${corUserList}" th:onclick="|location.href='@{/adminPage/manageCor/{userCode}(userCode = ${users.userCode})}'|"
+			 		style="cursor:pointer;">
 			 			<td th:text="${users.userCode}">회원코드</td>
 			 			<td th:text="${users.userName}">회원명</td>
 			 			<td th:text="${users.userJoinDate}">가입일시</td>
