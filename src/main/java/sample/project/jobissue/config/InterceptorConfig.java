@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.extern.slf4j.Slf4j;
+import sample.project.jobissue.commons.interceptor.AdminAccInterceptor;
 import sample.project.jobissue.commons.interceptor.LoginInterceptor;
 
 
@@ -21,7 +22,11 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LoginInterceptor())
 		.order(1).addPathPatterns("/**")
 		.excludePathPatterns("/", "/user/logout", "/css/*", "/images/*", "/js/*"
-				, "/user/register**", "/user/register/*", "/search");
+				, "/user/register**", "/user/register/*", "/search", "/lists/*", "/lists", "/error");
+	
+		registry.addInterceptor(new AdminAccInterceptor())
+		.order(2)
+		.addPathPatterns("/adminPage", "/adminPage*", "/adminPage/*");
 	}
 }
 

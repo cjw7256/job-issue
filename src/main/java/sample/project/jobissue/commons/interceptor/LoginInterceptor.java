@@ -27,19 +27,20 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		
 		String uri = request.getRequestURI();
-		log.info("LogInterceptor preHandle {}, {}", uri);
+		log.info("LogInterceptor preHandle {}", uri);
 		
 		HttpSession session = request.getSession(false);
 
-		if(PatternMatchUtils.simpleMatch(blackList, uri)) {
-			if(session == null || session.getAttribute("loginUser") == null) {
+		if(PatternMatchUtils.simpleMatch(blackList, uri)) { //blacklist 경로와 uri가 일치할 경우 -> 들어오는 경로가 user/login인 경우
+			if(session == null || session.getAttribute("loginUser") == null) { //로그인x경우
+				
 				return true;
-			} else {
+			} else { 
 				response.sendRedirect("/");
 				return false;
 			}
-		} else {
-			if(session == null || session.getAttribute("loginUser") == null) {
+		} else { //일치하지 않는 경우
+			if(session == null || session.getAttribute("loginUser") == null) { //로그인 x 경우
 				log.info("로그인 없이 접근시도 {}", uri);
 				response.sendRedirect("/user/login");
 				return false;

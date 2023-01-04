@@ -46,48 +46,13 @@ public class AdminController {
 	@GetMapping
 	public String mainAdminPage(Model model, HttpServletRequest req, HttpServletResponse resp) { //관리자 페이지 처음 들어왔을 때 보이는 화면->무엇을 보이게 할 것인지?
 		HttpSession session = req.getSession(false);
-		PrintWriter w;
-
-		if(session == null) { //로그인 안 된 경우(로그인 정보 조회 불가).. 경고창을 좀 띄우고 싶긴 하네요..
-			//->알림창 띄우고 싶었던 작은... 소망
-			//			try {
-			//				log.info("session null");
-			//				resp.setContentType("text/html; charset=utf-8");
-			//				w = resp.getWriter();
-			//				w.write("<script>alert('"+"먼저 로그인 해주세요!"+"')</script>");
-			//		        w.close();
-			//		        
-			//		        return "redirect:/lists/lists";
-			//			} catch (IOException e) {
-			//				// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//				
-			//				log.info("session null 오류");
-			//				return "redirect:/";
-			//			}
-			return "redirect:/user/login"; //->임시로 막아둠
-
+		
+		UserVO userVO = new UserVO();
+		
+		if(session != null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
+			userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+			log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
 		}
-
-		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		if(!userVO.getUserType().equals("0")) { //로그인 했으나 관리자가 아닌 경우
-			//->알림창 띄우고 싶었던 작은... 소망
-			//			resp.setContentType("text/html; charset=utf-8");
-			//			try {
-			//				w = resp.getWriter();
-			//				w.write("<script>alert('"+"접근 권한이 없습니다."+"')</script>");
-			//		        w.close();
-			//		        
-			//				return "redirect:/";
-			//				
-			//			} catch (IOException e) {
-			//				// TODO Auto-generated catch block
-			//				e.printStackTrace();
-			//				return "redirect:/";
-			//			}
-			return "redirect:/";
-		}
-		log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
 
 		List<PreRecruitment>preRecList = adminRepository.selPreForMain(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 

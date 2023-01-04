@@ -19,7 +19,7 @@
 		<nav id="sidebar">
 			<div class="sidebar-header">
 				<h5>
-					<b th:text="${user.userName}" style="text-align:center"></b>님이
+					<b th:if="${not #strings.isEmpty(user.userName)}" th:text="${user.userName}" style="text-align:center"></b>님이
 					<br>
 					접속하셨습니다
 				</h5>
