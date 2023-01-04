@@ -25,7 +25,8 @@
 		</ul>
 		<div>
 			<div class="row" id="searchRow">
-				<img id="logo" src="/images/logo.png" href="/"></img>
+				<img id="logo" src="/images/logo.png" 
+				th:onclick="|location.href='@{/}'|"></img>
 
 				<form th:action="|@{/search}|" method="get">
 					<div class="input-group mb-3" id="search">
