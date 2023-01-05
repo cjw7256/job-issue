@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Pagination {
 
-	private int pageSize = 10;	/** 1. 페이지 당 보여지는 게시글의 최대 개수 **/
+	private int pageSize = 20;	/** 1. 페이지 당 보여지는 게시글의 최대 개수 **/
 	
 	private int blockSize = 10;	/** 2. 페이징된 버튼의 블럭당 최대 개수 **/
 	
