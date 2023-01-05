@@ -59,16 +59,17 @@ public class ApplicantManageController {
 	
 	
 	
-	@GetMapping("submit/{userCode}")
-	public String submitResume(Model model, @PathVariable("announcementCode") int announcementCode) {
+	@GetMapping("/submitResume/{userCode}/{announcementCode}")
+	public String submitResume(Model model, @PathVariable("userCode") int userCode
+			, @PathVariable("announcementCode") int announcementCode) {
 		
-		log.info("announcementCode {}", announcementCode);
 		ApplicantInfo submitResume = preRecruitment.userSelectByAnnCode(announcementCode);
+		log.info("announcementCode {}", announcementCode);
 	
 		log.info("submit resume {}", submitResume);
 		model.addAttribute("submitResume", submitResume);
 		
 		
-		return "/corporation/submitResume";
+		return "corporation/submitResume";
 	}
 }

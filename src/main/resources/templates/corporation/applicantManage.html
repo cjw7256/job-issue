@@ -37,7 +37,7 @@
 			<th:block th:each="recruit : ${Recruit}">
 			<div class="modal fade" th:id="'modal_'+${recruit.announcementCode}" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h1 class="modal-title fs-5" id="exampleModalLabel">지원자 목록</h1>
@@ -45,10 +45,10 @@
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<table class="table">
+							<table class="applicantTable">
 								<thead>
 									<tr>
-										<th scope="col">#</th>
+										<th scope="col">제출일</th>
 										<th scope="col">이름</th>
 										<th scope="col">생년월일</th>
 										<th scope="col">성별</th>
@@ -57,12 +57,12 @@
 								</thead>
 								<tbody>
 									<tr th:each="submitResume : ${recruit.applicantInfos}">
-										<th scope="row" th:text="${recruit.announcementCode}">공고번호</th>
+										<td th:text="${#temporals.format(submitResume.submitDate, 'yyyy.MM.dd')}">이력서제출일</td>
 										<td th:text="${submitResume.userName}">이름</td>
 										<td th:text="${submitResume.userBirth}">생년월일</td>
 										<td th:text="${submitResume.userGender}">성별</td>
 										<td><a th:text="${submitResume.resumeTitle}"
-											th:href="@{|/resume/${submitResume.userCode}|}">이력서제목</a></td>
+											th:href="@{|/applicantManage/submitResume/${submitResume.userCode}/${recruit.announcementCode}|}">이력서제목</a></td>
 
 									</tr>
 								</tbody>

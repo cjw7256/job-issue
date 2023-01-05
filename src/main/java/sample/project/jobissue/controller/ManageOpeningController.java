@@ -44,7 +44,7 @@ public class ManageOpeningController {
 		model.addAttribute("preRecruits", preRecruits);
 		log.info("preRecruits {}", preRecruits);
 
-		return "/corporation/manageOpening";
+		return "corporation/manageOpening";
 	}
 
 }
