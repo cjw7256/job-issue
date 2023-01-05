@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
         userDAO.register(userRegisterForm);
     }
 
-    // 로그인 처리
+     // 로그인 처리
     @Override
 	public UserVO login(LoginForm loginForm) throws Exception {
     	return userDAO.login(loginForm);

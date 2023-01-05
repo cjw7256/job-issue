@@ -1,0 +1,35 @@
+.footer{
+    background-color: rgb(245, 248, 250);
+    height: 300px;
+}
+
+.footerNav{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #c0c0c0;
+    border-top: solid 1px #c0c0c0;
+    justify-content: center;
+}
+
+.nav-link {
+    color: gray;
+}
+
+.footerBody{
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.footerContent{
+    margin-top: 50px;
+    margin-left: 30px;
+    color: gray;
+}
+
+#footerLogo{
+    position: relative;
+    top: 20px;
+    width: 250px;
+}
