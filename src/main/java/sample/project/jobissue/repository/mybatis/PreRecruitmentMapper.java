@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import sample.project.jobissue.domain.ApplicantInfo;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.PreRecruitment;
 
 @Mapper
@@ -44,4 +46,10 @@ public Integer insertPreRecruit(PreRecruitment preRecruitment);
 	public void deletePreMulAca(int announcementCode);
 	
 	public void deleteAll();
+	
+	public List<ApplicantManage> selectByCorCode(int corCode);
+	
+	public ApplicantInfo userSelectByAnnCode(int announcementCode);
+
+	public List<ApplicantInfo> selectByAnnSubmit(int announcementCode);
 }

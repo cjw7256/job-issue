@@ -47,10 +47,10 @@
  
   .searchImg {
     position: relative;
-    right: 10px;
+    left: 0px;
   }
   
-  #searchForm{
+  #keyword{
     font-size: 20px;
     border : 3px solid rgb(43, 94, 189);
     border-radius: 0;
@@ -88,6 +88,7 @@
     width: 100%;
     font-size: 18px;
     color: white;
+    cursor: pointer;
     
   }
 
@@ -121,14 +122,14 @@
   
   @media only screen and (max-width:817px){
     #search{
-      margin-top: 0;
+      margin-top: 50px;
       width: 80%;
     }
   
     #logo{
       width: 300px;
-      position: relative;
-      left: 20%;
+/*       position: relative; */
+/*       left: 20%; */
     }
   }
 

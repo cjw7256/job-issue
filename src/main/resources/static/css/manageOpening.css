@@ -1,9 +1,11 @@
 .title{
-margin-top: 50px;
+    margin-top: 50px;
     border-bottom: solid 2px rgb(93, 123, 179);
-    width: 80%;
+    width: 85%;
     padding-bottom: 20px;
     font-weight: bold;
+    position: relative;
+    left: 8%;
 }
 
 .body{

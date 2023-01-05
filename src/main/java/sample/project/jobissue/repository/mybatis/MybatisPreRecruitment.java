@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sample.project.jobissue.domain.ApplicantInfo;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
 
@@ -136,6 +138,32 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		log.info("deleteByAnnoncement {}", announcementCode);
 		
 		
+	}
+
+	@Override
+	public List<ApplicantManage> selectByCorCode(int corCode) {
+		// TODO Auto-generated method stub
+		List<ApplicantManage> applicant = prMapper.selectByCorCode(corCode);
+		log.info("selectByCorCode {}", corCode);
+		
+		return applicant;
+	}
+
+	@Override
+	public ApplicantInfo userSelectByAnnCode(int announcementCode) {
+		// TODO Auto-generated method stub
+		ApplicantInfo applicant = prMapper.userSelectByAnnCode(announcementCode);
+		log.info("selectByAnnCode {}", announcementCode);
+		
+		return applicant;
+	}
+
+	@Override
+	public List<ApplicantInfo> selectByAnnSubmit(int announcementCode) {
+		// TODO Auto-generated method stub
+		List<ApplicantInfo> applicant = prMapper.selectByAnnSubmit(announcementCode);
+		log.info("selectBySubmit {}", announcementCode);
+		return applicant;
 	}
 //
 //	@Override

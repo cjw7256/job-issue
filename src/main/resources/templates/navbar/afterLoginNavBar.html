@@ -29,12 +29,11 @@
 				<img id="logo" src="/images/logo.png"
 					th:onclick="|location.href='@{/}'|"></img>
 
-				<form th:action="|@{/search}|" method="get">
+				<form th:action="|@{/search}|" method="get" >
 					<div class="input-group mb-3" id="search">
-						<input type="text" class="form-control" id="keyword"
-							name="keyword" th:if="${pageMaker != null}"
-							th:value="${pageMaker.si.keyword}" placeholder="검색어를 입력하세요"
-							aria-label="Recipient's username"
+						<input type="text" class="form-control" id="keyword" name="keyword"
+							th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}"
+							placeholder="검색어를 입력하세요." aria-label="Recipient's username"
 							aria-describedby="button-addon2">
 						<button class="btn btn-outline-secondary" type="button"
 							id="search-button">

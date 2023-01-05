@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import sample.project.jobissue.domain.ApplicantInfo;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.PreRecruitment;
 
 public interface PreRecruitmentRepository {
@@ -32,8 +34,16 @@ public interface PreRecruitmentRepository {
 	//공고 삭제
 	public void deleteByAnnouncementCode(int announcementCode);
 	
-	
 	public void deleteAll();
 
 	public boolean update(@Param("announcementCode")int announcementCode, @Param("updateItem")PreRecruitment preRecruitment);
+
+	//지원자 부분
+	public List<ApplicantManage> selectByCorCode(int corCode);
+	
+	public ApplicantInfo userSelectByAnnCode(int announcementCode);
+	
+	public List<ApplicantInfo> selectByAnnSubmit(int announcementCode);
+
+
 }

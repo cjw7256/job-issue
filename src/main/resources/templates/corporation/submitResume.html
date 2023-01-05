@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+<link rel="stylesheet" href="../css/jobOpening.css">
+<title>공고</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+</head>
+<style>
+</style>
+<body>
+
+		<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+
+		<div class="body">
+			<div class="card">
+				<div class="row">
+				<h3 class="title" th:text="${submitResume.resumeTitle}">이력서 제목</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+								href="{/applicantManage}"></button>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						지원자 이메일 :
+						<div th:text="${submitResume.UserResumeEmail}"></div>
+					</div>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						병역 여부 :
+						<div th:text="${submitResume.MilitaryStatus}"></div>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						결혼 여부 :
+						<div th:text="${submitResume.MaritalStatus}"></div>
+
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						지원 분야 :
+						<div th:text="${submitResume.RecruitFieldCode}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						최종 학력 :
+						<div th:text="${submitResume.AcademicRecordCode}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						경력 :
+						<div th:text="${submitResume.CareerCode}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						자격증 : 
+						<div th:text="${submitResume.License}"></div>
+					</div>
+				</div>
+
+
+				<div class="bundle2">
+					<div class="row">
+						대외활동 :
+						<div th:text="${submitResume.Activity}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						포트폴리오 :
+						<div th:text="${submitResume.Portfolio}"></div>
+					</div>
+				</div>
+
+				<div class="bundle2">
+					<div class="row">
+						자기소개서 :
+						<div th:text="${submitResume.CoverLetter}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+	<script src="../js/select.js"></script>
+	<script src="https://kit.fontawesome.com/9ba603b7d5.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

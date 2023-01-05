@@ -3,6 +3,8 @@
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
 <title>채용 공고 리스트</title>
+    <link rel="stylesheet" href="../css/lists.css">
+
 </head>
 <body>
 <div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
@@ -12,12 +14,12 @@
 	  <div class="body">
     <div class="card">
     <h3 class="title">채용정보 전체리스트</h3>
-		<table class="table table-hover">
+		<table class="table table-hover" id="listsTable">
 			<thead>
 				<tr>
-					<th scope="col" width="20%">회사명</th>
+					<th scope="col" width="25%">회사명</th>
 					<th scope="col" width="50%">채용내용</th>
-					<th scope="col" width="20%">급여</th>
+					<th scope="col" width="25%">급여</th>
 				</tr>
 			</thead>
 

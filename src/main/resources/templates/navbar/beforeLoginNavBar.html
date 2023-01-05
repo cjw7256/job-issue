@@ -27,7 +27,7 @@
 			<div class="row" id="searchRow">
 				<img id="logo" src="/images/logo.png" href="/"></img>
 
-				<form th:action="|@{/search}|" method="get">
+				<form th:action="|@{/search}|" method="get" >
 					<div class="input-group mb-3" id="search">
 						<input type="text" class="form-control" id="keyword" name="keyword"
 							th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}"
