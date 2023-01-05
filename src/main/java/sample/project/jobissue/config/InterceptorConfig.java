@@ -13,15 +13,11 @@ import sample.project.jobissue.commons.interceptor.LoginInterceptor;
 public class InterceptorConfig implements WebMvcConfigurer{
 
 	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(new LoginInterceptor())
-//		.order(1)
-//		.addPathPatterns("/**")
-//		.excludePathPatterns("/css/**", "/js/**", "/error", "/error/**");
 		
 		registry.addInterceptor(new LoginInterceptor())
 		.order(1).addPathPatterns("/**")
 		.excludePathPatterns("/", "/user/logout", "/css/*", "/images/*", "/js/*"
-				, "/user/register**", "/user/register/*", "/search");
+				, "/user/register**", "/user/register/*", "/search","/lists/**", "/error");
 	}
 }
 

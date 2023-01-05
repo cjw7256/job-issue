@@ -41,6 +41,26 @@ public class JobApplicationController {
 	private final JobApplicationRepository jobApplicationRepository;
 	private final JobRepository jobRepository;
 	
+	@GetMapping("/checkSession")
+	public String checkSession(
+			HttpServletRequest req, 
+			@ModelAttribute JobItem jobItem,
+			Model model)
+	{
+
+		HttpSession session = req.getSession(false);
+		if(session.getAttribute(SessionManager.SESSION_COOKIE_NAME)!=null) {
+			UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+			ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
+			model.addAttribute("submitResume", resumeItem);
+	
+			return "redirect:/submit/" + userVO.getUserCode();
+		}
+
+			return "redirect:/user/login";
+	}
+	
+	
 	@GetMapping("/{resumeUserCode}")
 	public String submitResume(Model model
 			, @PathVariable("resumeUserCode") int resumeUserCode
@@ -59,13 +79,13 @@ public class JobApplicationController {
 	public String doSubmit(Model model
 			, HttpServletRequest req) {
 		HttpSession session = req.getSession(false);
-		JobItem jobItem = (JobItem) session.getAttribute("jobItem");
+		JobItem jobItem = (JobItem) session.getAttribute("corCord");
 		jobRepository.selectByAnnCode(jobItem.getAnnouncementCode());
 		session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 		jobApplicationRepository.insertSubmitResume(
 				jobItem.getCorCode(), jobItem.getAnnouncementCode(), userVO.getUserCode());
-		log.info("제출성공");
+
 		return "resumes/resumes";
 	}
 	

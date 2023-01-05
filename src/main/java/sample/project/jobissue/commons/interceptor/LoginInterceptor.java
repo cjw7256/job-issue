@@ -30,8 +30,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 		log.info("LogInterceptor preHandle {}, {}", uri);
 		
 		HttpSession session = request.getSession(false);
-
+		
+		
 		if(PatternMatchUtils.simpleMatch(blackList, uri)) {
+			if (uri.startsWith("/lists/**")) {
+		        return true;
+		    }
+			
 			if(session == null || session.getAttribute("loginUser") == null) {
 				return true;
 			} else {
