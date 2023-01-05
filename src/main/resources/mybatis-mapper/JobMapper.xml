@@ -91,7 +91,7 @@
 	<result property="recruitFieldCode" column="RECRUIT_FIELD_Code"></result> <!-- 임시추가! -->
 	<result property="salary" column="salary"></result> 
 	<result property="career" column="career"></result>
-	<result property="careerCode" column="career"></result>
+	<result property="careerCode" column="careerCode"></result> <!-- career로 되어있길래 careerCode로 변경해둠 -->
 	<result property="recruitPerson" column="RECRUIT_PERSON"></result>
 	<result property="receiptStartDate" column="receipt_start"></result>
 	<result property="receiptEndDate" column="receipt_end"></result>
