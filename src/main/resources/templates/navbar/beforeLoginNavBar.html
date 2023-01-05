@@ -25,14 +25,15 @@
 		</ul>
 		<div>
 			<div class="row" id="searchRow">
-				<img id="logo" src="/images/logo.png" 
-				th:onclick="|location.href='@{/}'|"></img>
+				<img id="logo" src="/images/logo.png"
+					th:onclick="|location.href='@{/}'|"></img>
 
 				<form th:action="|@{/search}|" method="get">
 					<div class="input-group mb-3" id="search">
-						<input type="text" class="form-control" id="keyword" name="keyword"
-							th:if="${pageMaker != null}" th:value="${pageMaker.si.keyword}"
-							placeholder="검색어를 입력하세요." aria-label="Recipient's username"
+						<input type="text" class="form-control" id="keyword"
+							name="keyword" th:if="${pageMaker != null}"
+							th:value="${pageMaker.si.keyword}" placeholder="검색어를 입력하세요."
+							aria-label="Recipient's username"
 							aria-describedby="button-addon2">
 						<button class="btn btn-outline-secondary" type="button"
 							id="search-button">
@@ -53,28 +54,31 @@
 						<li class="nav-item"><a class="nav-link" aria-current="page"
 							th:onclick="|location.href='@{/lists}'|">채용정보</a></li>
 						<!-- {/* 개인서비스 */} -->
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/personalService"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								개인 서비스 </a>
+						<li class="nav-item dropdown"
+							th:onclick="|location.href='@{|/resumes/insert|}'|"><a
+							class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false"> 개인 서비스 </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" th:href="@{|/resumes/insert|}">이력서
 										작성</a></li>
 								<li><a class="dropdown-item"
 									th:href="@{|/resumes/resumes|}">이력서 관리</a></li>
-								<li><a class="dropdown-item" href="/applyStatus">지원현황</a></li>
+								<li><a class="dropdown-item"
+									th:href="@{|/resumes/submitLists|}">지원현황</a></li>
 							</ul></li>
 
 						<!-- {/* 기업서비스 */} -->
-						<li class="nav-item dropdown"><a
+						<li class="nav-item dropdown"
+							th:onclick="|location.href='@{/manageOpening}'|"><a
 							class="nav-link dropdown-toggle" href="/corporationService"
 							role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								기업 서비스 </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/jobOpening">공고 등록</a></li>
-								<li><a class="dropdown-item" href="/jobManagement">공고
+								<li><a class="dropdown-item" th:href="@{/jobOpening}">공고
+										등록</a></li>
+								<li><a class="dropdown-item" th:href="@{/manageOpening}">공고
 										관리</a></li>
-								<li><a class="dropdown-item" href="/applicantManage">지원자
+								<li><a class="dropdown-item" th:href="@{/applicantManage}">지원자
 										관리</a></li>
 							</ul></li>
 
