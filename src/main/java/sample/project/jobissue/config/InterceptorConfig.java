@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.commons.interceptor.AdminAccInterceptor;
+import sample.project.jobissue.commons.interceptor.CorUserAccInterceptor;
 import sample.project.jobissue.commons.interceptor.LoginInterceptor;
 import sample.project.jobissue.commons.interceptor.UserAccInterceptor;
 
@@ -32,6 +33,14 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new UserAccInterceptor())
 		.order(2)
 		.addPathPatterns("/resumes", "/resumes**", "/resumes/*");
+		
+		//
+		registry.addInterceptor(new CorUserAccInterceptor())
+		.order(2)
+		.addPathPatterns("/jobOpening", "/jobOpening**", "/jobOpening/*", 
+				"/jobOpen", "/jobOpen**", "/jobOpen/*", 
+				"/manageOpening", "/manageOpening**", "/manageOpening/*",
+				"/applicantManage", "/applicantManage**", "/applicantManage/*");
 		
 	}
 }
