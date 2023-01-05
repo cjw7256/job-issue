@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.UserVO;
 
 @Mapper
@@ -34,6 +35,10 @@ public interface JobMapper {
 	public List<JobItem> selectAll();
 	
 	public JobItem selectByAnnCode(int listAnnCode);
+	
+	public Integer selectTotalCnt(); 
+	
+	public List<JobItem> selJobListPagingList(Pagination pagination);
 	
 
 }

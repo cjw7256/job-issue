@@ -168,4 +168,31 @@
 		where mar.ANNOUNCEMENT_CODE = #{listAnnCode}
 		and mar.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
 	</select>
+	
+	<!-- 페이징 처리를 위한 메소드 :: 페이징 총 갯수 -->
+	<select id="selectTotalCnt" resultType="Integer">
+		select count(*)
+		from recruitment
+	</select>
+	
+	<!-- :: 페이징 리스트 -->
+	<select id="selJobListPagingList" parameterType="Pagination" resultType="JobItem">
+		select *
+			from(
+			    select rownum as rnum, re.*
+			    from
+			    (
+			        select cor.cor_name corName, r.announcement announcement, 
+			        r.announcement_code announcementCode, r.salary salary,
+			        r.RECEIPT_END receiptEndDate
+			        from recruitment r, corporation_info cor
+                    where cor.cor_code = r.cor_code
+                    order by announcement_code desc
+			    ) re
+			    where rownum <![CDATA[<=]]> #{startIndex}+#{pageSize}
+			)
+		where rnum <![CDATA[>=]]> #{startIndex}+1
+</select>
+	
+	
 </mapper>

@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobApplicationRepository;
@@ -54,13 +55,40 @@ public class JobController {
 	private final JobApplicationRepository jobApplicationRepository;
 
 	// (http://localhost:8080/lists) 서버켜고 주소입력하면 뜸 
+//	@GetMapping
+//	public String lists(Model model) {
+//		List<JobItem> jobList = jobRepository.selectAll();
+//		model.addAttribute("lists",jobList);
+//
+//		return "/lists/lists";
+//	}
+//	
+	
+	//페이징 처리한 경우
 	@GetMapping
-	public String lists(Model model) {
-		List<JobItem> jobList = jobRepository.selectAll();
-		model.addAttribute("lists",jobList);
+	public String lists(HttpServletRequest request, Model model, 
+			@RequestParam(defaultValue = "1") int page) {
+		
+		 // 총 게시물 수 
+	    int totalCnt = jobRepository.selectTotalCnt();
 
-		return "/lists/lists";
+	    // 생성인자로  총 게시물 수, 현재 페이지를 전달
+	    Pagination pagination = new Pagination(totalCnt, page);
+
+	    List<JobItem> jobList = jobRepository.selJobListPagingList(pagination);
+
+	    model.addAttribute("jobList", jobList);
+	    model.addAttribute("pagination", pagination);
+
+	    log.info("{}", pagination);
+	    log.info("jobList {}", jobList.get(0).getAnnouncementCode());
+		
+		return "/lists/lists";	
 	}
+	
+	
+	
+	
 
 	@PostMapping("/list")
 	public String list2(Model model, @RequestParam int listCorporationNo, HttpServletRequest req) {
