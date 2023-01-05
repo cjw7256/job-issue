@@ -174,7 +174,6 @@ public class MybatisAdminRepository implements AdminRepository{
 		adminMapper.deleteEmpOptByAdmin(annCode); //공고 옵션 삭제
 		adminMapper.deleteWorkOptByAdmin(annCode);
 		adminMapper.deleteAcaOptByAdmin(annCode);
-		
 	}
 
 	@Transactional
@@ -212,7 +211,7 @@ public class MybatisAdminRepository implements AdminRepository{
 		}
 		log.info("delete User 완료");
 	}
-
+	
 	@Override
 	public UserVO selectCorDetailInfo(int userCode) {
 		// TODO Auto-generated method stub
@@ -227,9 +226,6 @@ public class MybatisAdminRepository implements AdminRepository{
 		//메소드 실행 -> corporation info , user_info, recruitment, pre~ 전부 지워져야 함
 		adminMapper.deleteUserByAdmin(userCode); //user_info에서 정보 삭제
 		adminMapper.deleteCorInfoByAdmin(corCode); //cor_info에서 정보 삭제
-		
-		//pre 삭제
-		List<Integer> preAnnCodes = adminMapper.selectPreRecCodes(corCode);
 	}
 
 	@Override
@@ -259,5 +255,21 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		log.info("임시 공고 테이블 데이터 삭제 완료");		
 	}
+
+	@Override
+	public void deleteResumeByDrop(int userCode) {
+		// TODO Auto-generated method stub
+		adminMapper.deleteResumeByAdmin(userCode);
+		
+		log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
+	}
+	
+	@Override
+	   public void deleteResumeByDrop(int userCode) {
+	      // TODO Auto-generated method stub
+	      adminMapper.deleteResumeByAdmin(userCode);
+	      
+	      log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
+	   }
 	
 }

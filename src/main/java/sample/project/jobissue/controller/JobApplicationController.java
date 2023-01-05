@@ -85,7 +85,6 @@ public class JobApplicationController {
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 		jobApplicationRepository.insertSubmitResume(
 				jobItem.getCorCode(), jobItem.getAnnouncementCode(), userVO.getUserCode());
-
 		return "resumes/resumes";
 	}
 	
