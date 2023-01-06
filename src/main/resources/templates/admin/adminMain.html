@@ -99,7 +99,8 @@
 			 		<th>신청일시</th>
 			 	</thead>
 			 	<tbody>
-			 		<tr th:each="list : ${preRecList}" th:onclick="|location.href='@{/adminPage/applyRec/{announcementCode}(announcementCode = ${list.announcementCode})}'|"
+			 		<tr th:each="list : ${preRecList}" 
+			 		th:onclick="|location.href='@{/adminPage/applyRec/{announcementCode}(announcementCode = ${list.announcementCode})}'|"
 			 		style="cursor:pointer;"> 		
 				 		<td th:text="${list.announcement}">공고명</td>
 				 		<td th:text="${list.corName}">기업명</td>

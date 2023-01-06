@@ -64,7 +64,7 @@ public class JobController {
 //	}
 //	
 	
-	//페이징 처리한 경우
+	//페이징 처리한 후의 lists
 	@GetMapping
 	public String lists(HttpServletRequest request, Model model, 
 			@RequestParam(defaultValue = "1") int page) {
@@ -85,21 +85,7 @@ public class JobController {
 		
 		return "/lists/lists";	
 	}
-	
-	
-	
-	
 
-	@PostMapping("/list")
-	public String list2(Model model, @RequestParam int listCorporationNo, HttpServletRequest req) {
-		JobItem jobItem = jobRepository.selectByAnnCode(listCorporationNo);
-		HttpSession session = req.getSession(false);
-		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		ResumeItem reuItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-		model.addAttribute("list", jobItem);
-		model.addAttribute("submitResume", reuItem);
-		return "redirect:/lists/list";
-	}
 
 	@GetMapping("/{listAnnouncementCode}")
 	public String list(Model model, @PathVariable("listAnnouncementCode") int listAnnCode

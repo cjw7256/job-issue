@@ -85,7 +85,9 @@
 			 		<th>가입일시</th>
 			 	</thead>
 			 	<tbody>
-			 		<tr th:each="info : ${userInfos}">
+			 		<tr th:each="info : ${userInfos}"
+			 		th:onclick="|location.href='@{/adminPage/manageUser/{userCode}(userCode = ${info.userCode})}'|"
+			 		style="cursor:pointer;">
 			 			<td><a th:href="@{|/adminPage/manageUser/${info.userCode}|}"  th:text="${info.userCode}">회원번호</a></td>
 			 			<td th:text="${info.userName}">회원명</td>
 			 			<td th:text="${info.userJoinDate}">가입일시</td>

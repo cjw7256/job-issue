@@ -131,7 +131,6 @@ public class ResumeController {
 	}
 	
 	
-	
 	@GetMapping("/insert")
 	public String newWrite(Model model) {
 		ResumeItem resumeItem = new ResumeItem();
@@ -143,8 +142,7 @@ public class ResumeController {
 	@PostMapping("/insert")
 	public String newMemberInsert(@ModelAttribute ResumeItem resumeItem
 			, BindingResult bindingResult
-			, HttpServletRequest req
-			) {
+			, HttpServletRequest req) {
 		
 		HttpSession session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
@@ -154,11 +152,9 @@ public class ResumeController {
 			return "resumes/insert";
 		}
 		
-
 		if (userVO.getResumeCode().equals("N")) {
 		
 			resumeRepository.insertResume(resumeItem);
-			
 			resumeRepository.insertAfter(userVO.getUserCode(), userVO);
 			return "redirect:/resumes/resumes";
 		}
@@ -200,7 +196,6 @@ public class ResumeController {
 		log.info("삭제완료");
 		return "resumes/resumes";
 	}	
-	
 	
 	
 	@GetMapping("/update/{userCode}")

@@ -23,24 +23,28 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		
 		registry.addInterceptor(new LoginInterceptor())
 		.order(1).addPathPatterns("/**")
-		.excludePathPatterns("/", "/user/logout", "/css/*", "/images/*", "/js/*"
-				, "/user/register**", "/user/register/*", "/search", "/lists/*", "/lists", "/error");
+		.excludePathPatterns("/", "/user/logout", "/css/**", "/images/**", "/js/**"
+				, "/user/register**", "/user/register/**", "/search", "/lists/**", "/lists", "/error");
 	
+		//관리자 전용 페이지
 		registry.addInterceptor(new AdminAccInterceptor())
 		.order(2)
-		.addPathPatterns("/adminPage", "/adminPage*", "/adminPage/*");
+		.addPathPatterns("/adminPage", "/adminPage**", "/adminPage/**");
 		
+		//일반 개인 회원
 		registry.addInterceptor(new UserAccInterceptor())
-		.order(2)
-		.addPathPatterns("/resumes", "/resumes**", "/resumes/*");
+		.order(3)
+		.addPathPatterns("/resumes", "/resumes**", "/resumes/**", "/submit", "/submit**",
+				"/submit/**");
 		
-		//
+		//기업 회원
 		registry.addInterceptor(new CorUserAccInterceptor())
-		.order(2)
-		.addPathPatterns("/jobOpening", "/jobOpening**", "/jobOpening/*", 
-				"/jobOpen", "/jobOpen**", "/jobOpen/*", 
-				"/manageOpening", "/manageOpening**", "/manageOpening/*",
-				"/applicantManage", "/applicantManage**", "/applicantManage/*");
+		.order(4)
+		.addPathPatterns("/jobOpening", "/jobOpening**", "/jobOpening/**", 
+				"/jobOpen", "/jobOpen**", "/jobOpen/**", 
+				"/manageOpening", "/manageOpening**", "/manageOpening/**",
+				
+				"/applicantManage", "/applicantManage**", "/applicantManage/**");
 		
 	}
 }
