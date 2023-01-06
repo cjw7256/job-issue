@@ -80,8 +80,9 @@
     height: 60px;
   }
 
-  .navbar .container-fluid{
-    justify-content: start;
+  .navbar>.container-fluid{
+  	display : flex;
+    justify-content: flex-start;
   }
   
   #navbar .nav-link {

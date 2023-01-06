@@ -5,8 +5,8 @@
 
 .footerNav{
     height: 50px;
-    display: flex;
-    align-items: center;
+/*     display: flex; */
+/*     align-items: center; */
     border-bottom: solid 1px #c0c0c0;
     border-top: solid 1px #c0c0c0;
     justify-content: center;

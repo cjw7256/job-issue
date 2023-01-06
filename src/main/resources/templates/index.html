@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
 <th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+<th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+
 <link rel="stylesheet" href="/css/index.css">
 <title>Insert title here</title>
 </head>
@@ -30,5 +32,8 @@
 		</div>
 		
 	</div>
+	
+	         <div th:replace="/navbar/footer.html :: footer"></div>
+	
 </body>
 </html>

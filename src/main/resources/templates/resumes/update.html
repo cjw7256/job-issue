@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
-    <link rel="stylesheet" href="/css/jobOpening.css">
+<link rel="stylesheet" href="/css/jobOpening.css">
+<th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+    
 <title>이력서 update 페이지</title>
 </head>
 <body>
@@ -185,5 +187,8 @@
 		</div>
 		</div>
 	</div>
+	
+	         <div th:replace="/navbar/footer.html :: footer"></div>
+	
 </body>
 </html>

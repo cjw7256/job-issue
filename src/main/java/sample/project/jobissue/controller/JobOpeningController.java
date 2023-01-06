@@ -60,16 +60,16 @@ public class JobOpeningController {
 	
 	
 	//1.post형식 작성
-	@PostMapping("/jobOpen")
-	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
-//		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
-		model.addAttribute("jobOpen", preRecruit);
-		
-		log.info("jobOpen {}", preRecruit);
-		
-		
-		return "redirect:/corporation/jobOpen";
-	}
+//	@PostMapping("/jobOpen")
+//	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
+////		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
+//		model.addAttribute("jobOpen", preRecruit);
+//		
+//		log.info("jobOpen {}", preRecruit);
+//		
+//		
+//		return "redirect:/corporation/jobOpen";
+//	}
 	
 	//2. @modelAttribute 로  jobitem 바로 매핑
 	

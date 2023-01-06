@@ -5,6 +5,8 @@
 <th:block th:replace="/navbar/afterLoginNavBar2.html::headerNavBarHead"></th:block>
 <title>회원정보 수정</title>
 <link rel="stylesheet" href="/css/myPage.css">
+    <th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+
 </head>
 
 <body class="hold-transition register-page">
@@ -76,6 +78,9 @@
 			</div>
 		</div>
 	</div>
+	
+	         <div th:replace="/navbar/footer.html :: footer"></div>
+	
 
 	<script>
 			function removeUser(userEmail) {
