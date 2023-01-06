@@ -51,16 +51,12 @@
 		par.Recruit_writeDate,par.cor_code,
 		cor.cor_name, rfc.RECRUIT_FIELD,
 		c.Career, asu.applyStat
-		FROM preAppRecru par, corporation_info cor,
-		RecruitFieldCode rfc,
+		FROM preAppRecru par, corporation_info cor,RecruitFieldCode rfc,
 		CareerCode c , applyStatCode asu
-		WHERE
-		par.Announcement_Code = #{annCode}
+		WHERE par.Announcement_Code = #{annCode}
 		AND par.cor_code = cor.cor_code
-		AND
-		par.RECRUIT_FIELD_Code = rfc.RECRUIT_FIELD_Code
-		AND par.career_code =
-		c.career_code
+		AND par.RECRUIT_FIELD_Code = rfc.RECRUIT_FIELD_Code
+		AND par.career_code =c.career_code
 		AND par.applyStatus = asu.applyStat_Code
 	</select>
 

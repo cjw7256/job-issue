@@ -15,9 +15,17 @@
     <div class="card">
 
       <h3 class="title">공고 관리</h3>
-
+      
+	<div th:if="${#lists.isEmpty(preRecruits)}">
+      		<div class="nullContent">
+      		<br>
+      		등록된 공고가 없습니다 :)
+      		<a th:href="@{/jobOpening}">공고 등록하러 가기</a>
+      		</div>
+      </div>
+      
     <!-- 공고 -->
-    
+    <div th:unless="${#lists.isEmpty(preRecruits)}">
     <table class="table">
       <thead>
         <tr>
@@ -43,7 +51,9 @@
           </tbody>
         </table>
       </div>
+      
       </div>
+    </div>
       
      <div th:replace="/navbar/footer.html :: footer"></div>
      

@@ -18,9 +18,9 @@
 }
 
 #recruitTable{
-	width: 80%;
+	width: 600px;
 	margin-top: 50px;
-	margin-bottom : 50px;
+	margin-bottom : 100px;
 	text-align: center;
 	
 }
@@ -44,6 +44,14 @@ a{
 }
 .applicantTable{
 	width: 90%;
+}
+
+.nullContent{
+	
+	margin-top:50px;
+	margin-bottom: 100px;
+	width: 100%;
+	display: inline-block;
 }
 
 @media only screen and (max-width:688px){
