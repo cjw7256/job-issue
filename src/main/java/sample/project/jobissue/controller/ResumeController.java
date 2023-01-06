@@ -100,6 +100,7 @@ public class ResumeController {
 		return "/resumes/resume";
 	}
 	
+	
 	@GetMapping("/insert")
 	public String newWrite(Model model) {
 		
@@ -155,7 +156,6 @@ public class ResumeController {
 		resumeRepository.deleteSubmitResume(resumeItem.getUserCode(), jobItem.getAnnouncementCode());
 		return "redirect:/resumes/submitLists";
 	}	
-	
 	
 	
 	@GetMapping("/update/{userCode}")

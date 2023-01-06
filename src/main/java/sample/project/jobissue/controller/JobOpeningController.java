@@ -38,6 +38,11 @@ public class JobOpeningController {
 	private final PreRecruitmentRepository preRecruitRepository;
 	
 	
+	/** 공고 등록 페이지
+	 * @param model
+	 * @param req
+	 * @return
+	 */
 	@GetMapping("/jobOpening")
 	public String jobOpening(Model model, HttpServletRequest req){
 		PreRecruitment preRecruit = new PreRecruitment();
@@ -46,6 +51,12 @@ public class JobOpeningController {
 		return "/corporation/jobOpening";
 	}
 	
+	
+	/** 등록된 공고 표기(공고 등록 처리 후 바로 보이는 화면, 공고 관리 홈페이지에서 공고 클릭 시)
+	 * @param announcementCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/jobOpen/{announcementCode}")
 	public String jobOpenGet(@PathVariable("announcementCode") int announcementCode
 			,Model model) {
@@ -59,17 +70,23 @@ public class JobOpeningController {
 	}
 	
 	
+	
+	/** 왜 ... 있는지 모르겠음 일단 주석처리 해둠
+	 * @param model
+	 * @param preRecruit
+	 * @return
+	 */
 	//1.post형식 작성
-	@PostMapping("/jobOpen")
-	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
-//		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
-		model.addAttribute("jobOpen", preRecruit);
-		
-		log.info("jobOpen {}", preRecruit);
-		
-		
-		return "redirect:/corporation/jobOpen";
-	}
+//	@PostMapping("/jobOpen")
+//	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
+////		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
+//		model.addAttribute("jobOpen", preRecruit);
+//		
+//		log.info("jobOpen {}", preRecruit);
+//		
+//		
+//		return "redirect:/corporation/jobOpen";
+//	}
 	
 	//2. @modelAttribute 로  jobitem 바로 매핑
 	
@@ -83,6 +100,12 @@ public class JobOpeningController {
 	
 	//3. 매핑한 객체의 변수를 jobitem.~으로 불러서 쿼리문의 매개변수로 넣기
 	
+	
+	/** 공고 등록 처리하는 곳
+	 * @param preRecruit
+	 * @param req
+	 * @return
+	 */
 	@PostMapping("/insertJobOpen")
 	public String jobOpenInsert(@ModelAttribute PreRecruitment preRecruit
 			, HttpServletRequest req) {
@@ -113,6 +136,13 @@ public class JobOpeningController {
 	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
 	//						- jobmapper.xml 에서 insertmulEMP, insertmultWork~ 참고)
 	
+	
+	/** 삭제 처리 하는 페이지
+	 * @param model
+	 * @param req
+	 * @param announcementCode
+	 * @return
+	 */
 	@GetMapping("jobOpen/delete/{announcementCode}")
 	public String deleteAnnouncement(Model model, HttpServletRequest req
 			, @PathVariable("announcementCode") int announcementCode
@@ -124,6 +154,12 @@ public class JobOpeningController {
 		return "redirect:/manageOpening";
 	}
 	
+	
+	/** 수정할 공고를 보여주는 페이지
+	 * @param model
+	 * @param announcementCode
+	 * @return
+	 */
 	@GetMapping("update/{announcementCode}")
 	public String updateFood(Model model, @PathVariable("announcementCode") int announcementCode) {
 		PreRecruitment preRecruitment = preRecruitRepository.selectByPreAnnCode(announcementCode);
@@ -132,6 +168,13 @@ public class JobOpeningController {
 		return "corporation/jobOpeningUpdate";
 	}
 	
+	
+	/** 수정 처리 페이지
+	 * @param model
+	 * @param announcementCode
+	 * @param preRecruitment
+	 * @return
+	 */
 	@PostMapping("update/{announcementCode}")
 	public String updateFoodProcess(Model model
 			, @PathVariable("announcementCode") int announcementCode
@@ -173,9 +216,6 @@ public class JobOpeningController {
         employTypeCodes.add(new EmployTypeCode("05", "기타/아르바이트"));
         return employTypeCodes;
     }
-	
-	
-
 	
 	@ModelAttribute("recruitFieldCodes")
     public List<RecruitFieldCode> recruitFieldCodes(Model model) {

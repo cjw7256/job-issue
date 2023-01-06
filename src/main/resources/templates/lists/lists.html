@@ -16,19 +16,57 @@
 			<thead>
 				<tr>
 					<th scope="col" width="20%">회사명</th>
-					<th scope="col" width="50%">채용내용</th>
-					<th scope="col" width="20%">급여</th>
+					<th scope="col" width="45%">채용내용</th>
+					<th scope="col" width="25%">급여</th>
+					<th scope="col" width="10%">채용 마감일</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				<tr th:each="list : ${lists}" >
+				<tr th:each="list : ${jobList}" >
 					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.corName}">회사명</a></td>
 					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.announcement}">채용내용</a></td>
 					<td th:text="${list.salary}">급여</td>
+					<td th:text="${list.receiptEndDate}">채용 마감일</td>
 				</tr>
 			</tbody>
 		</table>
+		
+		<div>
+		<nav aria-label="Page navigation example" style="margin: auto;">
+			<ul class="pagination justify-content-center">
+				<li class="page-item">
+					<a class="page-link" th:href="@{/lists?page=1}" aria-label="Previous">
+						 <span aria-hidden="true">처음</span>
+					</a>
+				</li>
+				<li class="page-item">
+			      <a class="page-link" th:href="@{/lists?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
+			        <span aria-hidden="true">이전</span>
+			      </a>
+   				 </li>
+				 <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+				    <li class="page-item" 
+				    	th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+				    	th:each="pageButton : ${#numbers.sequence(start, end)}">
+				    	<a class="page-link" th:href="@{/lists?page={page} (page = ${pageButton})}" th:text=${pageButton}>
+				    	</a>
+				    </li>
+			    </th:block>
+				
+				<li class="page-item">
+      				<a class="page-link" th:href="@{/lists?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+        				<span aria-hidden="true">다음</span>
+      				</a>
+    			</li>
+			    <li class="page-item">
+			      <a class="page-link" th:href="@{?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+			        <span aria-hidden="true">끝</span>
+			      </a>
+			    </li>
+			</ul>
+		</nav>
+	</div>
 
 	</div>
 	</div>

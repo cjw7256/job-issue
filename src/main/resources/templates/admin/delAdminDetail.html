@@ -17,64 +17,11 @@
 <body>
 	<div class="wrapper">
 		<!-- Sidebar Holder -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-				<h5>
-					<!-- <b th:text="${user.userName}" style="text-align:center"></b>님이 -->
-					<br> 접속하셨습니다
-				</h5>
-			</div>
-
-			<ul class="list-unstyled components">
-				<a href="/adminPage"><p
-						style="position: relative; left: 35%; font-weight: bold">메인</p></a>
-				<li><a href="#corSubmenu" data-toggle="collapse"
-					aria-expanded="false" class="dropdown-toggle"><b>공고 관리</b></a>
-					<ul class="collapse list-unstyled" id="corSubmenu">
-						<li><a href="/adminPage/applyRec">공고 승인 관리</a></li>
-						<li><a href="/adminPage/deleteRec">공고 삭제 관리</a></li>
-					</ul></li>
-				<li><a href="#userSubmenu" data-toggle="collapse"
-					aria-expanded="false" class="dropdown-toggle"><b>회원 관리</b></a>
-					<ul class="collapse list-unstyled" id="userSubmenu">
-						<li><a href="/adminPage/manageUser">일반 회원 관리</a></li>
-						<li><a href="/adminPage/manageCor">기업 회원 관리</a></li>
-						<!-- <li><a href="#">Page 2</a></li> -->
-					</ul></li>
-			</ul>
-		</nav>
-
+		<th:block th:include="/admin/navbar/adminSidebar"></th:block>
+		
 		<!-- Page Content Holder -->
 		<div id="content">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-					<button type="button" id="sidebarCollapse" class="navbar-btn">
-						<span></span> <span></span> <span></span>
-					</button>
-					<button class="btn btn-dark d-inline-block d-lg-none ml-auto"
-						type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<svg class="svg-inline--fa fa-align-justify fa-w-14"
-							aria-hidden="true" data-prefix="fas" data-icon="align-justify"
-							role="img" xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 448 512" data-fa-i2svg="">
-							<path fill="currentColor"
-								d="M0 84V44c0-8.837 7.163-16 16-16h416c8.837 0 16 7.163 16 16v40c0 8.837-7.163 16-16 16H16c-8.837 0-16-7.163-16-16zm16 144h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 256h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0-128h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
-						<!-- <i class="fas fa-align-justify"></i> -->
-					</button>
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="nav navbar-nav ml-auto">
-							<li class="nav-item"><a class="nav-link"
-								href=" /adminPage/applyRec">공고 승인 관리</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="/adminPage/deleteRec">공고 삭제 관리</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
+			<th:block th:include="/admin/navbar/adminAnnNavbar"></th:block>
 
 			<h2>
 				<b>공고 상세</b>
@@ -83,74 +30,74 @@
 			<div class="body">
 				<div class="card">
 					<div class="bundle">
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticAnnouncementCode" class="col-sm-2 col-form-label">
 								공고번호
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="number" readonly class="form-control-plaintext"
 									id="staticAnnouncementCode" th:value="${delRec.announcementCode}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticAnnouncement" class="col-sm-2 col-form-label">
 								공고명
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticAnnouncement" th:value="${delRec.announcement}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticCorName" class="col-sm-2 col-form-label">
 								기업명
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticCorName" th:value="${delRec.corName}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticRecruitField" class="col-sm-2 col-form-label">
 								모집분야
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticRecruitField" th:value="${delRec.recruitField}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticSalary" class="col-sm-2 col-form-label">
 								급여
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticSalary" th:value="${delRec.salary}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticCareer" class="col-sm-2 col-form-label">
 								경력
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticCareer" th:value="${delRec.career}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticRecruitPerson" class="col-sm-2 col-form-label">
 								모집인원
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticRecruitPerson" th:value="${delRec.recruitPerson}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticEmployType" class="col-sm-2 col-form-label">
 								고용형태
 							</label>
-							<div class="col-sm-10" >
+							<div class="col" >
 								<input type="hidden" readonly class="form-control-plaintext"
 									id="staticEmployType" th:value="${delRec.employType}">
 								<div th:each="emt : ${delRec.employType}">
@@ -158,11 +105,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticWorkingArea" class="col-sm-2 col-form-label">
 								근무지역
 							</label>
-							<div class="col-sm-10" >
+							<div class="col" >
 								<input type="hidden" readonly class="form-control-plaintext"
 									id="staticWorkingArea" th:value="${delRec.workingArea}">
 								<div th:each="wa : ${delRec.workingArea}">
@@ -170,11 +117,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticAcademicRecord" class="col-sm-2 col-form-label">
 								학력
 							</label>
-							<div class="col-sm-10" >
+							<div class="col" >
 								<input type="hidden" readonly class="form-control-plaintext"
 									id="staticAcademicRecord" th:value="${delRec.academicRecord}">
 								<div th:each="aca : ${delRec.academicRecord}">
@@ -182,29 +129,29 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-2 row">
+						<div class="row">
 							<label for="staticReceiptStartDate" class="col-sm-2 col-form-label">
 								게시 시작일
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticReceiptStartDate" th:value="${delRec.receiptStartDate}">
 							</div>
 						</div>
-						<div class="mb-2 row">
+						<div class="row">
 							<label for="staticReceiptEndDate" class="col-sm-2 col-form-label">
 								게시 종료일
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticReceiptEndDate" th:value="${delRec.receiptEndDate}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticRecruitWriteDate" class="col-sm-2 col-form-label">
 								공고 작성일
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticRecruitWriteDate" th:value="${delRec.recruitWritedate}">
 							</div>

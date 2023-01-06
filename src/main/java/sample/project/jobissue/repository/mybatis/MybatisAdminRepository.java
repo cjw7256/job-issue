@@ -119,7 +119,7 @@ public class MybatisAdminRepository implements AdminRepository{
 		// TODO Auto-generated method stub
 		Integer result = adminMapper.insertPreToRecru(preRecruitment); 
 		
-		return null;
+		return preRecruitment;
 	}
 
 	@Override
@@ -262,6 +262,27 @@ public class MybatisAdminRepository implements AdminRepository{
 		adminMapper.deleteResumeByAdmin(userCode);
 		
 		log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
+	}
+
+	@Override
+	public List<UserVO> selCorForMain() {
+		// TODO Auto-generated method stub
+		List<UserVO> corList = adminMapper.selCorForMain();
+		return corList;
+	}
+
+	@Override
+	public List<UserVO> selUserForMain() {
+		// TODO Auto-generated method stub
+		List<UserVO> userList = adminMapper.selUserForMain();
+		return userList;
+	}
+
+	@Override
+	public List<PreRecruitment> selPreForMain() {
+		// TODO Auto-generated method stub
+		List<PreRecruitment> preList = adminMapper.selPreForMain();
+		return preList;
 	}
 	
 	
