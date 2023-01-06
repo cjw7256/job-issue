@@ -43,8 +43,8 @@ public class AdminController {
 	private final AdminRepository adminRepository;
 	private final AdminService adminService;
 
-	@GetMapping
-	public String mainAdminPage(Model model, HttpServletRequest req, HttpServletResponse resp) { //관리자 페이지 처음 들어왔을 때 보이는 화면->무엇을 보이게 할 것인지?
+	@ModelAttribute("user")
+	public UserVO userVO(HttpServletRequest req) {
 		HttpSession session = req.getSession(false);
 		
 		UserVO userVO = new UserVO();
@@ -53,6 +53,21 @@ public class AdminController {
 			userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 			log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
 		}
+		
+		log.info("user Model {}", userVO);
+		return userVO;
+	}
+	
+	@GetMapping
+	public String mainAdminPage(Model model, HttpServletRequest req, HttpServletResponse resp) { //관리자 페이지 처음 들어왔을 때 보이는 화면->무엇을 보이게 할 것인지?
+//		HttpSession session = req.getSession(false);
+//		
+//		UserVO userVO = new UserVO();
+//		
+//		if(session != null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
+//			userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+//			log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
+//		}
 
 		List<PreRecruitment>preRecList = adminRepository.selPreForMain(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
@@ -60,7 +75,7 @@ public class AdminController {
 
 		List<UserVO> userList = adminRepository.selUserForMain();
 
-		model.addAttribute("user", userVO);
+//		model.addAttribute("user", userVO);
 		model.addAttribute("preRecList", preRecList);
 		model.addAttribute("corUserList", corUserList);
 		model.addAttribute("userList", userList);
