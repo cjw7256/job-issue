@@ -30,74 +30,74 @@
 			<div class="body">
 				<div class="card">
 					<div class="bundle">
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticAnnouncementCode" class="col-sm-2 col-form-label">
 								공고번호
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="number" readonly class="form-control-plaintext"
 									id="staticAnnouncementCode" th:value="${delRec.announcementCode}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticAnnouncement" class="col-sm-2 col-form-label">
 								공고명
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticAnnouncement" th:value="${delRec.announcement}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticCorName" class="col-sm-2 col-form-label">
 								기업명
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticCorName" th:value="${delRec.corName}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticRecruitField" class="col-sm-2 col-form-label">
 								모집분야
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticRecruitField" th:value="${delRec.recruitField}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticSalary" class="col-sm-2 col-form-label">
 								급여
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticSalary" th:value="${delRec.salary}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticCareer" class="col-sm-2 col-form-label">
 								경력
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticCareer" th:value="${delRec.career}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticRecruitPerson" class="col-sm-2 col-form-label">
 								모집인원
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticRecruitPerson" th:value="${delRec.recruitPerson}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticEmployType" class="col-sm-2 col-form-label">
 								고용형태
 							</label>
-							<div class="col-sm-10" >
+							<div class="col" >
 								<input type="hidden" readonly class="form-control-plaintext"
 									id="staticEmployType" th:value="${delRec.employType}">
 								<div th:each="emt : ${delRec.employType}">
@@ -105,11 +105,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticWorkingArea" class="col-sm-2 col-form-label">
 								근무지역
 							</label>
-							<div class="col-sm-10" >
+							<div class="col" >
 								<input type="hidden" readonly class="form-control-plaintext"
 									id="staticWorkingArea" th:value="${delRec.workingArea}">
 								<div th:each="wa : ${delRec.workingArea}">
@@ -117,11 +117,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticAcademicRecord" class="col-sm-2 col-form-label">
 								학력
 							</label>
-							<div class="col-sm-10" >
+							<div class="col" >
 								<input type="hidden" readonly class="form-control-plaintext"
 									id="staticAcademicRecord" th:value="${delRec.academicRecord}">
 								<div th:each="aca : ${delRec.academicRecord}">
@@ -129,29 +129,29 @@
 								</div>
 							</div>
 						</div>
-						<div class="mb-2 row">
+						<div class="row">
 							<label for="staticReceiptStartDate" class="col-sm-2 col-form-label">
 								게시 시작일
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticReceiptStartDate" th:value="${delRec.receiptStartDate}">
 							</div>
 						</div>
-						<div class="mb-2 row">
+						<div class="row">
 							<label for="staticReceiptEndDate" class="col-sm-2 col-form-label">
 								게시 종료일
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticReceiptEndDate" th:value="${delRec.receiptEndDate}">
 							</div>
 						</div>
-						<div class="mb-3 row">
+						<div class="row">
 							<label for="staticRecruitWriteDate" class="col-sm-2 col-form-label">
 								공고 작성일
 							</label>
-							<div class="col-sm-10">
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
 									id="staticRecruitWriteDate" th:value="${delRec.recruitWritedate}">
 							</div>
