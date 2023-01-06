@@ -45,7 +45,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//@RestController
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/lists")
@@ -53,37 +52,30 @@ public class JobController {
 
 	private final JobRepository jobRepository;
 	
-	// (http://localhost:8080/lists) 서버켜고 주소입력하면 뜸 
 	@GetMapping
 	public String lists(Model model) {
 		List<JobItem> jobList = jobRepository.selectAll();
 		model.addAttribute("lists",jobList);
-
 		return "/lists/lists";
 	}
 
 	@GetMapping("/{listAnnouncementCode}")
-	public String list(Model model, @PathVariable("listAnnouncementCode") int listAnnCode
-			, @ModelAttribute JobItem jobItem
-			, HttpServletRequest req) {
+	public String list(Model model, 
+			@PathVariable("listAnnouncementCode") int listAnnCode, 
+			@ModelAttribute JobItem jobItem, 
+			HttpServletRequest req) {
+		
 		jobItem = jobRepository.selectByAnnCode(listAnnCode);
 		model.addAttribute("list", jobItem);
 		HttpSession session = req.getSession(false);
-		
-		if(session!=null) {
+	if(session!=null) {
 			if(session.getAttribute(SessionManager.SESSION_COOKIE_NAME)!=null) {
 			session.setAttribute("corCord", jobItem);	
 			}
 		}
-
 		return "/lists/list";
 	}
 	
-
-	
-	
-
-
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
 	// @PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
 	@Transactional

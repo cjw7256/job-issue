@@ -12,8 +12,7 @@
 		<div class="body">
 		<div class="card">
 			<h1 class="title">이력서 상세페이지</h1>
-		<div>
-			<form action="" method="post" th:object="${submitResume}">
+		<div th:object="${submitResume}">
 				<div class="bundle">
         			<div class="row" >
             			이력서제목 :
@@ -176,12 +175,8 @@
         				</label>
     				</div>
 				</div>
-				
-							
-			</form>
 		</div>
 			<div class="buttonSet">
-				
 				<button id="opening" class="btn btn-primary" th:onclick="|location.href='@{/submit/dosubmit/{userCode}(userCode=${submitResume.userCode})}'|">제출</button>
 				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/}'|">취소</button>
 			</div>

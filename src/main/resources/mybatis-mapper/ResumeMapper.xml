@@ -180,15 +180,15 @@
 		update USER_INFO
 		set
 		resume_code = 'Y'
-
-		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+		where USER_CODE = #{userCode}
+<!-- 		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode}) -->
 	</update>
 	
 		<update id="deleteAfter">
 		update USER_INFO
 		set
 		resume_code = 'N'
-
-		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+		where USER_CODE = #{userCode}
+<!-- 		where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode}) -->
 	</update>
 </mapper>

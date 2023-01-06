@@ -58,8 +58,7 @@ public interface AdminRepository { //실제 db 연결
 		
 		public void deletePreRecByAdmin(int annCode);
 
+		//회원 탈퇴 시 이력서만 지우는 메소드
 		 public void deleteResumeByDrop(int userCode);
 	
-	//회원 탈퇴 시 이력서만 지우는 메소드
-		public void deleteResumeByDrop(int userCode);
 }

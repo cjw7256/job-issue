@@ -32,6 +32,7 @@ import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobApplicationRepository;
 import sample.project.jobissue.repository.ResumeRepository;
+import sample.project.jobissue.service.UserService;
 import sample.project.jobissue.session.SessionManager;
 import sample.project.jobissue.validation.ResumeValidator;
 
@@ -45,62 +46,40 @@ public class ResumeController {
 
 	private final ResumeRepository resumeRepository;
 	
+	private final UserService userService;
+	
 	private final ResumeValidator resumeValidator;
 	
 	private final JobApplicationRepository jobApplicationRepository;
 	
 	@GetMapping("/submitLists")
-	public String submitLists(Model model, HttpServletRequest req) {
+	public String submitResumeLists(Model model, 
+			HttpServletRequest req) {
+		
 	HttpSession session = req.getSession(false);
 	UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 	List<JobItem> jobList = resumeRepository.selectBySubmit(userVO.getUserCode());
 	model.addAttribute("submitLists",jobList);
-
 	return "/resumes/submitLists";
-	}
-	
-	@PostMapping("/submitList")
-	public String list2(Model model, @RequestParam int submitListCorporationNo, HttpServletRequest req) {
-		log.info("1");
-		JobItem jobItem = resumeRepository.selectByAnnCode(submitListCorporationNo);
-		log.info("2");
-//		HttpSession session = req.getSession(false);
-//		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-//		ResumeItem reuItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-		model.addAttribute("submitList", jobItem);
-		log.info("3");
-//		model.addAttribute("submitResume", reuItem);
-		return "redirect:/resumes/submitList";
 	}
 
 	@GetMapping("/submitLists/{submitListAnnouncementCode}")
-	public String list(Model model, @PathVariable("submitListAnnouncementCode") int submitListAnnCode
-			, @ModelAttribute JobItem jobItem
-			, HttpServletRequest req) {
-		log.info("5");
+	public String submitResumeListDetail(Model model, 
+			@PathVariable("submitListAnnouncementCode") int submitListAnnCode, 
+			@ModelAttribute JobItem jobItem, 
+			HttpServletRequest req) {
 		jobItem = resumeRepository.selectByAnnCode(submitListAnnCode);
-		log.info("5");
 		model.addAttribute("submitList", jobItem);
-		log.info("5");
-		
 		HttpSession session = req.getSession(false);
-		log.info("5");
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		log.info("5");
 		ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-		log.info("5");
 		model.addAttribute("submitResume2", resumeItem);
-		log.info("5");
-		
-		session = req.getSession();
 		session.setAttribute("jobjob", jobItem);
 		return "/resumes/submitList";
 	}
 	
-	
-	
 	@GetMapping("/resumes")
-	public String resumes(Model model,
+	public String resumesList(Model model,
 			 HttpServletRequest req) {
 		
 		HttpSession session = req.getSession(false);
@@ -112,107 +91,84 @@ public class ResumeController {
 		return "resumes/resumes";
 	}
 	
-	
-	@PostMapping("/resume")
-	public String list2(Model model, @RequestParam int resumeUserCode) {
-		ResumeItem resumeItem = resumeRepository.selectByUserCode(resumeUserCode);
-		model.addAttribute("resume", resumeItem);
-		log.info("레주메 {}",resumeItem);
-		return "/resumes/resume";
-	}
-	
 	@GetMapping("/resumes/{resumeUserCode}")
-	public String list(Model model, @PathVariable("resumeUserCode") int resumeUserCode) {
+	public String resumeDetail(Model model,
+			@PathVariable("resumeUserCode") int resumeUserCode) {
+
 		ResumeItem resumeItem = resumeRepository.selectByUserCode(resumeUserCode);
 		model.addAttribute("resume", resumeItem);
-		log.info("레주메 {}",resumeItem);
 		return "/resumes/resume";
 	}
-	
-	
 	
 	@GetMapping("/insert")
 	public String newWrite(Model model) {
+		
 		ResumeItem resumeItem = new ResumeItem();
 		model.addAttribute("resumeItem", resumeItem);
-		
 		return "resumes/insert";
 	}
 	
 	@PostMapping("/insert")
-	public String newMemberInsert(@ModelAttribute ResumeItem resumeItem
+	public String newWritePrecess(@ModelAttribute ResumeItem resumeItem
 			, BindingResult bindingResult
 			, HttpServletRequest req
-			) {
+			) throws Exception {
 		
 		HttpSession session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		UserVO userVOInDB = userService.findUserByEmail(userVO.getUserEmail());
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeValidator.validate(resumeItem, bindingResult);
 		if (bindingResult.hasErrors()) {
 			return "resumes/insert";
 		}
-		
-
-		if (userVO.getResumeCode().equals("N")) {
-		
+		if (userVOInDB.getResumeCode().equals("N")) {
 			resumeRepository.insertResume(resumeItem);
-			
 			resumeRepository.insertAfter(userVO.getUserCode(), userVO);
 			return "redirect:/resumes/resumes";
 		}
 		return "redirect:/resumes/resumes";
 	}
 	
-	@GetMapping("/resume/delete/{userCode}")
-	public String deleteResume(Model model, @PathVariable("userCode") int userCode
-			, HttpServletRequest req) {
+	@PostMapping("/resume/delete/{userCode}")
+	public String deleteResume(Model model, 
+			HttpServletRequest req) {
+
 		HttpSession session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 		ResumeItem resumeItem = new ResumeItem();
 		resumeItem.setUserCode(userVO.getUserCode());
-
 		resumeRepository.deleteResume(resumeItem.getUserCode(), resumeItem);
 		resumeRepository.deleteAfter(userVO.getUserCode(), userVO);
-
-		return "resumes/resumes";
+		return "redirect:/resumes/resumes";
 	}
 	
-	@GetMapping("/submitResume/delete/{userCode}")
-	public String deleteSubmitResume(Model model, @PathVariable("userCode") int userCode
-			, HttpServletRequest req) {
+	@PostMapping("/submitResume/delete/{userCode}")
+	public String deleteSubmitResume(Model model, 
+			HttpServletRequest req) {
 		
-		log.info("6");
 		HttpSession session = req.getSession(false);
-		log.info("6");
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		log.info("6");
 		ResumeItem resumeItem = new ResumeItem();
-		log.info("6");
 		resumeItem.setUserCode(userVO.getUserCode());
-		log.info("6");
 		JobItem jobItem = (JobItem) session.getAttribute("jobjob");
-		log.info("6");
-		
-
 		resumeRepository.deleteSubmitResume(resumeItem.getUserCode(), jobItem.getAnnouncementCode());
-		log.info("삭제완료");
-		return "resumes/resumes";
+		return "redirect:/resumes/submitLists";
 	}	
 	
 	
 	
 	@GetMapping("/update/{userCode}")
-	public String updateResume(Model model, @PathVariable("userCode") int userCode
-			, HttpServletRequest req) {
+	public String updateResume(Model model, 
+			@PathVariable("userCode") int userCode, 
+			HttpServletRequest req) {
+		
 		HttpSession session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 		ResumeItem resumeItem = new ResumeItem();
-		
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeItem = resumeRepository.selectByUserCode(userCode);
 		model.addAttribute("resume", resumeItem);
-		
 		return "resumes/update";
 	}
 	
@@ -220,12 +176,8 @@ public class ResumeController {
 	public String updateResumeProcess(Model model
 			, @PathVariable("userCode") int userCode
 			, @ModelAttribute ResumeItem resumeItem ) {
-		log.info(resumeItem.toString());
-		log.info("/update/{}", resumeItem);
-		
-		resumeRepository.update(userCode, resumeItem);
 
-		
+		resumeRepository.update(userCode, resumeItem);
 		return "redirect:/resumes/update/{userCode}";
 	}
 	

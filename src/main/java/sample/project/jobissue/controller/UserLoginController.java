@@ -67,6 +67,8 @@ public class UserLoginController {
 		httpSession = req.getSession();
 		httpSession.setAttribute(sessionManager.SESSION_COOKIE_NAME, userVO);
 
+//		resp.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
+
 		return "redirect:" + redirectURL; // 로그인 후 보여줄 화면으로 연결
 	}
 
