@@ -50,4 +50,10 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userDAO.dropUserByEmail(userEmail);
 	}
+
+	@Override
+	public void userPasswordUpdate(String userPassword, String userEmail) throws Exception {
+		// TODO Auto-generated method stub
+		userDAO.userPasswordUpdate(userPassword, userEmail);
+	}
 }

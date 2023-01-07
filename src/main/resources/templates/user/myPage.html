@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/afterLoginNavBar2.html::headerNavBarHead"></th:block>
 <title>회원정보 수정</title>
-<link rel="stylesheet" href="/css/myPage.css">
+<link rel="stylesheet" href="/css/mypage.css">
 </head>
 
 <body class="hold-transition register-page">
@@ -16,38 +16,49 @@
 				<hr>
 				<div class="">
 					<form action="/user/update" method="post">
-						<table>
+						<table class="table_mypage">
+							<colgroup>
+								<col width="100px"/>
+								<col width="200px"/>
+								<col width="150px"/>
+							</colgroup>
 							<tr>
 								<td>* 아이디</td>
 								<td><input type="email" name="userEmail"
 									th:value="${userVO.userEmail}" readonly></td>
+								<td></td>
 							</tr>
 							<tr>
 								<td>* 비밀번호</td>
 								<td><input type="password" name="userPassword"></td>
+								<td><button type="button" class="joinButton btn-primary" th:onclick="|location.href='@{/user/passwordUpdate}'|">
+								비밀번호변경</button></td>
 							</tr>
 							<tr>
 								<td>* 이름</td>
 								<td><input type="text" name="userName"
 									th:value="${userVO.userName}" readonly></td>
+								<td></td>
 							</tr>
 							<tr>
 								<td>* 성별</td>
 								<td><input type="text" name="userGender"
 									th:value="${userVO.userGender}" readonly></td>
+								<td></td>	
 							</tr>
 							<tr>
 								<td>* 전화번호</td>
 								<td><input type="text" name="userTel"
 									th:value="${userVO.userTel}" oninput="autoHyphen2(this)"
 									maxlength="13"></td>
+								<td></td>
 							</tr>
 							<tr>
 								<td>* 우편번호</td>
 								<td><input type="text" name="userZipCode" id="userZipCode"
 									th:value="${userVO.userZipCode}" readonly></td>
 								<td><input type="button"
-									onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td>
+									onclick="sample6_execDaumPostcode()" class="joinButton" value="우편번호 찾기"></td>
 								<!-- 배열로 값을 받았다면 ${addreess[0]}으로 표기하여 출력할수 있다-->
 							</tr>
 
@@ -55,19 +66,21 @@
 								<td>* 주소</td>
 								<td><input type="text" name="userAddress" id="userAddress"
 									th:value="${userVO.userAddress}" readonly></td>
+									<td></td>
 							</tr>
 							<tr>
 								<td>* 상세주소</td>
 								<td><input type="text" name="userDetailAddress"
 									id="userDetailAddress" th:value="${userVO.userDetailAddress}"></td>
+									<td></td>
 							</tr>
 							<tr>
-								<td colspan="2" align="center">
-									<input type="submit" th:value="수정하기">
-									<button type="button"
-										th:onclick="removeUser([[${userVO.userEmail}]]);">탈퇴하기</button>
+								<td colspan="3" align="center">
+									<button type="submit" class="joinButton">수정하기</button>
+									<button type="button" class="joinButton"
+										th:onclick="|location.href='@{/user/leave/{param}(param=${userVO.userEmail})}'|">탈퇴하기</button>
 									<!-- //type을 button으로 꼭 적어줘야! submit이 되지 않는다!! 꼭 기억하기! -->
-									<button type="button" th:onclick="|location.href='@{/}'|">취소하기</button>
+									<button type="button" class="joinButton" th:onclick="|location.href='@{/}'|">취소하기</button>
 								</td>
 							</tr>
 						</table>
@@ -75,15 +88,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<script>
-			function removeUser(userEmail) {
-				if(window.confirm("탈퇴하시겠습니까?")){
-					location.href="/user/drop/" + userEmail;
-				}
-			}
-	</script>
+	</div>	
+	
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>

@@ -13,8 +13,11 @@ public interface UserService {
 	 
 	 UserVO findUserByTel(String userTel) throws Exception;
 	 
+	 void userPasswordUpdate(String userPassword, String userEmail) throws Exception;
+	 
 	 Integer modifyUserInfo(UserRegisterForm userRegisterForm) throws Exception;
 	 
 	 Integer dropUserByEmail(String userEmail) throws Exception;
+	 
 	 
 }

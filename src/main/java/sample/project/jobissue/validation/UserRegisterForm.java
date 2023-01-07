@@ -19,6 +19,7 @@ public class UserRegisterForm {
 	  private String resumeCode;
 	  private int corCode;
 	  private String userType;
+	  private boolean agreeTerms;
 	  
 	  private String corName;
 }

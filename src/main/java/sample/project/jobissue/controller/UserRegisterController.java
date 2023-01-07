@@ -223,6 +223,10 @@ public class UserRegisterController {
 				e.printStackTrace();
 			}
 		}
+		
+		if(!userRegisterForm.isAgreeTerms()) {
+			errors.rejectValue("agreeTerms", null, "약관에 동의해주세요.");
+		}
 
 		if (StringUtils.hasText(userRegisterForm.getUserEmail())) {
 			try {

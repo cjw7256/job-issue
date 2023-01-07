@@ -68,10 +68,10 @@
     height: 70px;
   }
   
-  #search button:hover{
-    background-color: rgb(105, 143, 214);
-    border : solid rgb(105, 143, 214);
-  }
+/*   #search button:hover{ */
+/*     background-color: rgb(105, 143, 214); */
+/*     border : solid rgb(105, 143, 214); */
+/*   } */
   
   /* navbar */
   #navbar {
