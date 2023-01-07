@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
 import sample.project.jobissue.domain.PreRecruitment;
@@ -46,43 +47,35 @@ public class JobOpeningController {
 		return "/corporation/jobOpening";
 	}
 	
+	//승인된 공고 상세
 	@GetMapping("/jobOpen/{announcementCode}")
 	public String jobOpenGet(@PathVariable("announcementCode") int announcementCode
 			,Model model) {
-		
 		log.info("announcementCode={}",announcementCode);
-		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(announcementCode);
-		log.info("preRecruit {}" , preRecruit);
-		model.addAttribute("preRecruit", preRecruit);
+
+		PreRecruitment recruit = preRecruitRepository.selectByAnnCode(announcementCode);
+		log.info("recruit {}" , recruit);
+		model.addAttribute("recruit {}", recruit);
 		
 		return "/corporation/jobOpen";
 	}
 	
+	//임시 공고 상세
+	@GetMapping("/preJobOpen/{announcementCode}")
+	public String preJobOpenGet(@PathVariable("announcementCode") int announcementCode
+			,Model model) {
+		
+		log.info("announcementCode={}",announcementCode);
+		
+		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(announcementCode);
+		log.info("preRecruit {}" , preRecruit);
+		model.addAttribute("preRecruit", preRecruit);
+		
+		return "/corporation/preJobOpen";
+	}
 	
-	//1.post형식 작성
-//	@PostMapping("/jobOpen")
-//	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
-////		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
-//		model.addAttribute("jobOpen", preRecruit);
-//		
-//		log.info("jobOpen {}", preRecruit);
-//		
-//		
-//		return "redirect:/corporation/jobOpen";
-//	}
 	
-	//2. @modelAttribute 로  jobitem 바로 매핑
-	
-//	@GetMapping("/{listColCode}")
-//	public String list(Model model, @PathVariable("listColCode") int listColCode) {
-//		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(listColCode);
-//		model.addAttribute("preRecruit", preRecruit);
-//		
-//		return "/corporation/jobOpen";
-//	}
-	
-	//3. 매핑한 객체의 변수를 jobitem.~으로 불러서 쿼리문의 매개변수로 넣기
-	
+
 	@PostMapping("/insertJobOpen")
 	public String jobOpenInsert(@ModelAttribute PreRecruitment preRecruit
 			, HttpServletRequest req) {
@@ -113,7 +106,7 @@ public class JobOpeningController {
 	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
 	//						- jobmapper.xml 에서 insertmulEMP, insertmultWork~ 참고)
 	
-	@GetMapping("jobOpen/delete/{announcementCode}")
+	@PostMapping("jobOpen/delete/{announcementCode}")
 	public String deleteAnnouncement(Model model, HttpServletRequest req
 			, @PathVariable("announcementCode") int announcementCode
 			) {
@@ -125,7 +118,7 @@ public class JobOpeningController {
 	}
 	
 	@GetMapping("update/{announcementCode}")
-	public String updateFood(Model model, @PathVariable("announcementCode") int announcementCode) {
+	public String updateJobOpen(Model model, @PathVariable("announcementCode") int announcementCode) {
 		PreRecruitment preRecruitment = preRecruitRepository.selectByPreAnnCode(announcementCode);
 		model.addAttribute("preRecruit", preRecruitment);
 		
@@ -133,7 +126,7 @@ public class JobOpeningController {
 	}
 	
 	@PostMapping("update/{announcementCode}")
-	public String updateFoodProcess(Model model
+	public String updateJobOpenProcess(Model model
 			, @PathVariable("announcementCode") int announcementCode
 			, @ModelAttribute PreRecruitment preRecruitment ) {
 		log.info(preRecruitment.toString());
@@ -250,15 +243,5 @@ public class JobOpeningController {
        
         return waCode;
     }
-//	@ModelAttribute("careerCodes")
-//	public Map<String, String> careerCodes(){
-////		Map<String, String> options = new HashMap<>();
-//		Map<String, String> careerCode = new LinkedHashMap<>();
-//		
-//		careerCode.put("1번", "탄수화물");
-//		careerCode.put("2번", "단백질");
-//		careerCode.put("3번", "지방");
-//		
-//		return careerCode;
-//	}
+
 }

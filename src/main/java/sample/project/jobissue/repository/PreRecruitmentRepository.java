@@ -10,12 +10,9 @@ import sample.project.jobissue.domain.PreRecruitment;
 
 public interface PreRecruitmentRepository {
 
+	//공고 등록
 	public PreRecruitment insertPreRecruit(PreRecruitment preRecruitment);
-	
-	public PreRecruitment selectById(int id);
-	
-	public void insertCorInfo(String corName);
-	
+			
 	public void insertPreMulEmp(@Param("announcementCode") int announcementCode
 			, @Param("empOptions") List<String> options );
 
@@ -25,24 +22,29 @@ public interface PreRecruitmentRepository {
 	public void insertPreMulAca(@Param("announcementCode") int announcementCode
 			, @Param("acaOptions") List<String> options );
 	
-	public List<PreRecruitment> selectAll();
-
+	//임시 공고 상세 출력
 	public PreRecruitment selectByPreAnnCode(int listAnnCode);
 	
+	//승인된 공고 상세 출력
+	public PreRecruitment selectByAnnCode(int listAnnCode);
+
+	//임시 공고 목록 출력
 	public List<PreRecruitment> selectByPreCorCode(int corCode);
 	
+	//승인된 공고 목록 출력
+	public List<ApplicantManage> selectByCorCode(int corCode);
+
 	//공고 삭제
 	public void deleteByAnnouncementCode(int announcementCode);
 	
-	public void deleteAll();
-
+	//공고 업데이트
 	public boolean update(@Param("announcementCode")int announcementCode, @Param("updateItem")PreRecruitment preRecruitment);
 
-	//지원자 부분
-	public List<ApplicantManage> selectByCorCode(int corCode);
 	
+	//지원자 이력서 상세 출력
 	public ApplicantInfo userSelectByAnnCode(int announcementCode);
 	
+	//지원자 목록 출력
 	public List<ApplicantInfo> selectByAnnSubmit(int announcementCode);
 
 

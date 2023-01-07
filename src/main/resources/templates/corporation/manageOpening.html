@@ -42,12 +42,21 @@
             <th scope="row" th:text="${preRecruit.announcementCode}">1</th>
             <td th:text="${preRecruit.applyStat}">승인 대기중</td>
             <td> 
-            <a th:href="@{|/jobOpen/${preRecruit.announcementCode}|}"
+            <a th:href="@{|/preJobOpen/${preRecruit.announcementCode}|}"
             th:text="${preRecruit.announcement}"></a></td> 
             <td th:text="${preRecruit.receiptStartDate}">공고 시작일</td> 
             <td th:text="${preRecruit.receiptEndDate}">공고 마감일</td> 
           </tr>
-            
+          
+           <tr th:each="recruit : ${recruits}">
+            <th scope="row" th:text="${recruit.announcementCode}">1</th>
+            <td th:text="${recruit.applyStat}">승인 대기중</td>
+            <td> 
+            <a th:href="@{|/jobOpen/${recruit.announcementCode}|}"
+            th:text="${recruit.announcement}"></a></td> 
+            <td th:text="${recruit.receiptStartDate}">공고 시작일</td> 
+            <td th:text="${recruit.receiptEndDate}">공고 마감일</td> 
+          </tr>
           </tbody>
         </table>
       </div>

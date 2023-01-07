@@ -12,9 +12,7 @@ import sample.project.jobissue.domain.PreRecruitment;
 @Mapper
 public interface PreRecruitmentMapper {
 
-public Integer insertPreRecruit(PreRecruitment preRecruitment);
-	
-	public Integer insertCorInfo(String corName);
+	public Integer insertPreRecruit(PreRecruitment preRecruitment);
 	
 	public Integer insertPreMulEmp(@Param("announcementCode") int announcementCode, @Param("empOptions") List<String> options );
 
@@ -28,9 +26,9 @@ public Integer insertPreRecruit(PreRecruitment preRecruitment);
 	
 	public List<String> selectAcademicRecord(int listAnnCode);
 	
-	public List<PreRecruitment> selectAll();
-	
 	public PreRecruitment selectByPreAnnCode(int listAnnCode);
+	
+	public PreRecruitment selectByAnnCode(int listAnnCode);
 	
 	public List<PreRecruitment> selectByPreCorCode(int corCode);
 	
@@ -44,9 +42,7 @@ public Integer insertPreRecruit(PreRecruitment preRecruitment);
 	public void deletePreMulWork(int announcementCode);
 	
 	public void deletePreMulAca(int announcementCode);
-	
-	public void deleteAll();
-	
+
 	public List<ApplicantManage> selectByCorCode(int corCode);
 	
 	public ApplicantInfo userSelectByAnnCode(int announcementCode);

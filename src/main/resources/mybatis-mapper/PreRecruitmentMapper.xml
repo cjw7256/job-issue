@@ -26,9 +26,15 @@
 			column="ANNOUNCEMENT_CODE" select="selectPreWorkingArea"></collection>
 		<collection property="academicRecord"
 			column="ANNOUNCEMENT_CODE" select="selectPreAcademicRecord"></collection>
+		<collection property="employType"
+			column="ANNOUNCEMENT_CODE" select="selectEmployType"></collection>
+		<collection property="workingArea"
+			column="ANNOUNCEMENT_CODE" select="selectWorkingArea"></collection>
+		<collection property="academicRecord"
+			column="ANNOUNCEMENT_CODE" select="selectAcademicRecord"></collection>
 	</resultMap>
-	
-		<!-- 공고 임시 테이블 삽입 -->
+
+	<!-- 공고 임시 테이블 삽입 -->
 	<insert id="insertPreRecruit" parameterType="PreRecruitment">
 		<selectKey keyProperty="announcementCode"
 			resultType="java.lang.Integer" order="BEFORE">
@@ -42,14 +48,13 @@
 		#{recruitFieldCode},#{salary},#{careerCode},#{recruitPerson}
 		,SYSDATE,(SYSDATE+#{endDate}),SYSDATE,'00')
 	</insert>
-	
-		<!-- 채용 상세 정보 -->
+
+	<!--임시 채용 상세 정보 -->
 	<select id="selectByPreAnnCode" resultMap="preRecruitmentMap">
 		SELECT
 		par.Announcement_Code, par.Announcement, par.SALARY,
 		par.RECRUIT_PERSON, par.RECEIPT_START, par.RECEIPT_END,
-		par.Recruit_writeDate,par.cor_code,
-		cor.cor_name, rfc.RECRUIT_FIELD,
+		par.Recruit_writeDate,par.cor_code,cor.cor_name, rfc.RECRUIT_FIELD,
 		c.Career, asu.applyStat
 		FROM preAppRecru par, corporation_info cor,RecruitFieldCode rfc,
 		CareerCode c , applyStatCode asu
@@ -60,6 +65,24 @@
 		AND par.applyStatus = asu.applyStat_Code
 	</select>
 
+	<!-- 승인된 채용 상세 정보 -->
+	<select id="selectByAnnCode" resultMap="preRecruitmentMap">
+		SELECT
+		rm.Announcement_Code, rm.Announcement, rm.SALARY, rm.RECRUIT_PERSON,
+		rm.RECEIPT_START, rm.RECEIPT_END, rm.Recruit_writeDate,rm.cor_code,
+		cor.cor_name, rfc.RECRUIT_FIELD, c.Career, asu.applyStat
+		FROM
+		recruitment rm, corporation_info cor,RecruitFieldCode rfc,
+		CareerCode c , applyStatCode asu
+		WHERE rm.Announcement_Code = #{annCode}
+		AND
+		rm.cor_code = cor.cor_code
+		AND rm.RECRUIT_FIELD_Code = rfc.RECRUIT_FIELD_Code
+		AND rm.career_code =c.career_code
+		AND rm.applyStatus = asu.applyStat_Code
+	</select>
+
+<!-- 임시 공고 용 -->
 	<select id="selectPreEmployType" resultType="String">
 		SELECT
 		NVL(et.employtype, '')
@@ -88,8 +111,35 @@
 		and
 		pma.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
 	</select>
-		
-<!-- 공고 관리 페이지 임시 공고 목록 표기용 -->
+	
+<!-- 	승인된 공고 용 -->
+		<select id="selectEmployType" resultType="String">
+		SELECT
+		NVL(et.employtype, '')
+		FROM multiEmp me, EmployTypeCode et
+		WHERE
+		me.ANNOUNCEMENT_CODE = #{annCode}
+		AND me.EmployType_Code = et.EmployType_Code
+	</select>
+
+	<select id="selectWorkingArea" resultType="String">
+		SELECT
+		NVL(wa.WORKING_AREA, '')
+		FROM multiWorkArea mw, WorkingAreaCode wa
+		WHERE mw.ANNOUNCEMENT_CODE = #{annCode}
+		AND mw.WORKING_AREA_CODE = wa.WORKING_AREA_CODE
+	</select>
+
+	<select id="selectAcademicRecord" resultType="String">
+		select
+		NVL(arc.ACADEMIC_RECORD, '')
+		from multiAcaReco ma,
+		AcademicRecordCode arc
+		where ma.ANNOUNCEMENT_CODE = #{annCode}
+		and ma.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
+	</select>
+
+	<!-- 공고 관리 페이지 임시 공고 목록 표기용 -->
 	<select id="selectByPreCorCode" resultMap="preRecruitmentMap">
 		select
 		asu.applyStat,cor_Code, announcement_Code, announcement,
@@ -99,8 +149,8 @@
 		where cor_Code=#{corCode}
 		AND par.applyStatus = asu.applyStat_Code
 	</select>
-	
-		<!-- 고용형태 등록 -->
+
+	<!-- 고용형태 등록 -->
 	<insert id="insertPreMulEmp" parameterType="PreRecruitment">
 		<foreach collection="empOptions" item="item" open="INSERT ALL"
 			close="SELECT * FROM DUAL" separator=" ">
@@ -176,9 +226,9 @@
 		where announcement_code =
 		#{announcementCode}
 	</delete>
-	
-	
-<!-- 	지원자 부분 resultmap -->
+
+
+	<!-- 지원자 부분 resultmap -->
 	<resultMap type="ApplicantInfo" id="applicantInfo">
 		<result property="applyStatus" column="applyStatus"></result>
 		<result property="ResumeTitle" column="Resume_Title"></result>
@@ -191,39 +241,48 @@
 		<result property="License" column="license"></result>
 		<result property="Activity" column="activity"></result>
 		<result property="Portfolio" column="portfolio"></result>
-		<result property="submitDate" column="submit_date" ></result>
-		<collection property="EmployType"
-			column="User_CODE" select="selectEmployType"></collection>
-		<collection property="AcademicRecord"
-			column="User_CODE" select="selectAcademicRecord"></collection>
-	
+		<result property="submitDate" column="submit_date"></result>
+		<collection property="EmployType" column="User_CODE"
+			select="selectEmployTypeByUserResume"></collection>
+		<collection property="AcademicRecord" column="User_CODE"
+			select="selectAcademicRecordByUserResume"></collection>
+
 	</resultMap>
 
 
-<!-- 지원자 관리 페이지 공고 표기용 -->
+	<!-- 지원자 관리 페이지 공고 표기용 -->
 	<select id="selectByCorCode" resultType="ApplicantManage">
-		select announcement,
-		announcement_code, receipt_end receiptEndDate
-		from recruitment
-		where
-		cor_Code = #{corCode}
+		select
+		asu.applyStat ,
+		cor_Code,announcement_Code, announcement,
+		receipt_Start,receipt_End
+		from recruitment re , applyStatCode asu
+		where re.cor_code= #{corCode}
+		AND re.applyStatus = asu.applyStat_Code
+		ORDER BY re.announcement_Code DESC
 	</select>
 
-<!-- 제출된 이력서 표기 -->
+	<!-- 제출된 이력서 표기 -->
 	<select id="userSelectByAnnCode" resultMap="applicantInfo">
 		select sr.user_code,
-		sr.announcement_code, sr.user_resumeEmail, sr.military_status, sr.marital_status,
-		sr.employType_code, sr.recruit_field_code,rfc.recruit_field, sr.resume_title,
+		sr.announcement_code, sr.user_resumeEmail, sr.military_status,
+		sr.marital_status,
+		sr.employType_code,
+		sr.recruit_field_code,rfc.recruit_field, sr.resume_title,
 		sr.academic_record_code,
-		sr.career_code,c.career, sr.cover_letter, sr.license, sr.activity,
+		sr.career_code,c.career, sr.cover_letter,
+		sr.license, sr.activity,
 		sr.portfolio, sr.submit_date
-		from SubmitResume sr, RecruitFieldCode rfc, CareerCode c
-		where announcement_Code =#{announcementCode}
+		from SubmitResume
+		sr, RecruitFieldCode rfc, CareerCode c
+		where announcement_Code
+		=#{announcementCode}
 		AND sr.career_code = c.career_code
-		AND sr.RECRUIT_FIELD_Code = rfc.RECRUIT_FIELD_Code
+		AND
+		sr.RECRUIT_FIELD_Code = rfc.RECRUIT_FIELD_Code
 	</select>
 
-<!-- 지원자 목록 표기 -->
+	<!-- 지원자 목록 표기 -->
 	<select id="selectByAnnSubmit" resultType="ApplicantInfo">
 		select ui.User_Name,
 		ui.User_Gender, ui.User_Birth,
@@ -235,9 +294,9 @@
 		AND sr.Announcement_Code =
 		#{announcementCode}
 	</select>
-	
-<!-- 	submitresume -->
-	<select id="selectEmployType" resultType="String">
+
+	<!-- submitresume -->
+	<select id="selectEmployTypeByUserResume" resultType="String">
 		SELECT
 		NVL(et.employtype, '')
 		FROM submitResume sr, EmployTypeCode et
@@ -246,12 +305,15 @@
 		AND sr.EmployType_Code =et.EmployType_Code
 	</select>
 
-	<select id="selectAcademicRecord" resultType="String">
+	<select id="selectAcademicRecordByUserResume"
+		resultType="String">
 		select
 		NVL(arc.ACADEMIC_RECORD, '')
-		from submitResume sr,AcademicRecordCode arc
+		from submitResume
+		sr,AcademicRecordCode arc
 		where sr.user_Code = #{userCode}
-		and sr.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
+		and
+		sr.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
 	</select>
 
 

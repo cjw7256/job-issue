@@ -1,4 +1,4 @@
-package sample.project.jobissue.controller;
+ package sample.project.jobissue.controller;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
@@ -40,9 +41,14 @@ public class ManageOpeningController {
 		int corCode = userVO.getCorCode();
 		
 		List<PreRecruitment> preRecruits = preRecruitRepository.selectByPreCorCode(corCode);
-//
+		List<ApplicantManage> recruits = preRecruitRepository.selectByCorCode(corCode);
+		
+		
 		model.addAttribute("preRecruits", preRecruits);
+		model.addAttribute("recruits", recruits);
+		
 		log.info("preRecruits {}", preRecruits);
+		log.info("recruits {}", recruits);
 
 
 		return "corporation/manageOpening";
