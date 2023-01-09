@@ -105,20 +105,20 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	
 	//임시 공고 상세 출력
 	@Override
-	public PreRecruitment selectByPreAnnCode(int listAnnCode) {
+	public PreRecruitment selectByPreAnnCode(int annCode) {
 		// TODO Auto-generated method stub
-		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(listAnnCode);
-		log.info("selectByAnnCode {}", listAnnCode);
+		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(annCode);
+		log.info("selectByAnnCode {}", annCode);
 		
 		return preRecruitment;
 	}
 	
 	//승인된 공고 상세 표기
 	@Override
-	public PreRecruitment selectByAnnCode(int listAnnCode) {
+	public PreRecruitment selectByAnnCode(int annCode) {
 		// TODO Auto-generated method stub
-		PreRecruitment preRecruitment = prMapper.selectByAnnCode(listAnnCode);
-		log.info("selectByAnnCode {}", listAnnCode);
+		PreRecruitment preRecruitment = prMapper.selectByAnnCode(annCode);
+		log.info("selectByAnnCode {}", annCode);
 		
 		return preRecruitment;
 	}

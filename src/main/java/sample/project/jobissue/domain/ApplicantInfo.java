@@ -29,6 +29,7 @@ public class ApplicantInfo {
 	public String ReadingCode;				//열람여부(공개/비공개)
 	public LocalDate submitDate;					//이력서 제출 일자
 	
+	
 	public String userName;
 	public String userGender;
 	public String userBirth;

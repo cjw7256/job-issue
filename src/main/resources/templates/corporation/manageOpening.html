@@ -16,7 +16,7 @@
 
       <h3 class="title">공고 관리</h3>
       
-	<div th:if="${#lists.isEmpty(preRecruits)}">
+	<div th:if="${#lists.isEmpty(preRecruits) && #lists.isEmpty(recruits)}">
       		<div class="nullContent">
       		<br>
       		등록된 공고가 없습니다 :)
@@ -25,7 +25,7 @@
       </div>
       
     <!-- 공고 -->
-    <div th:unless="${#lists.isEmpty(preRecruits)}">
+    <div th:unless="${#lists.isEmpty(preRecruits) && #lists.isEmpty(recruits)}">
     <table class="table">
       <thead>
         <tr>
@@ -37,6 +37,7 @@
         </tr>
       </thead>
       <tbody>
+      
             <!-- for문 사용 -->
           <tr th:each="preRecruit : ${preRecruits}">
             <th scope="row" th:text="${preRecruit.announcementCode}">1</th>

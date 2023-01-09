@@ -18,12 +18,18 @@
 }
 
 #recruitTable{
-	width: 600px;
+	width: 800px;
 	margin-top: 50px;
 	margin-bottom : 100px;
 	text-align: center;
 	
 }
+
+.applicantTable{
+	width: 700px;
+	text-align: center;
+}
+
 
 a{
 	text-decoration: underline;
@@ -41,9 +47,6 @@ a{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.applicantTable{
-	width: 90%;
 }
 
 .nullContent{

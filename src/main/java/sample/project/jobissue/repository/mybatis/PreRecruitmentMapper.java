@@ -26,9 +26,9 @@ public interface PreRecruitmentMapper {
 	
 	public List<String> selectAcademicRecord(int listAnnCode);
 	
-	public PreRecruitment selectByPreAnnCode(int listAnnCode);
+	public PreRecruitment selectByPreAnnCode(int annCode);
 	
-	public PreRecruitment selectByAnnCode(int listAnnCode);
+	public PreRecruitment selectByAnnCode(int annCode);
 	
 	public List<PreRecruitment> selectByPreCorCode(int corCode);
 	

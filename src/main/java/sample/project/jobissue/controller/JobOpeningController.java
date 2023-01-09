@@ -55,7 +55,7 @@ public class JobOpeningController {
 
 		PreRecruitment recruit = preRecruitRepository.selectByAnnCode(announcementCode);
 		log.info("recruit {}" , recruit);
-		model.addAttribute("recruit {}", recruit);
+		model.addAttribute("recruit", recruit);
 		
 		return "/corporation/jobOpen";
 	}
@@ -94,13 +94,13 @@ public class JobOpeningController {
 		log.info("preRecruitment {}", preRecruitment);
 		
 		preRecruitRepository
-		.insertPreMulEmp(preRecruitment.getAnnouncementCode(), preRecruit.getEmployTypeCode());
+		.insertPreMulEmp(preRecruitment.getAnnouncementCode(), preRecruit.getPreEmployTypeCode());
 		preRecruitRepository
-		.insertPreMulAca(preRecruitment.getAnnouncementCode(), preRecruit.getAcademicRecordCode());
+		.insertPreMulAca(preRecruitment.getAnnouncementCode(), preRecruit.getPreAcademicRecordCode());
 		preRecruitRepository
-		.insertPreMulWork(preRecruit.getAnnouncementCode(), preRecruit.getWorkingAreaCode());
+		.insertPreMulWork(preRecruit.getAnnouncementCode(), preRecruit.getPreWorkingAreaCode());
 		
-		return "redirect:/jobOpen/"+preRecruitment.getAnnouncementCode();
+		return "redirect:/preJobOpen/"+preRecruitment.getAnnouncementCode();
 	}
 	//4. xml에서 작성하는 쿼리문은 1. 코드를 제외한 정보가 임시 저장 테이블로 넘어가는 쿼리문
 	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
@@ -108,6 +108,17 @@ public class JobOpeningController {
 	
 	@PostMapping("jobOpen/delete/{announcementCode}")
 	public String deleteAnnouncement(Model model, HttpServletRequest req
+			, @PathVariable("announcementCode") int announcementCode
+			) {
+		preRecruitRepository
+		.deleteByAnnouncementCode(announcementCode);
+		log.info("delete {}", announcementCode);
+		
+		return "redirect:/manageOpening";
+	}
+	
+	@PostMapping("preJobOpen/delete/{announcementCode}")
+	public String preRecruitDeleteAnnouncement(Model model, HttpServletRequest req
 			, @PathVariable("announcementCode") int announcementCode
 			) {
 		preRecruitRepository
@@ -141,7 +152,7 @@ public class JobOpeningController {
 		
 		//food 상세정보를 보여주는 경로가 이미 존재. -> 이미 존재하는 메소드를 활용
 		//2번.
-		return "redirect:/jobOpen/{announcementCode}";
+		return "redirect:/preJobOpen/{announcementCode}";
 	}
 	
 	@ModelAttribute("careerCodes")
