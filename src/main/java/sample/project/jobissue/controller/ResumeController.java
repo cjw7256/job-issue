@@ -121,6 +121,8 @@ public class ResumeController {
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeValidator.validate(resumeItem, bindingResult);
 		if (bindingResult.hasErrors()) {
+		log.info("error 발생");
+
 			return "resumes/insert";
 		}
 		if (userVOInDB.getResumeCode().equals("N")) {
