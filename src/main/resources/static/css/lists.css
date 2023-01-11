@@ -46,3 +46,11 @@
 	margin-bottom: 50px;
 	width: 200px;
 }
+
+#hoverList:hover{
+	cursor:pointer;
+}
+
+/* .page-link:hover{
+	background-color: rgb(233, 236, 239);
+} */

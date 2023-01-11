@@ -31,10 +31,10 @@
 				<th>공고명</th>
 			</thead>
 			<tbody>
-				<tr th:each="jobItem : ${jobItemList}">
+				<tr th:each="jobItem : ${jobItemList}"  th:onClick="|location.href='@{/lists/{annCode}(annCode = ${jobItem.announcementCode})}'|">
 					<td th:text="${jobItemStat.index}+1">index</td>
-					<td th:text="${jobItem.corName}" th:onClick="|location.href='@{/lists/}+${jobItem.announcementCode}'|">회사명</td>
-					<td th:text="${jobItem.announcement}" th:onClick="|location.href='@{/lists/}+${jobItem.announcementCode}'|">공고명</td>
+					<td th:text="${jobItem.corName}">회사명</td>
+					<td th:text="${jobItem.announcement}">공고명</td>
 				</tr>
 			</tbody>
 		</table>

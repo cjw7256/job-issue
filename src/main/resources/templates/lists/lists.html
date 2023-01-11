@@ -5,7 +5,6 @@
 <title>채용 공고 리스트</title>
     <link rel="stylesheet" href="../css/lists.css">
     <th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
-
 </head>
 <body>
 <div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
@@ -18,17 +17,19 @@
 		<table class="table table-hover" id="listsTable">
 			<thead>
 				<tr>
-					<th scope="col" width="20%">회사명</th>
-					<th scope="col" width="45%">채용내용</th>
+					<th scope="col" width="23%">회사명</th>
+					<th scope="col" width="40%">채용내용</th>
 					<th scope="col" width="25%">급여</th>
-					<th scope="col" width="10%">채용 마감일</th>
+					<th scope="col" width="12%">채용 마감일</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				<tr th:each="list : ${jobList}" >
-					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.corName}">회사명</a></td>
-					<td><a th:href="@{|/lists/${list.announcementCode}|}" th:text="${list.announcement}">채용내용</a></td>
+				<tr th:each="list : ${jobList}"  
+				th:onClick="|location.href='@{/lists/{annCode}(annCode = ${list.announcementCode})}'|"
+				id="hoverList">
+					<td th:text="${list.corName}">회사명</td>
+					<td th:text="${list.announcement}">채용내용</td>
 					<td th:text="${list.salary}">급여</td>
 					<td th:text="${list.receiptEndDate}">채용 마감일</td>
 				</tr>
@@ -45,7 +46,7 @@
 				</li>
 				<li class="page-item">
 			      <a class="page-link" th:href="@{/lists?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
-			        <span aria-hidden="true">이전</span>
+			        <span aria-hidden="true"> << </span>
 			      </a>
    				 </li>
 				 <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
@@ -59,7 +60,7 @@
 				
 				<li class="page-item">
       				<a class="page-link" th:href="@{/lists?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
-        				<span aria-hidden="true">다음</span>
+        				<span aria-hidden="true"> >> </span>
       				</a>
     			</li>
 			    <li class="page-item">

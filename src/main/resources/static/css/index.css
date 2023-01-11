@@ -143,6 +143,7 @@
 
 .imgBox{
 	width: 250px;
+	cursor:pointer; /* 추가됨 */
 }
 
 img{min-height: 100%; max-width: 100%;}
@@ -164,6 +165,10 @@ border: solid 1px lightgray;}
 	position-fixed: right;
 	font-size: 50px;
 	
+}
+
+td{
+	cursor:pointer;
 }
 
 
