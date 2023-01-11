@@ -2,22 +2,26 @@ package sample.project.jobissue.repository.mybatis;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sample.project.jobissue.domain.ApplicantInfo;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
 
 @Slf4j
 @Repository
 @RequiredArgsConstructor
+@Primary
 public class MybatisPreRecruitment implements PreRecruitmentRepository{
 
 	private final PreRecruitmentMapper prMapper;
 	
-	
+	//공고 등록 -> 승인 대기 공고
 	@Override
 	@Transactional
 	public PreRecruitment insertPreRecruit(PreRecruitment preRecruitment) {
@@ -28,19 +32,7 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		return preRecruitment;
 	}
 
-	@Override
-	public PreRecruitment selectById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void insertCorInfo(String corName) {
-		// TODO Auto-generated method stub
-		Integer result = prMapper.insertCorInfo(corName);
-		log.info("insert Cor {}", result);
-	}
-
+	//중복 가능한 항목 삽입
 	@Override
 	public void insertPreMulEmp(int announcementCode, List<String> options) {
 		// TODO Auto-generated method stub
@@ -62,27 +54,9 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		log.info("insert MulAca {} " , result);
 	}
 
-	@Override
-	public List<PreRecruitment> selectAll() {
-		// TODO Auto-generated method stub
-		List<PreRecruitment> preRecruitment = null;
-		try {
-			preRecruitment = prMapper.selectAll();
-		} catch(Exception e) {
-			log.error(e.getMessage());
-		}
-		return preRecruitment;
-	}
 
-	@Override
-	public PreRecruitment selectByPreAnnCode(int listAnnCode) {
-		// TODO Auto-generated method stub
-		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(listAnnCode);
-		log.info("selectByAnnCode {}", listAnnCode);
-		
-		return preRecruitment;
-	}
-
+	
+	//임시 공고 수정
 	@Override
 	public boolean update(int announcementCode, PreRecruitment preRecruitment) {
 		// TODO Auto-generated method stub
@@ -96,11 +70,11 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 			prMapper.deletePreMulWork(announcementCode);
 			
 			prMapper.insertPreMulAca(
-					preRecruitment.getAnnouncementCode(), preRecruitment.getAcademicRecordCode());
+					preRecruitment.getAnnouncementCode(), preRecruitment.getPreAcademicRecordCode());
 			prMapper.insertPreMulEmp(
-					preRecruitment.getAnnouncementCode(), preRecruitment.getEmployTypeCode());
+					preRecruitment.getAnnouncementCode(), preRecruitment.getPreEmployTypeCode());
 			prMapper.insertPreMulWork(
-					preRecruitment.getAnnouncementCode(), preRecruitment.getWorkingAreaCode());
+					preRecruitment.getAnnouncementCode(), preRecruitment.getPreWorkingAreaCode());
 		
 			log.info("update info {}", preRecruitment);
 		} catch (Exception e) {
@@ -111,14 +85,7 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		return result;
 	}
 
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		prMapper.deleteAll();
-	}
-	
-	
-
+	//임시 공고 목록 출력
 	@Override
 	public List<PreRecruitment> selectByPreCorCode(int corCode) {
 		// TODO Auto-generated method stub
@@ -127,37 +94,78 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		
 		return preRecruitment;
 	}
-
+	
+	//승인된 공고 목록 출력
 	@Override
-	public void deleteByAnnouncementCode(int announcementCode) {
+	public List<ApplicantManage> selectByCorCode(int corCode) {
+		// TODO Auto-generated method stub
+		List<ApplicantManage> applicant = prMapper.selectByCorCode(corCode);
+		log.info("selectByCorCode {}", corCode);
+		
+		return applicant;
+	}
+	
+	//임시 공고 상세 출력
+	@Override
+	public PreRecruitment selectByPreAnnCode(int annCode) {
+		// TODO Auto-generated method stub
+		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(annCode);
+		log.info("selectByAnnCode {}", annCode);
+		
+		return preRecruitment;
+	}
+	
+	//승인된 공고 상세 표기
+	@Override
+	public PreRecruitment selectByAnnCode(int annCode) {
+		// TODO Auto-generated method stub
+		PreRecruitment preRecruitment = prMapper.selectByAnnCode(annCode);
+		log.info("selectByAnnCode {}", annCode);
+		
+		return preRecruitment;
+	}
+	
+	//공고 삭제
+	@Override
+	public void deletePreRecruitByAnnouncementCode(int announcementCode) {
 		// TODO Auto-generated method stub
 //		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(announcementCode);
-		prMapper.deleteByAnnouncementCode(announcementCode);
+		prMapper.deletePreRecruitByAnnouncementCode(announcementCode);
 		log.info("deleteByAnnoncement {}", announcementCode);
 		
 		
 	}
-//
-//	@Override
-//	public void deletePreMulEmp(int announcementCode) {
-//		// TODO Auto-generated method stub
-//		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
-//		log.info("deletePreMulEmp {}", announcementCode);
-//	}
-//
-//	@Override
-//	public void deletePreMulAca(int announcementCode) {
-//		// TODO Auto-generated method stub
-//		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
-//		log.info("deletePreMulAca {}", announcementCode);
-//	}
-//
-//	@Override
-//	public void deletePreMulWork(int announcementCode) {
-//		// TODO Auto-generated method stub
-//		PreRecruitment preRecruitment = prMapper.selectByAnnCode(announcementCode);
-//		log.info("deletePreMulWork {}", announcementCode);
-//	}
+
+	@Override
+	public void deleteRecruitByAnnouncementCode(int announcementCode) {
+		// TODO Auto-generated method stub
+		prMapper.deleteRecruitByAnnouncementCode(announcementCode);
+		log.info("deleteByAnnoncement {}", announcementCode);
+	}
+
+
+	//제출된 이력서 상세 출력
+	@Override
+	public ApplicantInfo userSelectByAnnCode(int announcementCode) {
+		// TODO Auto-generated method stub
+		ApplicantInfo applicant = prMapper.userSelectByAnnCode(announcementCode);
+		log.info("selectByAnnCode {}", announcementCode);
+		
+		return applicant;
+	}
+
+	//지원자 정보 목록
+	@Override
+	public List<ApplicantInfo> selectByAnnSubmit(int announcementCode) {
+		// TODO Auto-generated method stub
+		List<ApplicantInfo> applicant = prMapper.selectByAnnSubmit(announcementCode);
+		log.info("selectBySubmit {}", announcementCode);
+		return applicant;
+	}
+
+	
+
+
 
 
 }

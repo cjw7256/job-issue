@@ -89,4 +89,5 @@ public interface AdminMapper {
 	public List<RejReasonInfo> selectRejRecAll();
 	
 	public RejReasonInfo selectRejRec(int announcementCode);
+	
 }

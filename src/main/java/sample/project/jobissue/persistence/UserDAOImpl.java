@@ -72,4 +72,11 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
+	@Override
+	public void userPasswordUpdate(String userPassword, String userEmail) throws Exception {
+		// TODO Auto-generated method stub
+//		UserVO userVO = 
+		userMapper.userPasswordUpdate(userPassword, userEmail);
+	}
+
 }

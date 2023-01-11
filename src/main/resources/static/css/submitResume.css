@@ -1,38 +1,19 @@
-@charset "EUC-KR";
+
 .body{
     background-color: rgb(240, 241, 241);
     width: 100%;
-    
-    display: flex;
-    justify-content: center;
+   display : flex;
+   justify-content: center;
 }
 
 .card{
-    display: flex;
-    align-items: center;
+	display : flex;
+	align-items:center;
     width: 90%;
     margin-top: 50px;
     margin-bottom: 50px;
     height: auto;
     border-radius: 0;
-}
-
-#recruitTable{
-	width: 800px;
-	margin-top: 50px;
-	margin-bottom : 100px;
-	text-align: center;
-	
-}
-
-.applicantTable{
-	width: 700px;
-	text-align: center;
-}
-
-
-a{
-	text-decoration: underline;
 }
 
 .title{
@@ -43,18 +24,22 @@ a{
     font-weight: bold;
 
 }
-.modal-body{
+
+.bundle2{
+	margin-top: 30px;
+	margin-bottom: 30px;
+	width: 70%;
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	flex-flow: wrap;
+	font-weight: bold;
+	font-size: 16px; 
 }
 
-.nullContent{
-	
-	margin-top:50px;
-	margin-bottom: 100px;
-	width: 100%;
-	display: inline-block;
+#closeButton{
+	margin-top: 30px;
+	display: flex;
+	position: relative;
+	left: 35%;
 }
 
 @media only screen and (max-width:688px){

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+<link rel="stylesheet" href="/css/submitResume.css">
+<title>지원자 이력서</title>
+<th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+
+</head>
+<style>
+</style>
+<body>
+
+		<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+
+		<div class="body">
+			<div class="card">
+			
+				
+				<button type="button" id="closeButton" class="btn-close" data-bs-dismiss="modal"
+								th:onclick="|location.href='@{/applicantManage}'|"></button>
+				<h3 class="title" th:text="${submitResume.resumeTitle}">이력서 제목</h3>
+				
+
+
+				<div class="bundle2">
+						지원자 이메일 :
+						<div th:text="${submitResume.UserResumeEmail}"></div>
+				</div>
+
+
+				<div class="bundle2">
+						병역 여부 :
+						<div th:text="${submitResume.MilitaryStatus}"></div>
+				</div>
+
+
+				<div class="bundle2">
+						결혼 여부 :
+						<div th:text="${submitResume.MaritalStatus}"></div>
+				</div>
+
+				<div class="bundle2">
+						지원 분야 :
+						<div th:text="${submitResume.RecruitField}"></div>
+				</div>
+
+				<div class="bundle2">
+						최종 학력 :
+						<div th:text="${submitResume.AcademicRecord}"></div>
+				</div>
+
+				<div class="bundle2">
+						경력 :
+						<div th:text="${submitResume.Career}"></div>
+				</div>
+
+				<div class="bundle2">
+						자격증 : 
+						<div th:text="${submitResume.License}"></div>
+				</div>
+
+
+				<div class="bundle2">
+						대외활동 :
+						<div th:text="${submitResume.Activity}"></div>
+				</div>
+
+				<div class="bundle2">
+						포트폴리오 :
+						<div th:text="${submitResume.Portfolio}"></div>
+				</div>
+
+				<div class="bundle2">
+						자기소개서 :
+						<div th:text="${submitResume.CoverLetter}"></div>
+				</div>
+			
+		</div>
+	</div>
+
+     <div th:replace="/navbar/footer.html :: footer"></div>
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>

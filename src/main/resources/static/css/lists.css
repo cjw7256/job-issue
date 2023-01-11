@@ -1,0 +1,48 @@
+@charset "EUC-KR";
+
+.body{
+    background-color: rgb(240, 241, 241);
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin-top: 50px;
+    height: 80%;
+    border-radius: 0;
+    margin-bottom: 50px;
+}
+
+#listsTable{
+	width: 80%;
+	margin-top: 50px;
+}
+
+.title{
+    margin-top: 50px;
+    font-weight: bold;
+    border-bottom: solid 2px rgb(93, 123, 179);
+    padding-bottom: 20px;
+    width: 90%;
+
+}
+
+/* list Css */
+
+#listTable{
+	width: 90%;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.buttonSet{
+	position: relative;
+	left: 35%;
+	margin-bottom: 50px;
+	width: 200px;
+}

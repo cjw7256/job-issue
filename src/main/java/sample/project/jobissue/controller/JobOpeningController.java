@@ -7,19 +7,23 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
+import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
 import sample.project.jobissue.domain.PreRecruitment;
@@ -28,6 +32,7 @@ import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.domain.WorkingAreaCode;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
 import sample.project.jobissue.session.SessionManager;
+import sample.project.jobissue.validation.AnnouncementValidation;
 
 @Slf4j
 @Controller
@@ -36,7 +41,7 @@ import sample.project.jobissue.session.SessionManager;
 public class JobOpeningController {
 
 	private final PreRecruitmentRepository preRecruitRepository;
-	
+	private final AnnouncementValidation announcementVD;
 	
 	/** 공고 등록 페이지
 	 * @param model
@@ -60,62 +65,51 @@ public class JobOpeningController {
 	@GetMapping("/jobOpen/{announcementCode}")
 	public String jobOpenGet(@PathVariable("announcementCode") int announcementCode
 			,Model model) {
-		
 		log.info("announcementCode={}",announcementCode);
-		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(announcementCode);
-		log.info("preRecruit {}" , preRecruit);
-		model.addAttribute("preRecruit", preRecruit);
+
+		PreRecruitment recruit = preRecruitRepository.selectByAnnCode(announcementCode);
+		log.info("recruit {}" , recruit);
+		model.addAttribute("recruit", recruit);
 		
 		return "/corporation/jobOpen";
 	}
 	
+	//임시 공고 상세
+	@GetMapping("/preJobOpen/{announcementCode}")
+	public String preJobOpenGet(@PathVariable("announcementCode") int announcementCode
+			,Model model) {
+		
+		log.info("announcementCode={}",announcementCode);
+		
+		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(announcementCode);
+		log.info("preRecruit {}" , preRecruit);
+		model.addAttribute("preRecruit", preRecruit);
+		
+		return "/corporation/preJobOpen";
+	}
 	
 	
-	/** 왜 ... 있는지 모르겠음 일단 주석처리 해둠
-	 * @param model
-	 * @param preRecruit
-	 * @return
-	 */
-	//1.post형식 작성
-//	@PostMapping("/jobOpen")
-//	public String jobOpen(Model model, @ModelAttribute PreRecruitment preRecruit) {
-////		preRecruit = preRecruitRepository.selectByAnnCode(preRecruit.getAnnouncementCode());
-//		model.addAttribute("jobOpen", preRecruit);
-//		
-//		log.info("jobOpen {}", preRecruit);
-//		
-//		
-//		return "redirect:/corporation/jobOpen";
-//	}
-	
-	//2. @modelAttribute 로  jobitem 바로 매핑
-	
-//	@GetMapping("/{listColCode}")
-//	public String list(Model model, @PathVariable("listColCode") int listColCode) {
-//		PreRecruitment preRecruit = preRecruitRepository.selectByPreAnnCode(listColCode);
-//		model.addAttribute("preRecruit", preRecruit);
-//		
-//		return "/corporation/jobOpen";
-//	}
-	
-	//3. 매핑한 객체의 변수를 jobitem.~으로 불러서 쿼리문의 매개변수로 넣기
-	
-	
-	/** 공고 등록 처리하는 곳
-	 * @param preRecruit
-	 * @param req
-	 * @return
-	 */
-	@PostMapping("/insertJobOpen")
-	public String jobOpenInsert(@ModelAttribute PreRecruitment preRecruit
-			, HttpServletRequest req) {
+	//공고 등록
+	@PostMapping("/jobOpening")
+	public String jobOpenInsert(
+			//@Validated
+			@ModelAttribute(value ="preRecruit") PreRecruitment preRecruit, Model model
+			, HttpServletRequest req, BindingResult bindingResult, RedirectAttributes rAttr) {
 		
 		HttpSession session = req.getSession(false);
 		
 //		CorporationVO corporationVO = (CorporationVO)
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		
 		log.info("jobopenInsert{}", userVO);
+		
+		announcementVD.validate(preRecruit, bindingResult);
+
+		if(bindingResult.hasErrors()) { 
+			log.info("bindingResult={}", bindingResult);
+			
+//			return "redirect:/jobOpening";
+			return "/corporation/jobOpening";
+		}
 		
 		preRecruit.setCorCode(userVO.getCorCode());
 		
@@ -124,31 +118,35 @@ public class JobOpeningController {
 		log.info("preRecruitment {}", preRecruitment);
 		
 		preRecruitRepository
-		.insertPreMulEmp(preRecruitment.getAnnouncementCode(), preRecruit.getEmployTypeCode());
+		.insertPreMulEmp(preRecruitment.getAnnouncementCode(), preRecruit.getPreEmployTypeCode());
 		preRecruitRepository
-		.insertPreMulAca(preRecruitment.getAnnouncementCode(), preRecruit.getAcademicRecordCode());
+		.insertPreMulAca(preRecruitment.getAnnouncementCode(), preRecruit.getPreAcademicRecordCode());
 		preRecruitRepository
-		.insertPreMulWork(preRecruit.getAnnouncementCode(), preRecruit.getWorkingAreaCode());
+		.insertPreMulWork(preRecruit.getAnnouncementCode(), preRecruit.getPreWorkingAreaCode());
 		
-		return "redirect:/jobOpen/"+preRecruitment.getAnnouncementCode();
+		return "redirect:/preJobOpen/"+preRecruitment.getAnnouncementCode();
 	}
 	//4. xml에서 작성하는 쿼리문은 1. 코드를 제외한 정보가 임시 저장 테이블로 넘어가는 쿼리문
 	//						2. 각종 코드가 각각 저장이 되는 쿼리문(다중선택 옵션을 저장하는 테이블 
 	//						- jobmapper.xml 에서 insertmulEMP, insertmultWork~ 참고)
 	
-	
-	/** 삭제 처리 하는 페이지
-	 * @param model
-	 * @param req
-	 * @param announcementCode
-	 * @return
-	 */
-	@GetMapping("jobOpen/delete/{announcementCode}")
+	@PostMapping("jobOpen/delete/{announcementCode}")
 	public String deleteAnnouncement(Model model, HttpServletRequest req
 			, @PathVariable("announcementCode") int announcementCode
 			) {
 		preRecruitRepository
-		.deleteByAnnouncementCode(announcementCode);
+		.deleteRecruitByAnnouncementCode(announcementCode);
+		log.info("delete {}", announcementCode);
+		
+		return "redirect:/manageOpening";
+	}
+	
+	@PostMapping("preJobOpen/delete/{announcementCode}")
+	public String preRecruitDeleteAnnouncement(Model model, HttpServletRequest req
+			, @PathVariable("announcementCode") int announcementCode
+			) {
+		preRecruitRepository
+		.deletePreRecruitByAnnouncementCode(announcementCode);
 		log.info("delete {}", announcementCode);
 		
 		return "redirect:/manageOpening";
@@ -161,7 +159,7 @@ public class JobOpeningController {
 	 * @return
 	 */
 	@GetMapping("update/{announcementCode}")
-	public String updateFood(Model model, @PathVariable("announcementCode") int announcementCode) {
+	public String updateJobOpen(Model model, @PathVariable("announcementCode") int announcementCode) {
 		PreRecruitment preRecruitment = preRecruitRepository.selectByPreAnnCode(announcementCode);
 		model.addAttribute("preRecruit", preRecruitment);
 		
@@ -176,7 +174,7 @@ public class JobOpeningController {
 	 * @return
 	 */
 	@PostMapping("update/{announcementCode}")
-	public String updateFoodProcess(Model model
+	public String updateJobOpenProcess(Model model
 			, @PathVariable("announcementCode") int announcementCode
 			, @ModelAttribute PreRecruitment preRecruitment ) {
 		log.info(preRecruitment.toString());
@@ -191,7 +189,7 @@ public class JobOpeningController {
 		
 		//food 상세정보를 보여주는 경로가 이미 존재. -> 이미 존재하는 메소드를 활용
 		//2번.
-		return "redirect:/jobOpen/{announcementCode}";
+		return "redirect:/preJobOpen/{announcementCode}";
 	}
 	
 	@ModelAttribute("careerCodes")
@@ -290,15 +288,5 @@ public class JobOpeningController {
        
         return waCode;
     }
-//	@ModelAttribute("careerCodes")
-//	public Map<String, String> careerCodes(){
-////		Map<String, String> options = new HashMap<>();
-//		Map<String, String> careerCode = new LinkedHashMap<>();
-//		
-//		careerCode.put("1번", "탄수화물");
-//		careerCode.put("2번", "단백질");
-//		careerCode.put("3번", "지방");
-//		
-//		return careerCode;
-//	}
+
 }
