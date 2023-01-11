@@ -105,7 +105,7 @@ public class JobController {
 	}
 	
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
-	// @PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
+	 //@PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
 	@Transactional
 	public void insertInit() throws IOException, ParseException {
 

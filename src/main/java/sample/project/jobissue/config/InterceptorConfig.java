@@ -21,7 +21,8 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LoginInterceptor())
 		.order(1).addPathPatterns("/**")
 		.excludePathPatterns("/", "/user/logout", "/css/**", "/images/**", "/js/**"
-				, "/user/register**", "/user/register/**", "/search", "/lists/**", "/lists", "/error");
+				, "/user/register**", "/user/register/**", "/search", "/lists/**", "/lists", 
+				"/error", "/user/clause", "/user/clausecop");
 	
 		//관리자 전용 페이지
 		registry.addInterceptor(new AdminAccInterceptor())
