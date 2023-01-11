@@ -293,6 +293,29 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		return result;
 	}
+
+	@Override
+	public List<RejReasonInfo> selectRejRecAll() {
+		// TODO Auto-generated method stub
+		
+		List<RejReasonInfo> rejReasonList = null;
+		try {
+			rejReasonList = adminMapper.selectRejRecAll();
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage());
+		}
+		return rejReasonList;
+
+	}
+
+	@Override
+	public RejReasonInfo selectRejRec(int announcementCode) {
+		// TODO Auto-generated method stub
+		RejReasonInfo rejInfo = adminMapper.selectRejRec(announcementCode);
+		
+		return rejInfo;
+	}
 	
 	
 }

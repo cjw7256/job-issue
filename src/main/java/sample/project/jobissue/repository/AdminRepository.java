@@ -68,4 +68,8 @@ public interface AdminRepository { //실제 db 연결
 		 public void deleteResumeByDrop(int userCode);
 	
 		 public Integer insRejReasonInfo(RejReasonInfo rejInfo);
+		 
+		 public List<RejReasonInfo> selectRejRecAll();
+		 
+		 public RejReasonInfo selectRejRec(int announcementCode);
 }

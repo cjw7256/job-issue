@@ -85,4 +85,8 @@ public interface AdminMapper {
 	public void deletePreAcaOptByAdmin(int annCode);
 
 	public Integer insRejReasonInfo(RejReasonInfo rejInfo);
+	
+	public List<RejReasonInfo> selectRejRecAll();
+	
+	public RejReasonInfo selectRejRec(int announcementCode);
 }

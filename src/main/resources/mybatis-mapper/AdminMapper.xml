@@ -345,6 +345,21 @@
 		VALUES(#{announcementCode}, #{rejReasons}, #{userCode}, #{adminName}, SYSDATE)
 	</insert>
 	
+	<!-- 거절 공고 대기 리스트를 전부 가져옴  -->
+	<select id="selectRejRecAll" resultType="RejReasonInfo">
+		SELECT ANNOUNCEMENT_CODE announcementCode, REJREASONS rejReasons, 
+				USER_CODE userCode, USER_NAME adminName, REJDATE rejDate
+		FROM REJINFO
+	</select>
+	
+	<!--  특정 거절 공고를 가져옴 -->
+	<select id="selectRejRec" resultType="RejReasonInfo">
+		SELECT ANNOUNCEMENT_CODE announcementCode, REJREASONS rejReasons, 
+				USER_CODE userCode, USER_NAME adminName, REJDATE rejDate
+		FROM REJINFO
+		WHERE ANNOUNCEMENT_CODE = #{announcementCode}
+	</select> 
+	
 	<!-- 검색 기능 이용 :: 검색한 일반 회원 리스트 가져옴(수정 전)  -->
 	<!-- <select id="selectSearchUserInfoList" resultType="UserVO"> 
 		SELECT u.USER_NAME userName, ut.userType userType, u.USER_JOINDATE userJoinDate, u.USER_CODE userCode
