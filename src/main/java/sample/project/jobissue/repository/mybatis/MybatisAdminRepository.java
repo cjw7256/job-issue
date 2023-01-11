@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.JobRepository;
@@ -119,7 +120,7 @@ public class MybatisAdminRepository implements AdminRepository{
 		// TODO Auto-generated method stub
 		Integer result = adminMapper.insertPreToRecru(preRecruitment); 
 		
-		return null;
+		return preRecruitment;
 	}
 
 	@Override
@@ -263,6 +264,57 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
 	}
-	
+
+	@Override
+	public List<UserVO> selCorForMain() {
+		// TODO Auto-generated method stub
+		List<UserVO> corList = adminMapper.selCorForMain();
+		return corList;
+	}
+
+	@Override
+	public List<UserVO> selUserForMain() {
+		// TODO Auto-generated method stub
+		List<UserVO> userList = adminMapper.selUserForMain();
+		return userList;
+	}
+
+	@Override
+	public List<PreRecruitment> selPreForMain() {
+		// TODO Auto-generated method stub
+		List<PreRecruitment> preList = adminMapper.selPreForMain();
+		return preList;
+	}
+
+	@Override
+	public Integer insRejReasonInfo(RejReasonInfo rejInfo) {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.insRejReasonInfo(rejInfo);
+		
+		return result;
+	}
+
+	@Override
+	public List<RejReasonInfo> selectRejRecAll() {
+		// TODO Auto-generated method stub
+		
+		List<RejReasonInfo> rejReasonList = null;
+		try {
+			rejReasonList = adminMapper.selectRejRecAll();
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage());
+		}
+		return rejReasonList;
+
+	}
+
+	@Override
+	public RejReasonInfo selectRejRec(int announcementCode) {
+		// TODO Auto-generated method stub
+		RejReasonInfo rejInfo = adminMapper.selectRejRec(announcementCode);
+		
+		return rejInfo;
+	}
 	
 }

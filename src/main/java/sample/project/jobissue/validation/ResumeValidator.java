@@ -24,10 +24,10 @@ public class ResumeValidator implements Validator {
 		ResumeItem resumeItem = (ResumeItem)target;
 		
 		if(!StringUtils.hasText(resumeItem.getResumeTitle())) {
-			errors.rejectValue("loginId", null, "제목은 필수 입력입니다.");			
+			errors.rejectValue("ResumeTitle", null, "제목은 필수 입력입니다.");			
 		}
 		if(!StringUtils.hasText(resumeItem.getUserResumeEmail())) {
-			errors.rejectValue("password", null, "이메일은 필수 입력입니다.");
+			errors.rejectValue("UserResumeEmail", null, "이메일은 필수 입력입니다.");
 		}
 	}	
 }

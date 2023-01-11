@@ -1,5 +1,7 @@
 package sample.project.jobissue.persistence;
 
+import org.apache.ibatis.annotations.Param;
+
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.validation.LoginForm;
 import sample.project.jobissue.validation.UserRegisterForm;
@@ -17,4 +19,5 @@ public interface UserDAO {
 	
 	 Integer dropUserByEmail(String userEmail) throws Exception;
 
+	 void userPasswordUpdate(@Param("userPassword") String userPassword, @Param("userEmail")String userEmail) throws Exception;
 }

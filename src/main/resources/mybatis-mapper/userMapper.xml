@@ -20,6 +20,7 @@
 		, user_detailaddress
 		, resume_code
 		, user_type
+		, user_joindate
 		) VALUES (
 		USER_CODE_SEQ.nextVal
 		, #{userName}
@@ -33,6 +34,7 @@
 		, #{userDetailAddress}
 		, 'N'
 		, #{userType}
+		, sysdate
 		<!-- , #{resumeCode} -->
 		)
 	</insert>

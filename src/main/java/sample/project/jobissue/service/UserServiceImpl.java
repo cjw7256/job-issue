@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
         userDAO.register(userRegisterForm);
     }
 
-    // 로그인 처리
+     // 로그인 처리
     @Override
 	public UserVO login(LoginForm loginForm) throws Exception {
     	return userDAO.login(loginForm);
@@ -49,5 +49,11 @@ public class UserServiceImpl implements UserService {
 	public Integer dropUserByEmail(String userEmail) throws Exception {
 		// TODO Auto-generated method stub
 		return userDAO.dropUserByEmail(userEmail);
+	}
+
+	@Override
+	public void userPasswordUpdate(String userPassword, String userEmail) throws Exception {
+		// TODO Auto-generated method stub
+		userDAO.userPasswordUpdate(userPassword, userEmail);
 	}
 }

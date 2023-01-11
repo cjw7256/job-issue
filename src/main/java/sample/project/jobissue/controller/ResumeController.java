@@ -121,6 +121,7 @@ public class ResumeController {
 		return "/resumes/resume";
 	}
 	
+	
 	@GetMapping("/insert")
 	public String newWrite(Model model
 			, HttpServletRequest req
@@ -157,6 +158,8 @@ public class ResumeController {
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeValidator.validate(resumeItem, bindingResult);
 		if (bindingResult.hasErrors()) {
+		log.info("error 발생");
+
 			return "resumes/insert";
 		}
 		if (userVOInDB.getResumeCode().equals("N")) {
@@ -214,7 +217,6 @@ public class ResumeController {
 	}	
 	
 	
-	
 	@GetMapping("/update/{userCode}")
 	public String updateResume(Model model, 
 			@PathVariable("userCode") int userCode, 
@@ -225,6 +227,7 @@ public class ResumeController {
 		ResumeItem resumeItem = new ResumeItem();
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeItem = resumeRepository.selectByUserCode(userCode);
+		
 		model.addAttribute("resume", resumeItem);
 		
 		FileStoreDto fileStoreDto = fileStoreRepository.selectFileInfo(FileTypeCode.TB_CODE_RESUME, String.valueOf(resumeItem.getUserCode()));
@@ -236,10 +239,35 @@ public class ResumeController {
 	@PostMapping("/update/{userCode}")
 	public String updateResumeProcess(Model model
 			, @PathVariable("userCode") int userCode
-			, HttpServletResponse resp
-			, HttpServletRequest req
-			, @ModelAttribute ResumeItem resumeItem ) throws IllegalStateException, IOException {
+			, @ModelAttribute ResumeItem resumeItem
+			, BindingResult bindingResult
+			, HttpServletResponse resp) {
+		log.info("update post method {}", resumeItem);
+		
+		resumeValidator.validate(resumeItem, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			log.info("error 발생");
+			 
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter out;
+			try {
+				out = resp.getWriter();
 
+				out.println("<script>alert('필수 항목을 입력해주세요!'); location.href='/resumes/update/"+userCode+"';</script>");
+//				out.println("<script>alert('필수 항목을 입력해주세요'); history.go(-1);</script>");
+				
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return "redirect:/resumes/update/{userCode}";
+//			return "resumes/update";
+		}
+		
 		resumeRepository.update(userCode, resumeItem);
 				
 		
@@ -268,8 +296,7 @@ public class ResumeController {
 		
 		return "redirect:/resumes/resumes/{userCode}";	
 	}
-	
-	
+
 
 	@ModelAttribute("employTypeCodes")
     public List<EmployTypeCode> employTypeCodes() {

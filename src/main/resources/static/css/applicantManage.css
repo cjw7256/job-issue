@@ -2,7 +2,7 @@
 .body{
     background-color: rgb(240, 241, 241);
     width: 100%;
-    height: 1000px;
+    
     display: flex;
     justify-content: center;
 }
@@ -12,33 +12,27 @@
     align-items: center;
     width: 90%;
     margin-top: 50px;
-    height: 50%;
+    margin-bottom: 50px;
+    height: auto;
     border-radius: 0;
 }
 
-#accordionFlushExample{
-    width: 80%;
-    margin-top: 50px;
-}
-
-.accordion-button{
-    background-color: white;
-    color: black;
-    font-weight: 600;
-}
-
-.accordion-button:not(.collapsed){
-    background-color: rgb(252, 252, 252);
-    color: black;
-}
-
-.accordion-body{
-    background-color: rgb(247, 247, 247);
-    
-}
-
-.table{
+#recruitTable{
+	width: 800px;
+	margin-top: 50px;
+	margin-bottom : 100px;
 	text-align: center;
+	
+}
+
+.applicantTable{
+	width: 700px;
+	text-align: center;
+}
+
+
+a{
+	text-decoration: underline;
 }
 
 .title{
@@ -48,6 +42,19 @@
     padding-bottom: 20px;
     font-weight: bold;
 
+}
+.modal-body{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nullContent{
+	
+	margin-top:50px;
+	margin-bottom: 100px;
+	width: 100%;
+	display: inline-block;
 }
 
 @media only screen and (max-width:688px){

@@ -17,5 +17,5 @@ public interface UserMapper {
 	public UserVO selectUserByTel(String userTel);
 	Integer updateUserInfo(@Param("userInfo") UserRegisterForm userRegisterForm);
 	Integer deleteUserByEmail(@Param("userEmail") String userEmail);
-
+	public void userPasswordUpdate(@Param("userPassword") String userPassword,@Param("userEmail") String userEmail);
 }

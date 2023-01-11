@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
 <th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+<th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+
 <link rel="stylesheet" href="/css/index.css">
 <title>Insert title here</title>
 </head>
@@ -15,9 +17,12 @@
 		<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
 	</div>
 	
+	 <h4 class="title">최근 등록된 공고</h4>
+	
+	
 	<div id="wrap">
 		<div th:each="jobItem : ${jobItemList}" class="imgHoverEvent event1">
-			<div class="imgBox" th:onClick="|location.href='@{/lists/}+${jobItem.announcementCode}'|">
+			<div class="imgBox" th:onClick="|location.href='@{/lists/{annCode}(annCode=${jobItem.announcementCode})}'|">
 				<h5 class="p1" th:text="${jobItem.corName}"></h5>
 				<p class="p2" th:text="${jobItem.announcement}"></p>
 				<p class="p3" th:text="${jobItem.receiptEndDate}"></p>
@@ -30,5 +35,14 @@
 		</div>
 		
 	</div>
+	
+	         <div th:replace="/navbar/footer.html :: footer"></div>
+	
+	<script type="text/javascript">
+		function moveTop(){
+			window.scrollTo({top:0, behavior:"smooth"})
+		}
+	</script>
+	<div class="moveTopBtn" onclick="moveTop()">▲</div>
 </body>
 </html>
