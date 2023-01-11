@@ -80,9 +80,10 @@ public class JobOpeningController {
 	
 	
 	//공고 등록
-	@PostMapping("/insertJobOpen")
-	public String jobOpenInsert(@Validated
-			@ModelAttribute PreRecruitment preRecruit
+	@PostMapping("/jobOpening")
+	public String jobOpenInsert(
+			//@Validated
+			@ModelAttribute(value ="preRecruit") PreRecruitment preRecruit, Model model
 			, HttpServletRequest req, BindingResult bindingResult, RedirectAttributes rAttr) {
 		
 		HttpSession session = req.getSession(false);
@@ -92,13 +93,12 @@ public class JobOpeningController {
 		log.info("jobopenInsert{}", userVO);
 		
 		announcementVD.validate(preRecruit, bindingResult);
-	
-		
-		if(bindingResult.hasErrors()) {
+
+		if(bindingResult.hasErrors()) { 
 			log.info("bindingResult={}", bindingResult);
 			
-			return "redirect:/jobOpening";
- 
+//			return "redirect:/jobOpening";
+			return "/corporation/jobOpening";
 		}
 		
 		preRecruit.setCorCode(userVO.getCorCode());

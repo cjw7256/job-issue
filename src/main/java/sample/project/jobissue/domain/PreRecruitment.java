@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class PreRecruitment {
 
-	private int announcementCode; //공고 코드
-	private int corCode;          //기업 코드
+	private Integer announcementCode; //공고 코드
+	private Integer corCode;          //기업 코드
 	private String corName;		  //기업이름
 	private String announcement;  //공고명
 	private String recruitFieldCode; //모집분야 코드
