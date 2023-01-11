@@ -18,7 +18,8 @@
 		<ul class="nav justify-content-end" id="topBar">
 			<li class="nav-item"><a class="nav-link active"
 				aria-current="page" th:onclick="|location.href='@{/}'|">Mainpage</a></li>
-			<li class="nav-item"><a class="nav-link" href="/user/myPage">MyPage</a>
+			<li class="nav-item"><a class="nav-link" 
+			th:onclick="|location.href='@{/user/myPage}'|">MyPage</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="/user/logout">
 					LogOut</a></li>
