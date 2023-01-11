@@ -2,6 +2,7 @@ package sample.project.jobissue.repository.mybatis;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import sample.project.jobissue.repository.PreRecruitmentRepository;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
+@Primary
 public class MybatisPreRecruitment implements PreRecruitmentRepository{
 
 	private final PreRecruitmentMapper prMapper;
@@ -68,11 +70,11 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 			prMapper.deletePreMulWork(announcementCode);
 			
 			prMapper.insertPreMulAca(
-					preRecruitment.getAnnouncementCode(), preRecruitment.getAcademicRecordCode());
+					preRecruitment.getAnnouncementCode(), preRecruitment.getPreAcademicRecordCode());
 			prMapper.insertPreMulEmp(
-					preRecruitment.getAnnouncementCode(), preRecruitment.getEmployTypeCode());
+					preRecruitment.getAnnouncementCode(), preRecruitment.getPreEmployTypeCode());
 			prMapper.insertPreMulWork(
-					preRecruitment.getAnnouncementCode(), preRecruitment.getWorkingAreaCode());
+					preRecruitment.getAnnouncementCode(), preRecruitment.getPreWorkingAreaCode());
 		
 			log.info("update info {}", preRecruitment);
 		} catch (Exception e) {
@@ -125,16 +127,22 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 	
 	//공고 삭제
 	@Override
-	public void deleteByAnnouncementCode(int announcementCode) {
+	public void deletePreRecruitByAnnouncementCode(int announcementCode) {
 		// TODO Auto-generated method stub
 //		PreRecruitment preRecruitment = prMapper.selectByPreAnnCode(announcementCode);
-		prMapper.deleteByAnnouncementCode(announcementCode);
+		prMapper.deletePreRecruitByAnnouncementCode(announcementCode);
 		log.info("deleteByAnnoncement {}", announcementCode);
 		
 		
 	}
 
-	
+	@Override
+	public void deleteRecruitByAnnouncementCode(int announcementCode) {
+		// TODO Auto-generated method stub
+		prMapper.deleteRecruitByAnnouncementCode(announcementCode);
+		log.info("deleteByAnnoncement {}", announcementCode);
+	}
+
 
 	//제출된 이력서 상세 출력
 	@Override
@@ -155,6 +163,7 @@ public class MybatisPreRecruitment implements PreRecruitmentRepository{
 		return applicant;
 	}
 
+	
 
 
 

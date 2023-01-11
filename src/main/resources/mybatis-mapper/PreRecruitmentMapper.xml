@@ -179,8 +179,14 @@
 		</foreach>
 	</insert>
 
-	<delete id="deleteByAnnouncementCode">
+	<delete id="deletePreRecruitByAnnouncementCode">
 		delete from preAppRecru
+		where
+		announcement_Code=#{announcementCode}
+	</delete>
+	
+		<delete id="deleteRecruitByAnnouncementCode">
+		delete from recruitment
 		where
 		announcement_Code=#{announcementCode}
 	</delete>

@@ -7,13 +7,16 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -29,6 +32,7 @@ import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.domain.WorkingAreaCode;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
 import sample.project.jobissue.session.SessionManager;
+import sample.project.jobissue.validation.AnnouncementValidation;
 
 @Slf4j
 @Controller
@@ -37,7 +41,7 @@ import sample.project.jobissue.session.SessionManager;
 public class JobOpeningController {
 
 	private final PreRecruitmentRepository preRecruitRepository;
-	
+	private final AnnouncementValidation announcementVD;
 	
 	@GetMapping("/jobOpening")
 	public String jobOpening(Model model, HttpServletRequest req){
@@ -75,17 +79,27 @@ public class JobOpeningController {
 	}
 	
 	
-
+	//공고 등록
 	@PostMapping("/insertJobOpen")
-	public String jobOpenInsert(@ModelAttribute PreRecruitment preRecruit
-			, HttpServletRequest req) {
+	public String jobOpenInsert(@Validated
+			@ModelAttribute PreRecruitment preRecruit
+			, HttpServletRequest req, BindingResult bindingResult, RedirectAttributes rAttr) {
 		
 		HttpSession session = req.getSession(false);
 		
 //		CorporationVO corporationVO = (CorporationVO)
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		
 		log.info("jobopenInsert{}", userVO);
+		
+		announcementVD.validate(preRecruit, bindingResult);
+	
+		
+		if(bindingResult.hasErrors()) {
+			log.info("bindingResult={}", bindingResult);
+			
+			return "redirect:/jobOpening";
+ 
+		}
 		
 		preRecruit.setCorCode(userVO.getCorCode());
 		
@@ -111,7 +125,7 @@ public class JobOpeningController {
 			, @PathVariable("announcementCode") int announcementCode
 			) {
 		preRecruitRepository
-		.deleteByAnnouncementCode(announcementCode);
+		.deleteRecruitByAnnouncementCode(announcementCode);
 		log.info("delete {}", announcementCode);
 		
 		return "redirect:/manageOpening";
@@ -122,7 +136,7 @@ public class JobOpeningController {
 			, @PathVariable("announcementCode") int announcementCode
 			) {
 		preRecruitRepository
-		.deleteByAnnouncementCode(announcementCode);
+		.deletePreRecruitByAnnouncementCode(announcementCode);
 		log.info("delete {}", announcementCode);
 		
 		return "redirect:/manageOpening";

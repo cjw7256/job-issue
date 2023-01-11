@@ -35,7 +35,9 @@ public interface PreRecruitmentMapper {
 	public boolean update(@Param("announcementCode")int announcementCode 
 			, @Param("updateItem") PreRecruitment preRecruitment);
 
-	public void deleteByAnnouncementCode(int announcementCode);
+	public void deletePreRecruitByAnnouncementCode(int announcementCode);
+	
+	public void deleteRecruitByAnnouncementCode(int announcementCode);
 	
 	public void deletePreMulEmp(int announcementCode);
 	

@@ -17,6 +17,9 @@
 		<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
 	</div>
 	
+	 <h4 class="title">최근 등록된 공고</h4>
+	
+	
 	<div id="wrap">
 		<div th:each="jobItem : ${jobItemList}" class="imgHoverEvent event1">
 			<div class="imgBox" th:onClick="|location.href='@{/lists/}+${jobItem.announcementCode}'|">

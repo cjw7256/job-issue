@@ -35,7 +35,9 @@ public interface PreRecruitmentRepository {
 	public List<ApplicantManage> selectByCorCode(int corCode);
 
 	//공고 삭제
-	public void deleteByAnnouncementCode(int announcementCode);
+	public void deletePreRecruitByAnnouncementCode(int announcementCode);
+	
+	public void deleteRecruitByAnnouncementCode(int announcementCode);
 	
 	//공고 업데이트
 	public boolean update(@Param("announcementCode")int announcementCode, @Param("updateItem")PreRecruitment preRecruitment);

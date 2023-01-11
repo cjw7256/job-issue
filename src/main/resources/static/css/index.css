@@ -7,6 +7,16 @@
 	color: #333;
 }
 
+.title{
+    margin-top: 50px;
+    border-bottom: solid 2px rgb(93, 123, 179);
+    width: 90%;
+    padding-bottom: 20px;
+    font-weight: bold;
+    position: relative;
+    left: 5%;
+
+}
 
 #wrap {
 /* 	display: flex;	 */

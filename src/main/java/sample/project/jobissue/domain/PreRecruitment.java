@@ -3,6 +3,7 @@ package sample.project.jobissue.domain;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -15,13 +16,11 @@ public class PreRecruitment {
 	private String recruitFieldCode; //모집분야 코드
 	private String recruitField;  //모집분야
 	
-	
 	private String salary;  //급여
-	
 	
 	private String careerCode;  //경력코드
 	private String career;  //경력
-	
+
 	private String recruitPerson;  //모집인원
 	
 	private List<String> preEmployTypeCode; //공고형태코드
@@ -44,7 +43,7 @@ public class PreRecruitment {
 	private Integer endDate;
 	 
 	private String applyStat; //공고형태
-	
+
 
 }
  
