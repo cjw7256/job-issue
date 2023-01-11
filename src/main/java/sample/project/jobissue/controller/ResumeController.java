@@ -1,5 +1,7 @@
 package sample.project.jobissue.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -170,6 +173,7 @@ public class ResumeController {
 		ResumeItem resumeItem = new ResumeItem();
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeItem = resumeRepository.selectByUserCode(userCode);
+		
 		model.addAttribute("resume", resumeItem);
 		return "resumes/update";
 	}
@@ -177,13 +181,39 @@ public class ResumeController {
 	@PostMapping("/update/{userCode}")
 	public String updateResumeProcess(Model model
 			, @PathVariable("userCode") int userCode
-			, @ModelAttribute ResumeItem resumeItem ) {
+			, @ModelAttribute ResumeItem resumeItem
+			, BindingResult bindingResult
+			, HttpServletResponse resp) {
+		log.info("update post method {}", resumeItem);
+		
+		resumeValidator.validate(resumeItem, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			log.info("error 발생");
+			 
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter out;
+			try {
+				out = resp.getWriter();
 
+				out.println("<script>alert('필수 항목을 입력해주세요!'); location.href='/resumes/update/"+userCode+"';</script>");
+//				out.println("<script>alert('필수 항목을 입력해주세요'); history.go(-1);</script>");
+				
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return "redirect:/resumes/update/{userCode}";
+//			return "resumes/update";
+		}
+		
 		resumeRepository.update(userCode, resumeItem);
-		return "redirect:/resumes/update/{userCode}";
+		return "redirect:/resumes/resumes/{userCode}";
 	}
-	
-	
+
 
 	@ModelAttribute("employTypeCodes")
     public List<EmployTypeCode> employTypeCodes() {
