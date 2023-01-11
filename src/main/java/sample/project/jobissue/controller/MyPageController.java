@@ -18,6 +18,7 @@ import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
+import sample.project.jobissue.repository.FileStoreRepository;
 import sample.project.jobissue.service.UserService;
 import sample.project.jobissue.validation.UserRegisterForm;
 
@@ -29,7 +30,7 @@ public class MyPageController {
 
 	private final UserService userService;
 	private final AdminRepository adminRepository;
-
+	private final FileStoreRepository fileStoreRepository;
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
 	public String viewMyPage(HttpServletRequest request, Model model) {
 
@@ -106,7 +107,7 @@ public class MyPageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		fileStoreRepository.deleteImage(userVO.getUserCode());
 		return "redirect:/";
 	}
 
