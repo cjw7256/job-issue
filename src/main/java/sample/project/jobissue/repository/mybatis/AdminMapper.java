@@ -92,4 +92,8 @@ public interface AdminMapper {
 	
 	public Integer selectTotalDel();
 	
+	public Integer selectTotalUser();
+	
+	public Integer selectTotalCorUser();
+	
 }

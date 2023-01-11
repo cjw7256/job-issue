@@ -368,6 +368,18 @@
 		FROM Recruitment
 	</select>
 	
+	<select id="selectTotalUser" resultType="Integer">
+		SELECT count(*)
+		FROM user_info
+		where user_type=1
+	</select>
+	
+	<select id="selectTotalCorUser" resultType="Integer">
+		SELECT count(*)
+		FROM user_info
+		where user_type=2
+	</select>
+	
 	<!-- 검색 기능 이용 :: 검색한 일반 회원 리스트 가져옴(수정 전)  -->
 	<!-- <select id="selectSearchUserInfoList" resultType="UserVO"> 
 		SELECT u.USER_NAME userName, ut.userType userType, u.USER_JOINDATE userJoinDate, u.USER_CODE userCode

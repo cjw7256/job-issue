@@ -324,5 +324,21 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		return result;
 	}
+
+	@Override
+	public Integer selectTotalUser() {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.selectTotalUser();
+		
+		return result;
+	}
+
+	@Override
+	public Integer selectTotalCorUser() {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.selectTotalCorUser();
+		
+		return result;
+	}
 	
 }

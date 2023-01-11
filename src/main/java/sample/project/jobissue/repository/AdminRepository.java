@@ -74,4 +74,8 @@ public interface AdminRepository { //실제 db 연결
 		 public RejReasonInfo selectRejRec(int announcementCode);
 		 
 		 public Integer selectTotalDel();
+
+			public Integer selectTotalUser();
+			
+			public Integer selectTotalCorUser();
 }
