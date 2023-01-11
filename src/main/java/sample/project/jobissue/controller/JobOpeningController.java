@@ -26,8 +26,10 @@ import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.ApplicantManage;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
+import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.RecruitFieldCode;
+import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.domain.WorkingAreaCode;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
@@ -42,6 +44,17 @@ public class JobOpeningController {
 
 	private final PreRecruitmentRepository preRecruitRepository;
 	private final AnnouncementValidation announcementVD;
+	
+	//검색창을 띄우기 위한 model 추가
+			@ModelAttribute("pageMaker")
+			public PageMaker searchItem(SearchItem si) {
+				if (si == null) {
+					si = new SearchItem();
+				}
+				PageMaker pageMaker = new PageMaker(si);
+				
+				return pageMaker;
+			}
 	
 	/** 공고 등록 페이지
 	 * @param model

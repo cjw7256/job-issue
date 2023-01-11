@@ -32,8 +32,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobApplicationRepository;
 import sample.project.jobissue.repository.JobRepository;
@@ -63,6 +65,17 @@ public class JobController {
 //		return "/lists/lists";
 //	}
 //	
+	
+	//검색창을 띄우기 위한 model 추가
+	@ModelAttribute("pageMaker")
+	public PageMaker searchItem(SearchItem si) {
+		if (si == null) {
+			si = new SearchItem();
+		}
+		PageMaker pageMaker = new PageMaker(si);
+		
+		return pageMaker;
+	}
 	
 	//페이징 처리한 후의 lists
 	@GetMapping
@@ -105,7 +118,7 @@ public class JobController {
 	}
 	
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
-	 @PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
+//	 @PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
 	@Transactional
 	public void insertInit() throws IOException, ParseException {
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.ApplicantInfo;
 import sample.project.jobissue.domain.ApplicantManage;
+import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
 import sample.project.jobissue.session.SessionManager;
@@ -26,6 +29,17 @@ import sample.project.jobissue.session.SessionManager;
 public class ApplicantManageController {
 
 	private final PreRecruitmentRepository preRecruitment;
+	
+	//검색창을 띄우기 위한 model 추가
+		@ModelAttribute("pageMaker")
+		public PageMaker searchItem(SearchItem si) {
+			if (si == null) {
+				si = new SearchItem();
+			}
+			PageMaker pageMaker = new PageMaker(si);
+			
+			return pageMaker;
+		}
 	
 	@GetMapping
 	public String manageOpening(Model model, HttpServletRequest req){

@@ -23,9 +23,11 @@ import sample.project.jobissue.domain.EmployTypeCode;
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.MaritalStatus;
 import sample.project.jobissue.domain.MilitaryStatus;
+import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.ReadingCode;
 import sample.project.jobissue.domain.RecruitFieldCode;
 import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobApplicationRepository;
 import sample.project.jobissue.repository.JobRepository;
@@ -40,6 +42,17 @@ public class JobApplicationController {
 	private final JobApplicationRepository jobApplicationRepository;
 	private final JobRepository jobRepository;
 
+	//검색창을 띄우기 위한 model 추가
+			@ModelAttribute("pageMaker")
+			public PageMaker searchItem(SearchItem si) {
+				if (si == null) {
+					si = new SearchItem();
+				}
+				PageMaker pageMaker = new PageMaker(si);
+				
+				return pageMaker;
+			}
+	
 	@GetMapping("/checkSession")
 	public String checkSession(HttpServletRequest req, Model model) {
 
