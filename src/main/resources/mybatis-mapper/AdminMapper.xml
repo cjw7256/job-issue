@@ -30,6 +30,7 @@
 		from preAppRecru pr, corporation_info cor
 		where pr.cor_code = cor.cor_code
 		AND pr.APPLYSTATUS = '00'
+		order by pr.Announcement_Code desc
 	</select>
 	
 	<!-- adminMain페이지에 사용할 최대 5개만 나오게 하는 쿼리문들  -->
@@ -161,6 +162,7 @@
 		(
 			#{corCode}, #{announcementCode}, #{announcement}, #{recruitFieldCode}, #{salary}, 
 			#{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{recruitWriteDate}
+			, '01'
 		)
 	</insert>
 	
@@ -350,6 +352,7 @@
 		SELECT ANNOUNCEMENT_CODE announcementCode, REJREASONS rejReasons, 
 				USER_CODE userCode, USER_NAME adminName, REJDATE rejDate
 		FROM REJINFO
+		order by Announcement_Code desc
 	</select>
 	
 	<!--  특정 거절 공고를 가져옴 -->
