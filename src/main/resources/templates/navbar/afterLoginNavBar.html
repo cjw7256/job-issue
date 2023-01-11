@@ -54,52 +54,39 @@
 						<li class="nav-item"><a class="nav-link" aria-current="page"
 							th:onclick="|location.href='@{/lists}'|">채용정보</a></li>
 						<!-- {/* 개인서비스 */} -->
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/personalService"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								개인 서비스 </a>
+						<li class="nav-item dropdown"
+							th:onclick="|location.href='@{|/resumes/submitLists|}'|">
+							<a th:href="@{|/resumes/submitLists|}"
+							class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false"> 개인 서비스 </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" th:href="@{|/resumes/insert|}">이력서
-										작성</a></li>
-								<li><a class="dropdown-item"
-									th:href="@{|/resumes/resumes|}">이력서 관리</a></li>
-								<li><a class="dropdown-item"
-									th:href="@{|/resumes/submitLists|}">지원현황</a></li>
+					<li><a class="dropdown-item" th:href="@{|/resumes/insert|}">이력서 작성</a></li>
+                    <li><a class="dropdown-item" th:href="@{|/resumes/resumes|}">이력서 관리</a></li>
+                    <li><a class="dropdown-item" th:href="@{|/resumes/submitLists|}">지원현황</a></li>
 							</ul></li>
 
 						<!-- {/* 기업서비스 */} -->
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" th:href="@{|/manageOpening}"
-							role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								기업 서비스 </a>
+						<li class="nav-item dropdown"
+							th:onclick="|location.href='@{/manageOpening}'|">
+							<a th:href="@{/manageOpening}"
+							class="nav-link dropdown-toggle" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false"> 기업 서비스 </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item"
-									th:onclick="|location.href='@{/jobOpening}'|">공고 등록</a></li>
-								<li><a class="dropdown-item"
-									th:onclick="|location.href='@{/manageOpening}'|">공고 관리</a></li>
-								<li><a class="dropdown-item"
-									th:onclick="|location.href='@{/applicantManage}'|">지원자 관리</a></li>
+								<li><a class="dropdown-item" th:href="@{/jobOpening}">공고
+										등록</a></li>
+								<li><a class="dropdown-item" th:href="@{/manageOpening}">공고
+										관리</a></li>
+								<li><a class="dropdown-item" th:href="@{/applicantManage}">지원자
+										관리</a></li>
 							</ul></li>
 
 
 						<!-- {/* 취업정보게시판 */} -->
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/jobBoard" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false"> 취업톡톡 </a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/workComment'">직장
-										경험담</a></li>
-								<li><a class="dropdown-item" href="/workQ&A">직장 Q&A</a></li>
-								<li><a class="dropdown-item" href="/jobChat">잡담</a></li>
-							</ul></li>
 
 						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/mypage" role="button"
+							class="nav-link dropdown-toggle" href="/user/myPage" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false"> 마이페이지 </a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/userInfo">회원 정보 수정</a></li>
-								<li><a class="dropdown-item" href="/boardManage">게시글 관리</a></li>
-							</ul></li>
+						</li>
 
 					</ul>
 				</div>

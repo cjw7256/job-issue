@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.UserVO;
 
 public interface JobRepository {
@@ -28,5 +29,9 @@ public interface JobRepository {
 	public List<JobItem> selectAll();
 
 	public JobItem selectByAnnCode(int listAnnCode);
+	
+	public Integer selectTotalCnt(); 
+	
+	public List<JobItem> selJobListPagingList(Pagination pagination);
 
 }

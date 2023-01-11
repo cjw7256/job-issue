@@ -29,7 +29,7 @@
 	height: 500;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -30%);
 	background: #fff;
 }
 
@@ -71,24 +71,51 @@
 	line-height:20px;
 }
 
-.btn {
-	width: 310px;
+.joinButton{
+	width: 300px;
 	height: 40px;
+	font-size: 15px;
+	margin: 0 auto;
+	background-color:  rgb(93, 123, 179);
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	margin-bottom :10px;
+	border-radius: 5px;
+}
+
+.joinButton:hover{
+	background: rgb(43, 94, 189);
+}
+
+.zipCode:hover{
+	background: rgb(43, 94, 189);
+}
+
+hr {
+	margin-top: 20px;
+	border:solid 1px rgb(93, 123, 179);
+	opacity: 1;
+}
+
+.form-control {
+    display: inline-block;
+}
+    
+
+#agreeTerms{
+	margin: 6px;
+}
+.zipCode{
+	width: 120px;
+	height: 30px;
+	margin: 3px 10px;
 	font-size: 15px;
 	background-color:  rgb(93, 123, 179);
 	color: #fff;
 	border: none;
 	cursor: pointer;
 	border-radius: 5px;
-}
-
-.btn:hover {
-	background: rgb(43, 94, 189);
-}
-
-.hr {
-	margin-top: 20px;
-	border:solid 2px rgb(93, 123, 179);
 }
 
 .body {

@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sample.project.jobissue.domain.LoginDTO;
+// import sample.project.jobissue.domain.LoginDTO;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.service.UserService;
 import sample.project.jobissue.session.SessionManager;
@@ -34,7 +34,7 @@ public class UserLoginController {
 
 	// 로그인 페이지
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginGET(@ModelAttribute("loginDTO") LoginDTO loginDTO, Model model) {
+	public String loginGET(Model model) {
 		log.info("loginGET /login ");
 		LoginForm loginForm = new LoginForm();
 		model.addAttribute("loginForm", loginForm);
@@ -66,6 +66,8 @@ public class UserLoginController {
 		log.info("로그인 성공 : {} ", userVO);
 		httpSession = req.getSession();
 		httpSession.setAttribute(sessionManager.SESSION_COOKIE_NAME, userVO);
+
+//		resp.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
 
 		return "redirect:" + redirectURL; // 로그인 후 보여줄 화면으로 연결
 	}

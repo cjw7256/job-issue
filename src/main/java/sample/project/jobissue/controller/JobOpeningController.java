@@ -43,6 +43,11 @@ public class JobOpeningController {
 	private final PreRecruitmentRepository preRecruitRepository;
 	private final AnnouncementValidation announcementVD;
 	
+	/** 공고 등록 페이지
+	 * @param model
+	 * @param req
+	 * @return
+	 */
 	@GetMapping("/jobOpening")
 	public String jobOpening(Model model, HttpServletRequest req){
 		PreRecruitment preRecruit = new PreRecruitment();
@@ -51,7 +56,12 @@ public class JobOpeningController {
 		return "/corporation/jobOpening";
 	}
 	
-	//승인된 공고 상세
+	
+	/** 등록된 공고 표기(공고 등록 처리 후 바로 보이는 화면, 공고 관리 홈페이지에서 공고 클릭 시)
+	 * @param announcementCode
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/jobOpen/{announcementCode}")
 	public String jobOpenGet(@PathVariable("announcementCode") int announcementCode
 			,Model model) {
@@ -142,6 +152,12 @@ public class JobOpeningController {
 		return "redirect:/manageOpening";
 	}
 	
+	
+	/** 수정할 공고를 보여주는 페이지
+	 * @param model
+	 * @param announcementCode
+	 * @return
+	 */
 	@GetMapping("update/{announcementCode}")
 	public String updateJobOpen(Model model, @PathVariable("announcementCode") int announcementCode) {
 		PreRecruitment preRecruitment = preRecruitRepository.selectByPreAnnCode(announcementCode);
@@ -150,6 +166,13 @@ public class JobOpeningController {
 		return "corporation/jobOpeningUpdate";
 	}
 	
+	
+	/** 수정 처리 페이지
+	 * @param model
+	 * @param announcementCode
+	 * @param preRecruitment
+	 * @return
+	 */
 	@PostMapping("update/{announcementCode}")
 	public String updateJobOpenProcess(Model model
 			, @PathVariable("announcementCode") int announcementCode
@@ -191,9 +214,6 @@ public class JobOpeningController {
         employTypeCodes.add(new EmployTypeCode("05", "기타/아르바이트"));
         return employTypeCodes;
     }
-	
-	
-
 	
 	@ModelAttribute("recruitFieldCodes")
     public List<RecruitFieldCode> recruitFieldCodes(Model model) {

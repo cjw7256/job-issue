@@ -22,7 +22,7 @@
 	
 	<div id="wrap">
 		<div th:each="jobItem : ${jobItemList}" class="imgHoverEvent event1">
-			<div class="imgBox" th:onClick="|location.href='@{/lists/}+${jobItem.announcementCode}'|">
+			<div class="imgBox" th:onClick="|location.href='@{/lists/{annCode}(annCode=${jobItem.announcementCode})}'|">
 				<h5 class="p1" th:text="${jobItem.corName}"></h5>
 				<p class="p2" th:text="${jobItem.announcement}"></p>
 				<p class="p3" th:text="${jobItem.receiptEndDate}"></p>
@@ -38,5 +38,11 @@
 	
 	         <div th:replace="/navbar/footer.html :: footer"></div>
 	
+	<script type="text/javascript">
+		function moveTop(){
+			window.scrollTo({top:0, behavior:"smooth"})
+		}
+	</script>
+	<div class="moveTopBtn" onclick="moveTop()">▲</div>
 </body>
 </html>

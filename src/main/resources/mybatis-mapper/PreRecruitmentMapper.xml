@@ -18,6 +18,7 @@
 		<result property="receiptStartDate" column="receipt_start"></result>
 		<result property="receiptEndDate" column="receipt_end"></result>
 		<result property="recruitWriteDate" column="Recruit_writeDate"></result>
+		<result property="applyStat" column="applyStatus"></result>
 		<!-- 다른 테이블 연동해서 가져와야 하므로... id를 가지고(select where절에 필요(매개변수)) 실행할 select문은 
 			작성한 id="selectFoodItemOptions"이므로... -->
 		<collection property="preEmployType"

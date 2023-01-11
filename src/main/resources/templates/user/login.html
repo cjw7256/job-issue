@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<th:block th:replace="/navbar/beforeLoginNavBar2.html::headerNavBarHead"></th:block>
+<title>회원정보 수정</title>
 <link rel="stylesheet" href="/css/login.css">
-
 </head>
+
 <body class="hold-transition register-page"
 	style="margin-top: 0px; margin-left: 0px; margin-bottom: 0px; margin-right: 0px;">
+	<div th:replace="/navbar/beforeLoginNavBar2.html :: headerNavBar"></div>
 	<div id="con">
 		<div id="login">
 			<div id="login_form">
@@ -17,7 +19,7 @@
 
 					<div class="card-body login-card-body">
 						<h3 class="login">로그인</h3>
-						<hr style="border: solid 1px rgb(93, 123, 179)">
+						<hr>
 
 						<form action="" method="post" th:object="${loginForm}">
 
@@ -30,22 +32,22 @@
 								<input type="email" name="userEmail" class="form-control size"
 									placeholder="아이디(이메일)" th:field="*{userEmail}">
 								<div th:errors="*{userEmail}"></div>
-								<div class="input-group-append">
-									<div class="input-group-text">
-										<span class="fas fa-exclamation"></span>
-									</div>
-								</div>
+								<!-- 								<div class="input-group-append"> -->
+								<!-- 									<div class="input-group-text"> -->
+								<!-- 										<span class="fas fa-exclamation"></span> -->
+								<!-- 									</div> -->
+								<!-- 								</div> -->
 							</div>
 							<div class="input-group mb-3">
 								<input type="password" name="userPassword"
 									class="form-control size" placeholder="비밀번호"
 									th:field="*{userPassword}">
 								<div th:errors="*{userPassword}"></div>
-								<div class="input-group-append">
-									<div class="input-group-text">
-										<span class="fas fa-lock"></span>
-									</div>
-								</div>
+								<!-- 								<div class="input-group-append"> -->
+								<!-- 									<div class="input-group-text"> -->
+								<!-- 										<span class="fas fa-lock"></span> -->
+								<!-- 									</div> -->
+								<!-- 								</div> -->
 							</div>
 
 							<div class="row">
@@ -55,8 +57,9 @@
 											for="remember"> 아이디 저장하기 </label>
 									</div>
 								</div>
+							</div>
 
-
+							<div class="row">
 								<!-- /.col -->
 								<div class="col-4">
 									<button type="submit" class="btn btn-primary btn-block">로그인</button>
@@ -80,6 +83,7 @@
 	</div>
 	<!-- /.login-box -->
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
 		var msg = "${msg}";
 		if (msg === "REGISTERED") {
@@ -87,13 +91,80 @@
 		} else if (msg == "FAILURE") {
 			alert("아이디와 비밀번호를 확인해주세요.");
 		}
-		$(function() {
-			$('input').iCheck({
-				checkboxClass : 'icheckbox_square-blue',
-				radioClass : 'iradio_square-blue',
-				increaseArea : '20%' // optional
-			});
-		});
+// 		$(function() {
+// 			$('input').iCheck({
+// 				checkboxClass : 'icheckbox_square-blue',
+// 				radioClass : 'iradio_square-blue',
+// 				increaseArea : '20%' // optional
+// 			});
+// 		});
 	</script>
+	
+	
+	<script>	
+	$(document).ready(function(){
+		// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+	    var key = getCookie("loginUserEmail");
+	    $("#userEmail").val(key); 
+	     
+	    // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+	    if($("#userEmail").val() != ""){ 
+	        $("#remember").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+	    }
+	     
+	    $("#remember").change(function(){ // 체크박스에 변화가 있다면,
+	        if($("#remember").is(":checked")){ // ID 저장하기 체크했을 때,
+	            setCookie("loginUserEmail", $("#userEmail").val(), 7); // 7일 동안 쿠키 보관
+	        }else{ // ID 저장하기 체크 해제 시,
+	            deleteCookie("loginUserEmail");
+	        }
+	    });
+	     
+	    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+	    $("#userEmail").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+	        if($("#remember").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+	            setCookie("loginUserEmail", $("#userEmail").val(), 7); // 7일 동안 쿠키 보관
+	        }
+	    });
+	    
+
+	// 쿠키 저장하기 
+	// setCookie => saveid함수에서 넘겨준 시간이 현재시간과 비교해서 쿠키를 생성하고 지워주는 역할
+	function setCookie(cookieName, value, exdays) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var cookieValue = escape(value)
+				+ ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+		document.cookie = cookieName + "=" + cookieValue;
+	}
+
+	// 쿠키 삭제
+	function deleteCookie(cookieName) {
+		var expireDate = new Date();
+		expireDate.setDate(expireDate.getDate() - 1);
+		document.cookie = cookieName + "= " + "; expires="
+				+ expireDate.toGMTString();
+	}
+     
+		// 쿠키 가져오기
+		function getCookie(cookieName) {
+			cookieName = cookieName + '=';
+			var cookieData = document.cookie;
+			var start = cookieData.indexOf(cookieName);
+			var cookieValue = '';
+			if (start != -1) { // 쿠키가 존재하면
+				start += cookieName.length;
+				var end = cookieData.indexOf(';', start);
+				if (end == -1) // 쿠키 값의 마지막 위치 인덱스 번호 설정 
+					end = cookieData.length;
+	                console.log("end위치  : " + end);
+				cookieValue = cookieData.substring(start, end);
+			}
+			return unescape(cookieValue);
+		}
+	});
+	</script>
+	
+	
 </body>
 </html>

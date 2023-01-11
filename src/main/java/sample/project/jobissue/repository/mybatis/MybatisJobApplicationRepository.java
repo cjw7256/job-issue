@@ -20,7 +20,6 @@ public class MybatisJobApplicationRepository implements JobApplicationRepository
 	public ResumeItem selectByUserResume(int userCode) {
 		// TODO Auto-generated method stub
 		ResumeItem resumeItem = jobApplicationMapper.selectByUserResume(userCode);
-		log.info("resumeItem {}",resumeItem);
 		return resumeItem;
 	}
 

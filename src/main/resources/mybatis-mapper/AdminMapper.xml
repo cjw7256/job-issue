@@ -31,15 +31,54 @@
 		where pr.cor_code = cor.cor_code
 		AND pr.APPLYSTATUS = '00'
 	</select>
+	
+	<!-- adminMain페이지에 사용할 최대 5개만 나오게 하는 쿼리문들  -->
+	<!-- 기업 회원 리스트 가져옴 -->
+	<select id="selCorForMain" resultType="UserVO"> <!-- user가 일반 회원인 경우에는 user_name이 바로 들어오고, cor일 경우에는 cor_code를 이용해 서브 쿼리를 작성해야 함 -->
+		SELECT *
+		FROM ( SELECT cor.cor_name userName, u.USER_JOINDATE userJoinDate, cor.cor_code corCode, u.user_code userCode
+		FROM USER_INFO u, corporation_info cor
+		where u.cor_code = cor.cor_code 
+		and u.user_Type = '2'
+		ORDER BY U.USER_JOINDATE desc)
+		<![CDATA[
+		WHERE ROWNUM <6 ]]>
+	</select>
+
+	<!-- 일반 회원 리스트 가져옴  -->
+	<select id="selUserForMain" resultType="UserVO"> <!-- user가 일반 회원인 경우에는 user_name이 바로 들어오고, cor일 경우에는 cor_code를 이용해 서브 쿼리를 작성해야 함 -->
+		SELECT *
+		FROM ( SELECT u.USER_NAME userName, u.USER_JOINDATE userJoinDate, u.USER_CODE userCode
+		FROM USER_INFO u
+		where u.user_type = '1'
+        ORDER BY USER_JOINDATE DESC)
+		<![CDATA[
+		WHERE ROWNUM <6 ]]>
+	</select>
+	
+	<!-- 공고 승인 대기 리스트를 전부 가져옴  -->
+	<select id="selPreForMain" resultType="PreRecruitment">
+		SELECT *
+		FROM ( select pr.Announcement announcement, cor.cor_name corName, 
+		pr.Announcement_Code announcementCode, pr.Recruit_writeDate recruitWriteDate 
+		from preAppRecru pr, corporation_info cor
+		where pr.cor_code = cor.cor_code
+		AND pr.APPLYSTATUS = '00'
+        ORDER BY pr.Recruit_writeDate desc)
+		<![CDATA[
+		WHERE ROWNUM <6 ]]>
+	</select>
 
 	<!-- 공고 상세 정보 -->
 	<resultMap type="PreRecruitment" id="preRecruitmentMap">
 	<id property="announcementCode" column="ANNOUNCEMENT_CODE"></id>
 	<result property="corName" column="cor_name"></result>
 	<result property="announcement" column="announcement"></result>
+	<result property="recruitFieldCode" column="RECRUIT_FIELD_Code"></result>
 	<result property="recruitField" column="RECRUIT_FIELD"></result>
 	<result property="salary" column="salary"></result> <!-- // -->
 	<result property="career" column="career"></result>
+	<result property="careerCode" column="career_Code"></result>
 	<result property="recruitPerson" column="RECRUIT_PERSON"></result>
 	<result property="receiptStartDate" column="receipt_start"></result>
 	<result property="receiptEndDate" column="receipt_end"></result>
@@ -53,12 +92,18 @@
 		select="selectPreWorkingArea"></collection>
 	<collection property="academicRecord" column="ANNOUNCEMENT_CODE"
 		select="selectPreAcademicRecord"></collection>
+	<collection property="employTypeCode" column="ANNOUNCEMENT_CODE"
+		select="selectPreEmployTypeCode"></collection>
+	<collection property="workingAreaCode" column="ANNOUNCEMENT_CODE"
+		select="selectPreWorkingAreaCode"></collection>
+	<collection property="academicRecordCode" column="ANNOUNCEMENT_CODE"
+		select="selectPreAcademicRecordCode"></collection>
 	</resultMap>
 	
-	<!-- 채용 상세 정보 -->
+	<!-- 승인 대기중인 채용공고의  상세 정보 -->
 	<select id="selectPreByAnnCode" resultMap="preRecruitmentMap">
 		SELECT par.cor_code, par.Announcement_Code, par.Announcement, par.SALARY, par.RECRUIT_PERSON, par.RECEIPT_START, par.RECEIPT_END, par.Recruit_writeDate, 
-		cor.cor_name, rfc.RECRUIT_FIELD, c.Career, asu.applyStat
+		cor.cor_name, par.Recruit_Field_Code, rfc.RECRUIT_FIELD, par.career_code, c.Career, asu.applyStat
 		FROM preAppRecru par, corporation_info cor, RecruitFieldCode rfc, CareerCode c , applyStatCode asu
 		WHERE par.Announcement_Code = #{annCode} 
 		AND par.cor_code = cor.cor_code
@@ -89,6 +134,23 @@
 		and pma.ACADEMIC_RECORD_CODE = arc.ACADEMIC_RECORD_CODE
 	</select>
 	
+	<select id="selectPreEmployTypeCode" resultType="String">
+		SELECT NVL(employtype_code, '')
+		FROM premultiEmp
+		WHERE ANNOUNCEMENT_CODE = #{annCode}
+	</select>
+	
+	<select id="selectPreWorkingAreaCode" resultType="String">
+		SELECT NVL(WORKING_AREA_CODE, '')
+		FROM premultiWorkArea 
+		WHERE ANNOUNCEMENT_CODE = #{annCode}
+	</select>
+	
+	<select id="selectPreAcademicRecordCode" resultType="String">
+		select NVL(ACADEMIC_RECORD_CODE, '') 
+		from premultiAcaReco 
+		where ANNOUNCEMENT_CODE = #{annCode}
+	</select>
 	
 	<!-- insert문  -->
 	
@@ -97,8 +159,8 @@
 		insert into Recruitment
 		values
 		(
-			#{corCode}, #{announcementCode}, #{announcement}, #{recruitField}, #{salary}, 
-			#{career}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{recruitWriteDate}
+			#{corCode}, #{announcementCode}, #{announcement}, #{recruitFieldCode}, #{salary}, 
+			#{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{recruitWriteDate}
 		)
 	</insert>
 	
@@ -278,7 +340,46 @@
 		where announcement_Code = #{announcementCode}
 	</delete>
 	
+	<delete id="deletePreRecAllByCorCode">
+      delete from preAppRecru
+      where cor_code = #{corCode}
+   </delete>
+
+   <delete id="deleteRecAllByCorCode">
+      delete from recruitment
+      where cor_code = #{corCode}
+   </delete>   
 	
+	<delete id="deletePreAllEmpOptByAdmin">
+      delete from preAppRecru
+      where cor_code = #{corCode}
+   </delete>
+
+   <delete id="deletePreAllWorkOptByAdmin">
+      delete from preAppRecru
+      where cor_code = #{corCode}
+   </delete>
+   
+   <delete id="deletePreAllAcaOptByAdmin">
+      delete from preAppRecru
+      where cor_code = #{corCode}
+   </delete>
+   
+   <delete id="deleteRecAllEmpOptByAdmin">
+      delete from multiEmp
+      where cor_code = #{corCode}
+   </delete>
+   
+   <delete id="deleteRecAllWorkOptByAdmin">
+      delete from multiWorkArea
+      where cor_code = #{corCode}
+   </delete>
+   
+   <delete id="deleteRecAllAcaOptByAdmin">
+      delete from multiAcaReco
+      where cor_code = #{corCode}
+   </delete>
+   
 	
 	<!-- 검색 기능 이용 :: 검색한 일반 회원 리스트 가져옴(수정 전)  -->
 	<!-- <select id="selectSearchUserInfoList" resultType="UserVO"> 

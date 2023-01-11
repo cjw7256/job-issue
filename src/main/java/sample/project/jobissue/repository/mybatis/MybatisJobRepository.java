@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.JobRepository;
 
@@ -88,6 +89,25 @@ public class MybatisJobRepository implements JobRepository{
 		log.info("select complete {}", jobItem);
 
 		return jobItem;
+	}
+
+	@Override
+	public Integer selectTotalCnt() {
+		// TODO Auto-generated method stub
+		Integer result = jobMapper.selectTotalCnt();
+		log.info("selectTotalCnt {}", result);
+		
+		return result;
+	}
+
+	@Override
+	public List<JobItem> selJobListPagingList(Pagination pagination) {
+		// TODO Auto-generated method stub
+		List<JobItem> jobItemList = jobMapper.selJobListPagingList(pagination);
+		
+		log.info("selJobListPaging");
+		
+		return jobItemList;
 	}
 	
 }

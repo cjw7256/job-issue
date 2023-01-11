@@ -119,7 +119,7 @@ public class MybatisAdminRepository implements AdminRepository{
 		// TODO Auto-generated method stub
 		Integer result = adminMapper.insertPreToRecru(preRecruitment); 
 		
-		return null;
+		return preRecruitment;
 	}
 
 	@Override
@@ -211,7 +211,7 @@ public class MybatisAdminRepository implements AdminRepository{
 		}
 		log.info("delete User 완료");
 	}
-
+	
 	@Override
 	public UserVO selectCorDetailInfo(int userCode) {
 		// TODO Auto-generated method stub
@@ -263,5 +263,49 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		log.info("deleteResumeByDrop :: 회원 탈퇴로 인한 이력서 삭제 처리 완료");
 	}
+
+	@Override
+	public List<UserVO> selCorForMain() {
+		// TODO Auto-generated method stub
+		List<UserVO> corList = adminMapper.selCorForMain();
+		return corList;
+	}
+
+	@Override
+	public List<UserVO> selUserForMain() {
+		// TODO Auto-generated method stub
+		List<UserVO> userList = adminMapper.selUserForMain();
+		return userList;
+	}
+
+	@Override
+	public List<PreRecruitment> selPreForMain() {
+		// TODO Auto-generated method stub
+		List<PreRecruitment> preList = adminMapper.selPreForMain();
+		return preList;
+	}
+	
+	   public void deleteRecAllByAdmin(int corCode) {
+	      // TODO Auto-generated method stub
+	      adminMapper.deleteRecAllByCorCode(corCode);
+	      
+	      adminMapper.deleteRecAllEmpOptByAdmin(corCode);
+	      adminMapper.deleteRecAllWorkOptByAdmin(corCode);
+	      adminMapper.deleteRecAllAcaOptByAdmin(corCode);
+	      
+	      log.info("임시 공고 테이블 데이터 삭제 완료");      
+	   }
+
+	 @Override
+	   public void deletePreRecAllByAdmin(int corCode) {
+	      // TODO Auto-generated method stub
+	      adminMapper.deletePreRecAllByCorCode(corCode);
+	      
+	      adminMapper.deletePreAllEmpOptByAdmin(corCode);
+	      adminMapper.deletePreAllWorkOptByAdmin(corCode);
+	      adminMapper.deletePreAllAcaOptByAdmin(corCode);
+	      
+	      log.info("임시 공고 테이블 데이터 전체 삭제 완료");      
+	   }
 	
 }
