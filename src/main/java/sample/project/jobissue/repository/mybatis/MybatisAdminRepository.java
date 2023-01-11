@@ -316,5 +316,13 @@ public class MybatisAdminRepository implements AdminRepository{
 		
 		return rejInfo;
 	}
+
+	@Override
+	public Integer selectTotalDel() {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.selectTotalDel();
+		
+		return result;
+	}
 	
 }

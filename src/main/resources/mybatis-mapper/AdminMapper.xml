@@ -363,6 +363,11 @@
 		WHERE ANNOUNCEMENT_CODE = #{announcementCode}
 	</select> 
 	
+	<select id="selectTotalDel" resultType="Integer">
+		SELECT count(*)
+		FROM Recruitment
+	</select>
+	
 	<!-- 검색 기능 이용 :: 검색한 일반 회원 리스트 가져옴(수정 전)  -->
 	<!-- <select id="selectSearchUserInfoList" resultType="UserVO"> 
 		SELECT u.USER_NAME userName, ut.userType userType, u.USER_JOINDATE userJoinDate, u.USER_CODE userCode

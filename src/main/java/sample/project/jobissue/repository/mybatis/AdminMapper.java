@@ -90,4 +90,6 @@ public interface AdminMapper {
 	
 	public RejReasonInfo selectRejRec(int announcementCode);
 	
+	public Integer selectTotalDel();
+	
 }

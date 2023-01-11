@@ -39,6 +39,43 @@
 			 		</tr>
 			 	</tbody>
 			</table>
+			
+			<div>
+		<nav aria-label="Page navigation example" style="margin: auto;">
+			<ul class="pagination justify-content-center">
+				<li class="page-item">
+					<a class="page-link" th:href="@{/adminPage/deleteRec?page=1}" aria-label="Previous">
+						 <span aria-hidden="true">처음</span>
+					</a>
+				</li>
+				<li class="page-item">
+			      <a class="page-link" th:href="@{/adminPage/deleteRec?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
+			        <span aria-hidden="true"> << </span>
+			      </a>
+   				 </li>
+				 <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+				    <li class="page-item" 
+				    	th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+				    	th:each="pageButton : ${#numbers.sequence(start, end)}">
+				    	<a class="page-link" th:href="@{/adminPage/deleteRec?page={page} (page = ${pageButton})}" th:text=${pageButton}>
+				    	</a>
+				    </li>
+			    </th:block>
+				
+				<li class="page-item">
+      				<a class="page-link" th:href="@{/adminPage/deleteRec?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+        				<span aria-hidden="true"> >> </span>
+      				</a>
+    			</li>
+			    <li class="page-item">
+			      <a class="page-link" th:href="@{?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+			        <span aria-hidden="true">끝</span>
+			      </a>
+			    </li>
+			</ul>
+		</nav>
+	</div>
+			
 		</div>
 	</div>
 

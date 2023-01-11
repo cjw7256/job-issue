@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
@@ -151,17 +152,39 @@ public class AdminController {
 	}
 	
 
+//	//공고 삭제 페이지 - 현재 게재된 공고리스트가 뜸
+//	@GetMapping("/deleteRec")
+//	public String closedAnnPage(Model model) { 
+//		log.info("공고 삭제 페이지");
+//		
+//		
+//		List<JobItem> recAllList = jobRepository.selectAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
+//
+//		model.addAttribute("recAllList", recAllList);
+//
+//		return "/admin/closedAnn";
+//	}
+
+	//리스트 처리 후의 공고 삭제 페이지 - 현재 게재되고 있는 공고 리스트가 뜸
 	//공고 삭제 페이지 - 현재 게재된 공고리스트가 뜸
 	@GetMapping("/deleteRec")
-	public String closedAnnPage(Model model) { 
+	public String closedAnnPage(Model model, @RequestParam(defaultValue = "1") int page) { 
 		log.info("공고 삭제 페이지");
-		List<JobItem> recAllList = jobRepository.selectAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
-
+		
+		//총 게시물 수 
+		int totalCnt = adminRepository.selectTotalDel();
+		log.info("공고 삭제 페이지 총 게시물 {}", totalCnt);
+		
+		Pagination pagination = new Pagination(totalCnt, page);
+		
+		List<JobItem> recAllList = jobRepository.selJobListPagingList(pagination);
+		
+		model.addAttribute("pagination", pagination);
 		model.addAttribute("recAllList", recAllList);
 
 		return "/admin/closedAnn";
 	}
-
+	
 	//공고 삭제 - 공고 상세 페이지
 	@GetMapping("/deleteRec/{announcementCode}")
 	public String closedAnnDetailPage(Model model, @PathVariable("announcementCode") int annCode) {
