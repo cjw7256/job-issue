@@ -2,6 +2,7 @@ package sample.project.jobissue.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.SearchItem;
+import sample.project.jobissue.domain.UserTypeCode;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.service.UserService;
@@ -49,6 +51,19 @@ public class MyPageController {
 
 		UserVO userVO = userService.findUserByEmail(loginUserEmail);
 		model.addAttribute("userVO", userVO);
+
+		if (userVO.getUserType().equals(UserTypeCode.USER_TYPE_PERSONAL)) {
+			// 개인
+			return "user/myPage";
+		}
+		if (userVO.getUserType().equals(UserTypeCode.USER_TYPE_CORPORATION)) {
+			// 기업
+			return "user/myPageCop";
+		}
+		if (userVO.getUserType().equals(UserTypeCode.USER_TYPE_ADMIN)) {
+			// 관리자
+			return "user/myPageAdmin";
+		}
 
 		return "user/myPage";
 	}
@@ -140,7 +155,7 @@ public class MyPageController {
 		String userEmail = userRegisterForm.getUserEmail();
 		UserVO curUserVO = userService.findUserByEmail(userEmail);
 
-		if (curUserVO == null || !(curUserVO.getUserEmail().equals(curUserEmail)) ) {
+		if (curUserVO == null || !(curUserVO.getUserEmail().equals(curUserEmail))) {
 			return "redirect:/user/myPage";
 		}
 		Integer result;
@@ -148,14 +163,34 @@ public class MyPageController {
 		if (!curUserVO.getUserPassword().equals(userRegisterForm.getUserPassword())) {
 			bindingResult.rejectValue("userPassword", null, "비밀번호를 확인하세요.");
 		}
-		
+
 		if (bindingResult.hasErrors()) {
 			return "user/leave";
 		}
-
-		if (curUserVO.getResumeCode().equals("Y")) {
-			adminRepository.deleteResumeByDrop(curUserVO.getUserCode());
+		if (userVO.getUserType().equals("1")) {
+			if (curUserVO.getResumeCode().equals("Y")) {
+				adminRepository.deleteResumeByDrop(curUserVO.getUserCode());
+			}
 		}
+
+		if (userVO.getUserType().equals("2")) {
+
+			List<Integer> annCodes = adminRepository.selectRecCodes(userVO.getCorCode());
+
+			if (!annCodes.isEmpty() & annCodes != null) {
+				for (int annCode : annCodes) {
+					adminRepository.deleteRecByAdmin(annCode); // 돌면서 annCode를 넣어주면서 삭제할 수 있게!
+				}
+			}
+			List<Integer> preAnnCodes = adminRepository.selectPreRecCodes(userVO.getCorCode());
+
+			if (!preAnnCodes.isEmpty() & preAnnCodes != null) {
+				for (int preAnnCode : preAnnCodes) {
+					adminRepository.deletePreRecByAdmin(preAnnCode); // 돌면서 annCode를 넣어주면서 삭제할 수 있게!
+				}
+			}
+		}
+
 		result = userService.dropUserByEmail(userEmail);
 		log.info("delete UserEmail : {}, Result : {}", userEmail, result);
 		session.invalidate();
@@ -178,11 +213,11 @@ public class MyPageController {
 		}
 
 		if (!StringUtils.hasText(passwordForm.getCheckPassword())) {
-			errors.rejectValue("userPasswordConfirm", null, "비밀번호 확인을 입력하세요.");
+			errors.rejectValue("checkPassword", null, "비밀번호 확인을 입력하세요.");
 		}
 
-		if (!(passwordForm.getNewPassword().equals(passwordForm.getCheckPassword()))) {
-			errors.rejectValue("userPasswordConfirm", null, "비밀번호가 일치하지 않습니다.");
+		if (!passwordForm.getNewPassword().equals(passwordForm.getCheckPassword())) {
+			errors.rejectValue("newPassword", null, "비밀번호가 일치하지 않습니다.");
 		}
 	}
 
