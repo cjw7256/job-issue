@@ -61,22 +61,12 @@ public class AdminController {
 
 	@GetMapping
 	public String mainAdminPage(Model model, HttpServletRequest req, HttpServletResponse resp) { //관리자 페이지 처음 들어왔을 때 보이는 화면->무엇을 보이게 할 것인지?
-		//		HttpSession session = req.getSession(false);
-		//		
-		//		UserVO userVO = new UserVO();
-		//		
-		//		if(session != null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
-		//			userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		//			log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
-		//		}
-
 		List<PreRecruitment>preRecList = adminRepository.selPreForMain(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
 		List<UserVO> corUserList = adminRepository.selCorForMain(); //userinfo쪽에서 받아오는 회원 정보를 출력하기 위해 데이터 넘김
 
 		List<UserVO> userList = adminRepository.selUserForMain();
 
-		//		model.addAttribute("user", userVO);
 		model.addAttribute("preRecList", preRecList);
 		model.addAttribute("corUserList", corUserList);
 		model.addAttribute("userList", userList);
@@ -136,6 +126,30 @@ public class AdminController {
 		adminService.rejectRec(rejInfo);
 		return "redirect:/adminPage/applyRec";
 	}
+	
+	//공고 신청 리스트가 보이는 화면 - 승인대기 공고 리스트가 보임
+	@GetMapping("/rejRec")
+	public String rejRecPage(Model model) { 
+		List<RejReasonInfo> rejResons = adminRepository.selectRejRecAll(); 
+
+		model.addAttribute("rejResons", rejResons);
+
+		return "/admin/rejRecList";
+	}
+
+	//공고 승인 - 공고 상세 페이지
+	@GetMapping("/rejRec/{announcementCode}")
+	public String rejRecDetailPage(Model model, @PathVariable("announcementCode") int annCode) {
+		
+		//특정 공고를 찾아오는 페이지
+		RejReasonInfo rejInfo = adminRepository.selectRejRec(annCode);
+
+		log.info("rejInfo {}", rejInfo);
+		model.addAttribute("rejInfo", rejInfo);
+
+		return "/admin/rejRecDetail";
+	}
+	
 
 	//공고 삭제 페이지 - 현재 게재된 공고리스트가 뜸
 	@GetMapping("/deleteRec")
