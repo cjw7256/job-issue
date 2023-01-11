@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.JobRepository;
@@ -283,6 +284,14 @@ public class MybatisAdminRepository implements AdminRepository{
 		// TODO Auto-generated method stub
 		List<PreRecruitment> preList = adminMapper.selPreForMain();
 		return preList;
+	}
+
+	@Override
+	public Integer insRejReasonInfo(RejReasonInfo rejInfo) {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.insRejReasonInfo(rejInfo);
+		
+		return result;
 	}
 	
 	

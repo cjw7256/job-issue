@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.JobRepository;
 
@@ -53,18 +54,29 @@ public class AdminService {
 		log.info("applyAnnPostPage 승인코드 변경 완료");
 	}
 
+
 	
 	/** 공고 거절 처리 메소드
 	 * @param annCode
 	 * @param preRec
 	 */
-	public void rejectRec(int annCode) {
+	public void rejectRec(RejReasonInfo rejInfo) {
+		int annCode = rejInfo.getAnnouncementCode();
+		
 		//공고 번호로 임시 저장된 공고 찾기
 		PreRecruitment preRec = adminRepository.selectPreByAnnCode(annCode); 
 		
+		changerejectCode(annCode, preRec); //승인코드 변경하기
+		
+		int result =  adminRepository.insRejReasonInfo(rejInfo); //거절 사유 저장하는 메소드!
+		log.info("rejectRec {}", result);
+	}
+
+//	승인 대기 공고의 승인코드 - 거절로 변경하기~
+	private void changerejectCode(int annCode, PreRecruitment preRec) {
 		preRec.setApplyStat("02"); //거절코드인 02로 변경
 
-		adminRepository.updatePreStat(preRec.getApplyStat(), annCode);
+		adminRepository.updatePreStat(preRec.getApplyStat(), annCode); //거절코드 02로 변경시키는 메소드
 		log.info("applyAnnPostPage 승인 대기 공고 -> 거절");
 	}
 	

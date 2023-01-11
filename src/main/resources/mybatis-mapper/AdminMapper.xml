@@ -340,7 +340,10 @@
 		where announcement_Code = #{announcementCode}
 	</delete>
 	
-	
+	<insert id="insRejReasonInfo" parameterType="RejReasonInfo">
+		INSERT INTO REJINFO
+		VALUES(#{announcementCode}, #{rejReasons}, #{userCode}, #{adminName}, SYSDATE)
+	</insert>
 	
 	<!-- 검색 기능 이용 :: 검색한 일반 회원 리스트 가져옴(수정 전)  -->
 	<!-- <select id="selectSearchUserInfoList" resultType="UserVO"> 

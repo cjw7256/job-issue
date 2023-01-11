@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
 
 @Mapper
@@ -83,5 +84,5 @@ public interface AdminMapper {
 
 	public void deletePreAcaOptByAdmin(int annCode);
 
-
+	public Integer insRejReasonInfo(RejReasonInfo rejInfo);
 }
