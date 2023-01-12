@@ -43,7 +43,7 @@
           th:each="preRecruit : ${preRecruits}" 
           th:onClick="|location.href='@{/preJobOpen/{annCode}(annCode = ${preRecruit.announcementCode})}'|">
             <th scope="row" th:text="${preRecruit.announcementCode}">1</th>
-            <td th:text="${preRecruit.applyStat}">승인 대기중</td>
+            <td th:text="${applyStat}">승인 대기중</td>
             <td th:text="${preRecruit.announcement}"> 공고명 </td> 
             <td th:text="${preRecruit.receiptStartDate}">공고 시작일</td> 
             <td th:text="${preRecruit.receiptEndDate}">공고 마감일</td> 

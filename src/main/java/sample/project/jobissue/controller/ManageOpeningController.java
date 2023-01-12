@@ -59,6 +59,7 @@ public class ManageOpeningController {
 		
 		
 		model.addAttribute("preRecruits", preRecruits);
+		model.addAttribute("applyStat", "승인 대기");
 		model.addAttribute("recruits", recruits);
 		
 		log.info("preRecruits {}", preRecruits);
