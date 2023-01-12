@@ -56,7 +56,7 @@
 		par.Announcement_Code, par.Announcement, par.SALARY,
 		par.RECRUIT_PERSON, par.RECEIPT_START, par.RECEIPT_END,
 		par.Recruit_writeDate,par.cor_code,cor.cor_name, rfc.RECRUIT_FIELD,
-		c.Career, asu.applyStat
+		c.Career, asu.applyStat 
 		FROM preAppRecru par, corporation_info cor,RecruitFieldCode rfc,
 		CareerCode c , applyStatCode asu
 		WHERE par.Announcement_Code = #{annCode}

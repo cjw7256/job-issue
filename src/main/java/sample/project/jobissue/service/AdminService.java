@@ -33,7 +33,8 @@ public class AdminService {
 		log.info("applyAnnPostPage pre {}", preRec);
 		
 		saveRec(annCode, preRec);
-		changeApplyCode(annCode, preRec);
+		adminRepository.deletePreRecByAdmin(annCode); //공고 승인 시, 승인된 공고를 rec로 옮기고 승인 대기 테이블에서는 삭제함
+//		changeApplyCode(annCode, preRec);
 	}
 
 	//승인 대기 공고 저장하기
