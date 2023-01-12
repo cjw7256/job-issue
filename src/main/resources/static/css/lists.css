@@ -48,9 +48,6 @@
 }
 
 #hoverList:hover{
-	cursor:pointer;
+   cursor:pointer;
 }
 
-/* .page-link:hover{
-	background-color: rgb(233, 236, 239);
-} */

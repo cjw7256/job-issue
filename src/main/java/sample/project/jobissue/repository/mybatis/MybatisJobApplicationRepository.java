@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.SubmitResumeItem;
 import sample.project.jobissue.repository.JobApplicationRepository;
 
 @Slf4j
@@ -29,9 +30,18 @@ public class MybatisJobApplicationRepository implements JobApplicationRepository
 	@Override
 	public JobItem insertSubmitResume(int corCode, int announcementCode, int userCode) {
 		// TODO Auto-generated method stub
-		log.info("10");
 		jobApplicationMapper.insertSubmitResume(corCode, announcementCode, userCode);
 		return null;
+	}
+
+
+
+
+	@Override
+	public SubmitResumeItem selectByUserSubmitResume(int userCode, int announcementCode) {
+		// TODO Auto-generated method stub
+		SubmitResumeItem submitResumeItem = jobApplicationMapper.selectByUserSubmitResume(userCode, announcementCode);
+		return submitResumeItem;
 	}
 
 	

@@ -65,14 +65,15 @@
 						<div class="col-8">
 							<div class="icheck-primary"
 								style="margin-top: 8px; margin-bottom: 10px;">
-								<input type="checkbox" id="agreeTerms" name="terms"
-									value="agree"><a href="#">약관</a><label for="agreeTerms">
-									에 동의합니다 </label>
+								<input type="checkbox" id="agreeTerms" name="agreeTerms"
+									th:field="*{agreeTerms}"><a href="/user/clausecop">약관</a><label
+									for="agreeTerms"> 에 동의합니다 </label>
+								<div th:errors="*{agreeTerms}"></div>
 							</div>
 						</div>
 					</div>
 
-					<div class="row">
+					<div>
 						<div class="col-12 align-center">
 							<button type="submit" class="joinButton">회원가입</button>
 						</div>

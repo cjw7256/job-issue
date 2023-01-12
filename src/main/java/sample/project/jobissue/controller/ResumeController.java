@@ -2,12 +2,14 @@ package sample.project.jobissue.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
+import sample.project.jobissue.domain.FileStoreDto;
+import sample.project.jobissue.domain.FileTypeCode;
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.MaritalStatus;
 import sample.project.jobissue.domain.MilitaryStatus;
@@ -34,7 +39,11 @@ import sample.project.jobissue.domain.ReadingCode;
 import sample.project.jobissue.domain.RecruitFieldCode;
 import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.SearchItem;
+import sample.project.jobissue.domain.SubmitResumeItem;
+import sample.project.jobissue.domain.UploadFile;
 import sample.project.jobissue.domain.UserVO;
+import sample.project.jobissue.file.FileStoreManager;
+import sample.project.jobissue.repository.FileStoreRepository;
 import sample.project.jobissue.repository.JobApplicationRepository;
 import sample.project.jobissue.repository.ResumeRepository;
 import sample.project.jobissue.service.UserService;
@@ -68,6 +77,10 @@ public class ResumeController {
 				return pageMaker;
 			}
 	
+	private final FileStoreManager fileStoreManager; //파일저장용
+	
+	private final FileStoreRepository fileStoreRepository; //파일저장 Repository
+	
 	@GetMapping("/submitLists")
 	public String submitResumeLists(Model model, 
 			HttpServletRequest req) {
@@ -76,6 +89,7 @@ public class ResumeController {
 	UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 	List<JobItem> jobList = resumeRepository.selectBySubmit(userVO.getUserCode());
 	model.addAttribute("submitLists",jobList);
+	
 	return "/resumes/submitLists";
 	}
 
@@ -84,12 +98,13 @@ public class ResumeController {
 			@PathVariable("submitListAnnouncementCode") int submitListAnnCode, 
 			@ModelAttribute JobItem jobItem, 
 			HttpServletRequest req) {
+		
 		jobItem = resumeRepository.selectByAnnCode(submitListAnnCode);
 		model.addAttribute("submitList", jobItem);
 		HttpSession session = req.getSession(false);
 		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-		model.addAttribute("submitResume2", resumeItem);
+		SubmitResumeItem submitResumeItem = jobApplicationRepository.selectByUserSubmitResume(userVO.getUserCode(), submitListAnnCode);
+		model.addAttribute("submitResume2", submitResumeItem);
 		session.setAttribute("jobjob", jobItem);
 		return "/resumes/submitList";
 	}
@@ -113,13 +128,32 @@ public class ResumeController {
 
 		ResumeItem resumeItem = resumeRepository.selectByUserCode(resumeUserCode);
 		model.addAttribute("resume", resumeItem);
+		//파일 경로가 같이 들어가야...
+		FileStoreDto fileStoreDto = fileStoreRepository.selectFileInfo(FileTypeCode.TB_CODE_RESUME, String.valueOf(resumeItem.getUserCode()));
+		model.addAttribute("fileInfo", fileStoreDto);
+		
 		return "/resumes/resume";
 	}
 	
 	
 	@GetMapping("/insert")
-	public String newWrite(Model model) {
-		
+	public String newWrite(Model model
+			, HttpServletRequest req
+			, HttpServletResponse resp) throws Exception {
+		HttpSession session = req.getSession(false);
+		UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		UserVO userVOInDB = userService.findUserByEmail(userVO.getUserEmail());
+		if (userVOInDB.getResumeCode().equals("Y")) {
+			resp.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<script>");
+            out.println("alert('이미 작성한 이력서가 있습니다.');");
+            out.println("window.location = '/resumes/resumes';");
+            out.println("</script>");
+            out.flush();
+            out.close();
+            return null;
+		}
 		ResumeItem resumeItem = new ResumeItem();
 		model.addAttribute("resumeItem", resumeItem);
 		return "resumes/insert";
@@ -129,6 +163,7 @@ public class ResumeController {
 	public String newWritePrecess(@ModelAttribute ResumeItem resumeItem
 			, BindingResult bindingResult
 			, HttpServletRequest req
+			, HttpServletResponse resp
 			) throws Exception {
 		
 		HttpSession session = req.getSession(false);
@@ -144,11 +179,30 @@ public class ResumeController {
 		if (userVOInDB.getResumeCode().equals("N")) {
 			resumeRepository.insertResume(resumeItem);
 			resumeRepository.insertAfter(userVO.getUserCode(), userVO);
-			return "redirect:/resumes/resumes";
+
+			try {
+				//업로드된 파일 처리과정 하나 추가
+				//1. 파일 자체를 저장하는 과정
+				UploadFile uploadFile = fileStoreManager.saveFile(resumeItem.profileImage);
+				//2. 업로드된 파일정보를 테이블에 추가하는 과정(현재 올린 item 과의 관계도 추가)
+				FileStoreDto fileStoreDto = new FileStoreDto();
+				fileStoreDto.setFilename(uploadFile.getRealFileName());
+				fileStoreDto.setUploadFilename(uploadFile.getOriginalFileName());
+				fileStoreDto.setFiletype(FileTypeCode.IMAGE_FILE);
+				fileStoreDto.setFilepath(fileStoreManager.getFilePath());
+				fileStoreDto.setTableCode(FileTypeCode.TB_CODE_RESUME);
+				fileStoreDto.setPkId(String.valueOf(resumeItem.getUserCode()));
+				fileStoreRepository.insert(fileStoreDto);
+				
+			} catch (NullPointerException e) {
+				// TODO: handle exception
+				return "redirect:/resumes/resumes";	
+			}
+			
 		}
 		return "redirect:/resumes/resumes";
 	}
-	
+
 	@PostMapping("/resume/delete/{userCode}")
 	public String deleteResume(Model model, 
 			HttpServletRequest req) {
@@ -159,6 +213,7 @@ public class ResumeController {
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeRepository.deleteResume(resumeItem.getUserCode(), resumeItem);
 		resumeRepository.deleteAfter(userVO.getUserCode(), userVO);
+		fileStoreRepository.deleteImage(userVO.getUserCode());
 		return "redirect:/resumes/resumes";
 	}
 	
@@ -188,6 +243,10 @@ public class ResumeController {
 		resumeItem = resumeRepository.selectByUserCode(userCode);
 		
 		model.addAttribute("resume", resumeItem);
+		
+		FileStoreDto fileStoreDto = fileStoreRepository.selectFileInfo(FileTypeCode.TB_CODE_RESUME, String.valueOf(resumeItem.getUserCode()));
+		model.addAttribute("fileInfo", fileStoreDto);
+		
 		return "resumes/update";
 	}
 	
@@ -196,7 +255,7 @@ public class ResumeController {
 			, @PathVariable("userCode") int userCode
 			, @ModelAttribute ResumeItem resumeItem
 			, BindingResult bindingResult
-			, HttpServletResponse resp) {
+			, HttpServletResponse resp) throws IllegalStateException, IOException {
 		log.info("update post method {}", resumeItem);
 		
 		resumeValidator.validate(resumeItem, bindingResult);
@@ -224,7 +283,32 @@ public class ResumeController {
 		}
 		
 		resumeRepository.update(userCode, resumeItem);
-		return "redirect:/resumes/resumes/{userCode}";
+				
+		
+		try {
+			//업로드된 파일 처리과정 하나 추가
+			//1. 파일 자체를 저장하는 과정
+			UploadFile uploadFile = fileStoreManager.saveFile(resumeItem.profileImage);
+			
+			//2. 업로드된 파일정보를 테이블에 추가하는 과정(현재 올린 item 과의 관계도 추가)
+			fileStoreRepository.deleteImage(userCode);
+			FileStoreDto fileStoreDto = new FileStoreDto();
+			fileStoreDto.setFilename(uploadFile.getRealFileName());
+			fileStoreDto.setUploadFilename(uploadFile.getOriginalFileName());
+			fileStoreDto.setFiletype(FileTypeCode.IMAGE_FILE);
+			fileStoreDto.setFilepath(fileStoreManager.getFilePath());
+			fileStoreDto.setTableCode(FileTypeCode.TB_CODE_RESUME);
+			fileStoreDto.setPkId(String.valueOf(resumeItem.getUserCode()));
+			fileStoreRepository.insert(fileStoreDto);
+
+			
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			return "redirect:/resumes/resumes/{userCode}";	
+		}
+		
+		
+		return "redirect:/resumes/resumes/{userCode}";	
 	}
 
 

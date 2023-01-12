@@ -1,13 +1,22 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
-<title>채용 공고 리스트</title>
-    <link rel="stylesheet" href="../css/lists.css">
+<th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+<th:block th:replace="/navbar/beforeLoginNavBar.html::headerNavBarHead"></th:block>
+<title>Insert title here</title>
     <th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+
+    <link rel="stylesheet" href="../css/lists.css">
 </head>
 <body>
-<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+	<div th:if="${userVO}!=null">
+		<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
+	</div>
+	<div th:if="${userVO}==null">
+		<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
+	</div>
 	
 		
 	

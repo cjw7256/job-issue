@@ -108,6 +108,18 @@ public class UserRegisterController {
 		return "redirect:/user/login";
 	}
 
+	@RequestMapping("/clause")
+	public String clausePage() {
+		
+		return "/user/clause";
+	}
+	
+	@RequestMapping("/clausecop")
+	public String clausecopPage() {
+		
+		return "/user/clausecop";
+	}
+	
 	public void validateUserCopRegister(UserRegisterForm userRegisterForm, Errors errors) {
 		if (!StringUtils.hasText(userRegisterForm.getUserEmail())) {
 			errors.rejectValue("userEmail", null, "아이디를 입력하세요.");

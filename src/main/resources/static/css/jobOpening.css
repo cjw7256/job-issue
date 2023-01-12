@@ -249,7 +249,7 @@
 .buttonSet2{
 	border-top:solid 1px lightgray;
     margin-top:100px;
-    margin-bottom: 100px;    
+    margin-bottom: 20px;
     position:relative;
     left:10%;
     display:flex;
@@ -262,6 +262,13 @@
 #cancelButton, #deleteButton, #modifyButton{
 	width: 100px;
 	margin-right: 20px;
+}
+
+.checkMessage{
+	display:flex;
+	justify-content: center;
+	color: gray;
+	margin-bottom: 100px; 
 }
 
 
