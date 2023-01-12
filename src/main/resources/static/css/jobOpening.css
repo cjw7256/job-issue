@@ -23,6 +23,7 @@
 /*     margin-top: 100px; */
     border-top: solid 3px rgb(43, 94, 189);
     width: 100%;
+    height:100%;
 }
 
 .card{
@@ -36,6 +37,14 @@
     display: inline-block; 
 }
 
+/* 모든 항목 입력 필수 메세지 */
+.topMsg{
+	margin-left: 70px;
+	margin-top:5px;
+	color: RGB(237,0,0);
+	font-weight:bold;
+}
+
 /* 공고명 */
 #Announcement{
     width: 80%;
@@ -45,7 +54,7 @@
 /* 묶음처리 */
 .bundle{
     margin-left: 70px;
-    margin-top: 50px;
+    margin-top: 45px;
     width: 700px;
     font-weight: bold;
 }

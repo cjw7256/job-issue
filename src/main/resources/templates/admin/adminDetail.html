@@ -156,10 +156,12 @@
 									id="staticRecruitWriteDate" th:value="${preRec.recruitWriteDate}">
 							</div>
 						</div>
-						<form action="applyPost" method="post">
+						<form action="applyPost" method="post" id="applyPost">
 							<input type="hidden" name="annCode" th:value=${preRec.announcementCode}>
 							<div class="buttonSet">
-								<button type="submit" class="btn btn-primary">공고 승인</button>
+							<button type="submit" style="visibility: hidden;"></button>
+								<button type="button" class="btn btn-primary" 
+								th:onclick="insertJobOpen()">공고 승인</button>
 							</div>
 						</form>
 						<form action="rejReason" method="post">
@@ -170,6 +172,23 @@
 						</form>
 					</div>
 				</div>
+				
+				<script>
+		function insertJobOpen() {
+			var result = confirm("공고를 승인하시겠습니까?");
+			
+			
+			   if (result == true) {
+				   alert("공고가 정상 등록되었습니다.");
+				   document.getElementById('applyPost').submit();
+			   }
+			   else {
+				   alert("승인 취소되었습니다.");
+			   }
+		}
+		</script>
+		
+		
 
 				<!-- script!!!!  -->
 				<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

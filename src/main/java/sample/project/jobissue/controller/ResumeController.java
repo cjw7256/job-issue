@@ -171,15 +171,30 @@ public class ResumeController {
 		UserVO userVOInDB = userService.findUserByEmail(userVO.getUserEmail());
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeValidator.validate(resumeItem, bindingResult);
+		
 		if (bindingResult.hasErrors()) {
 		log.info("error 발생");
+		
+		resp.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		try {
+			out = resp.getWriter();
 
+//			out.println("<script>alert('필수 항목을 입력해주세요!'); location.href='/resumes/insert';</script>");
+			out.println("<script>alert('필수 항목을 입력해주세요!'); history.go(-1);</script>");
+			
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 			return "resumes/insert";
 		}
 		if (userVOInDB.getResumeCode().equals("N")) {
 			resumeRepository.insertResume(resumeItem);
 			resumeRepository.insertAfter(userVO.getUserCode(), userVO);
-
 			try {
 				//업로드된 파일 처리과정 하나 추가
 				//1. 파일 자체를 저장하는 과정
@@ -193,12 +208,10 @@ public class ResumeController {
 				fileStoreDto.setTableCode(FileTypeCode.TB_CODE_RESUME);
 				fileStoreDto.setPkId(String.valueOf(resumeItem.getUserCode()));
 				fileStoreRepository.insert(fileStoreDto);
-				
 			} catch (NullPointerException e) {
 				// TODO: handle exception
 				return "redirect:/resumes/resumes";	
 			}
-			
 		}
 		return "redirect:/resumes/resumes";
 	}
