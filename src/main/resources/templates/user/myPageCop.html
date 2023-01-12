@@ -12,7 +12,7 @@
 	<div id="con">
 		<div id="login">
 			<div id="login_form">
-				<h1 align="center">기업정보수정</h1>
+				<h1 align="center">회원정보수정</h1>
 				<hr>
 				<div class="">
 					<form action="/user/update" method="post">
@@ -30,7 +30,7 @@
 							</tr>
 							<tr>
 								<td>* 비밀번호</td>
-								<td><input type="password" name="userPassword"></td>
+								<td><input type="password" name="userPassword" readonly></td>
 								<td><button type="button" class="joinButton btn-primary" th:onclick="|location.href='@{/user/passwordUpdate}'|">
 								비밀번호변경</button></td>
 							</tr>
