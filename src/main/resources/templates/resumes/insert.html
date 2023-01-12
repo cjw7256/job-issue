@@ -15,10 +15,12 @@
 				<div>
 					<form action="" method="post" th:object="${resumeItem}"
 						enctype="multipart/form-data">
+						
+						<div class="topMsg"> (*) 표시는 필수 항목입니다.</div>
 
 						<div class="bundle">
 							<div class="row">
-								프로필이미지 : <input name="profileImage"
+								프로필이미지  <input name="profileImage"
 									class="form-control form-control-sm" id="profileImage"
 									type="file" th:field="*{profileImage}">
 							</div>
@@ -26,7 +28,7 @@
 
 						<div class="bundle">
 							<div class="row">
-								이력서제목 : <input class="form-control form-control-sm"
+								이력서제목(*) : <input class="form-control form-control-sm"
 									id="ResumeTitle" type="text" placeholder="이력서제목을 입력해주세요."
 									aria-label=".form-control-sm example" th:field="*{ResumeTitle}">
 							</div>
@@ -34,7 +36,7 @@
 
 						<div class="bundle">
 							<div class="row">
-								사용할이메일 : <input class="form-control form-control-sm"
+								사용할이메일(*) : <input class="form-control form-control-sm"
 									id="UserResumeEmail" type="text" placeholder="사용할 이메일을 입력해주세요."
 									aria-label=".form-control-sm example"
 									th:field="*{UserResumeEmail}">
@@ -155,7 +157,8 @@
 
 
 						<div class="buttonSet">
-							<button type="submit" id="opening" class="btn btn-primary">저장하기</button>
+							<button type="submit" id="opening" class="btn btn-primary"
+							>저장하기</button>
 							<button type="button" class="btn btn-secondary"
 								th:onclick="|location.href='@{/}'|">취소하기</button>
 						</div>
@@ -167,6 +170,20 @@
 	</div>
 	
 	         <div th:replace="/navbar/footer.html :: footer"></div>
+	
+	<script>
+      /* function insertJobOpen() { th:onClick="insertJobOpen()"
+         alert("작성 완료되었습니다.");
+
+       /*   if (result == true) {
+            alert("삭제되었습니다.");
+            document.getElementById('deleteForm').submit();
+         } else {
+            alert("취소되었습니다.");
+         } }*/
+
+      
+   </script>
 	
 </body>
 </html>

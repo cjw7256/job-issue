@@ -26,35 +26,35 @@
       
     <!-- 공고 -->
     <div th:unless="${#lists.isEmpty(preRecruits) && #lists.isEmpty(recruits)}">
-    <table class="table">
+    <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col" width="15%">공고 상태</th>
+          <th scope="col" width="10%">공고번호</th>
+          <th scope="col" width="10%">공고 상태</th>
           <th scope="col" width="50%">공고명</th>
-          <th scope="col" width="20%">공고 등록일</th>
-          <th scope="col" width="20%">공고 마감일</th>
+          <th scope="col" width="15%">공고 등록일</th>
+          <th scope="col" width="15%">공고 마감일</th>
         </tr>
       </thead>
       <tbody>
       
             <!-- for문 사용 -->
-          <tr th:each="preRecruit : ${preRecruits}">
+          <tr id="hoverList" 
+          th:each="preRecruit : ${preRecruits}" 
+          th:onClick="|location.href='@{/preJobOpen/{annCode}(annCode = ${preRecruit.announcementCode})}'|">
             <th scope="row" th:text="${preRecruit.announcementCode}">1</th>
             <td th:text="${preRecruit.applyStat}">승인 대기중</td>
-            <td> 
-            <a th:href="@{|/preJobOpen/${preRecruit.announcementCode}|}"
-            th:text="${preRecruit.announcement}"></a></td> 
+            <td th:text="${preRecruit.announcement}"> 공고명 </td> 
             <td th:text="${preRecruit.receiptStartDate}">공고 시작일</td> 
             <td th:text="${preRecruit.receiptEndDate}">공고 마감일</td> 
           </tr>
           
-           <tr th:each="recruit : ${recruits}">
+           <tr id="hoverList" 
+           th:each="recruit : ${recruits}"
+           th:onClick="|location.href='@{/jobOpen/{annCode}(annCode = ${recruit.announcementCode})}'|">
             <th scope="row" th:text="${recruit.announcementCode}">1</th>
-            <td th:text="${recruit.applyStat}">승인 대기중</td>
-            <td> 
-            <a th:href="@{|/jobOpen/${recruit.announcementCode}|}"
-            th:text="${recruit.announcement}"></a></td> 
+            <td th:text="${recruit.applyStat}">승인</td>
+            <td th:text="${recruit.announcement}">공고명</td> 
             <td th:text="${recruit.receiptStartDate}">공고 시작일</td> 
             <td th:text="${recruit.receiptEndDate}">공고 마감일</td> 
           </tr>
