@@ -10,33 +10,42 @@
 <body>
 	<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
 
-
-
 	<div class="body">
 		<div class="card">
+
 			<h3 class="title">지원현황</h3>
-			<table class="table table-hover" id="listsTable">
-				<thead>
-					<tr>
-						<th scope="col" width="20%">회사명</th>
-						<th scope="col" width="40%">채용내용</th>
-						<th scope="col" width="25%">급여</th>
-						<th scope="col" width="15%">채용 마감일</th>
-					</tr>
-				</thead>
 
-				<tbody>
-					<tr id="hoverList" 
-					th:each="submitList : ${submitLists}"
-						th:onClick="|location.href='@{/resumes/submitLists/{submitListAnnouncementCode}(submitListAnnouncementCode = ${submitList.announcementCode})}'|">
-						<td th:text="${submitList.corName}">회사명</td>
-						<td th:text="${submitList.announcement}">채용내용</td>
-						<td th:text="${submitList.salary}">급여</td>
-						<td th:text="${submitList.receiptEndDate}">채용 마감일</td>
-					</tr>
-				</tbody>
-			</table>
+			<div th:if="${#lists.isEmpty(submitLists)}">
+				<div class="nullContent">
+					<br> 지원 이력이 없습니다 :) 
+					<a th:href="@{/lists}">지원하러 가기</a>
+				</div>
+			</div>
 
+			<!-- 공고 -->
+			<div th:unless="${#lists.isEmpty(submitLists)}">
+				<table class="table table-hover" id="listsTable">
+					<thead>
+						<tr>
+							<th scope="col" width="20%">회사명</th>
+							<th scope="col" width="40%">채용내용</th>
+							<th scope="col" width="25%">급여</th>
+							<th scope="col" width="15%">채용 마감일</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr id="hoverList" th:each="submitList : ${submitLists}"
+							th:onClick="|location.href='@{/resumes/submitLists/{submitListAnnouncementCode}(submitListAnnouncementCode = ${submitList.announcementCode})}'|">
+							<td th:text="${submitList.corName}">회사명</td>
+							<td th:text="${submitList.announcement}">채용내용</td>
+							<td th:text="${submitList.salary}">급여</td>
+							<td th:text="${submitList.receiptEndDate}">채용 마감일</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
 		</div>
 	</div>
 	<div th:replace="/navbar/footer.html :: footer"></div>
