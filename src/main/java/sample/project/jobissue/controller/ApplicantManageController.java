@@ -15,10 +15,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.ApplicantInfo;
 import sample.project.jobissue.domain.ApplicantManage;
+import sample.project.jobissue.domain.FileStoreDto;
+import sample.project.jobissue.domain.FileTypeCode;
 import sample.project.jobissue.domain.PageMaker;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserVO;
+import sample.project.jobissue.repository.FileStoreRepository;
 import sample.project.jobissue.repository.PreRecruitmentRepository;
 import sample.project.jobissue.session.SessionManager;
 
@@ -29,7 +32,7 @@ import sample.project.jobissue.session.SessionManager;
 public class ApplicantManageController {
 
 	private final PreRecruitmentRepository preRecruitment;
-	
+	private final FileStoreRepository fileStoreRepository; //파일저장 Repository
 	//검색창을 띄우기 위한 model 추가
 		@ModelAttribute("pageMaker")
 		public PageMaker searchItem(SearchItem si) {
@@ -83,6 +86,8 @@ public class ApplicantManageController {
 		log.info("submit resume {}", submitResume);
 		model.addAttribute("submitResume", submitResume);
 		
+		FileStoreDto fileStoreDto = fileStoreRepository.selectFileInfo(FileTypeCode.TB_CODE_RESUME, String.valueOf(submitResume.getUserCode()));
+		model.addAttribute("fileInfo", fileStoreDto);
 		
 		return "corporation/submitResume";
 	}

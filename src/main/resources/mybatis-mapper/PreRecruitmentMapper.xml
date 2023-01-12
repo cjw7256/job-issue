@@ -265,11 +265,15 @@
 
 	<!-- 제출된 이력서 표기 -->
 	<select id="userSelectByAnnCode" resultMap="applicantInfo">
-		select sr.user_code,sr.announcement_code, sr.user_resumeEmail, sr.military_status,
-		sr.marital_status,sr.employType_code,sr.recruit_field_code,
-		rfc.recruit_field, sr.resume_title,sr.academic_record_code,
-		sr.career_code,c.career, sr.cover_letter,
-		sr.license, sr.activity,sr.portfolio, sr.submit_date
+		select sr.user_code userCode ,sr.announcement_code announcementCode, sr.user_resumeEmail UserResumeEmail
+		, sr.military_status MilitaryStatus, sr.marital_status MaritalStatus ,
+		sr.employType_code EmployTypeCode ,sr.recruit_field_code RecruitFieldCode,
+		rfc.recruit_field RecruitField, sr.resume_title ResumeTitle,
+		sr.academic_record_code AcademicRecordCode, sr.career_code CareerCode,
+		c.career Career, sr.cover_letter CoverLetter,
+		sr.license License, sr.activity Activity, sr.portfolio Portfolio,
+		sr.submit_date submitDate
+		
 		from SubmitResume sr, RecruitFieldCode rfc, CareerCode c
 		where announcement_Code=#{announcementCode}
 		AND sr.career_code = c.career_code

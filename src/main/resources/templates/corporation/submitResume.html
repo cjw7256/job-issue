@@ -22,6 +22,16 @@
 								th:onclick="|location.href='@{/applicantManage}'|"></button>
 				<h3 class="title" th:text="${submitResume.resumeTitle}">이력서 제목</h3>
 				
+				<div class="bundle2">
+						<div class="row">
+							 <img th:if="${fileInfo != null}"
+								th:src="|/file/images/${fileInfo.getFilename()}|" alt="사진없음"
+								style="width: 140px; height: 180px;" /> <img
+								th:if="${fileInfo == null}" src="/" alt="사진 없음"
+								style="width: 140px; height: 180px;" />
+						</div>
+					</div>
+				
 
 
 				<div class="bundle2">

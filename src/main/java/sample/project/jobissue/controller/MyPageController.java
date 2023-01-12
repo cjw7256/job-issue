@@ -22,12 +22,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PageMaker;
+import sample.project.jobissue.domain.ResumeItem;
 import sample.project.jobissue.domain.SearchItem;
 import sample.project.jobissue.domain.UserTypeCode;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.FileStoreRepository;
+import sample.project.jobissue.repository.ResumeRepository;
 import sample.project.jobissue.service.UserService;
 import sample.project.jobissue.validation.PasswordForm;
 import sample.project.jobissue.validation.UserRegisterForm;
@@ -41,6 +44,8 @@ public class MyPageController {
 	private final UserService userService;
 	private final AdminRepository adminRepository;
 	private final FileStoreRepository fileStoreRepository;
+	private final ResumeRepository resumeRepository;
+	
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
 	public String viewMyPage(HttpServletRequest request, Model model) throws Exception {
 
@@ -195,7 +200,6 @@ public class MyPageController {
 		result = userService.dropUserByEmail(userEmail);
 		log.info("delete UserEmail : {}, Result : {}", userEmail, result);
 		session.invalidate();
-
 		return "redirect:/";
 	}
 
