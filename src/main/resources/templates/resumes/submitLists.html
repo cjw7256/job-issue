@@ -5,7 +5,7 @@
 <th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
 
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/lists.css">
+<link rel="stylesheet" href="/css/lists.css">
 </head>
 <body>
 	<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
@@ -16,15 +16,14 @@
 			<h3 class="title">지원현황</h3>
 
 			<div th:if="${#lists.isEmpty(submitLists)}">
-				<div class="nullContent">
-					<br> 지원 이력이 없습니다 :) 
-					<a th:href="@{/lists}">지원하러 가기</a>
+				<div id="nullContent">
+					<br> 지원 이력이 없습니다 :) <a th:href="@{/lists}">지원하러 가기</a>
 				</div>
 			</div>
 
 			<!-- 공고 -->
 			<div th:unless="${#lists.isEmpty(submitLists)}">
-				<table class="table table-hover" id="listsTable">
+				<table class="table table-hover" id="listTable">
 					<thead>
 						<tr>
 							<th scope="col" width="20%">회사명</th>
