@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
@@ -95,5 +96,10 @@ public interface AdminMapper {
 	public Integer selectTotalUser();
 	
 	public Integer selectTotalCorUser();
+	
+	public List<UserVO> selUserInfoListPagingList(Pagination pagination);
+	
+	public List<UserVO> selCorUserInfoListPagingList(Pagination pagination);
+	
 	
 }

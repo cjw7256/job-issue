@@ -218,25 +218,25 @@ public class AdminController {
 //	}
 
 	//페이징 처리 후
-	//회원 관리 페이지 - 일반 회원 리스트 보여줌
-		@GetMapping("/manageUser")
-		public String manageUserPage(Model model, @RequestParam(defaultValue = "1") int page) {
-			
-			//총 게시물 수
-			int totalCnt = adminRepository.selectTotalUser();
-			
-			// 생성인자로  총 게시물 수, 현재 페이지를 전달
-			Pagination pagination = new Pagination(totalCnt, page);
-			
-			//쿼리문을 통해 회원 리스트를 가져옴
-			List<UserVO> userInfos= adminRepository.selectUserInfoList();
+		//회원 관리 페이지 - 일반 회원 리스트 보여줌
+			@GetMapping("/manageUser")
+			public String manageUserPage(Model model, @RequestParam(defaultValue = "1") int page) {
+				
+				//총 게시물 수
+				int totalCnt = adminRepository.selectTotalUser();
+				
+				// 생성인자로  총 게시물 수, 현재 페이지를 전달
+				Pagination pagination = new Pagination(totalCnt, page);
+				
+				//쿼리문을 통해 회원 리스트를 가져옴
+				List<UserVO> userInfos= adminRepository.selUserInfoListPagingList(pagination);
 
-			//모델을 통해 객체로 넘겨줌!
-			model.addAttribute("userInfos", userInfos);
-			model.addAttribute("pagination", pagination);
+				//모델을 통해 객체로 넘겨줌!
+				model.addAttribute("userInfos", userInfos);
+				model.addAttribute("pagination", pagination);
 
-			return "/admin/manageUser";
-		}
+				return "/admin/manageUser";
+			}
 	
 	//회원 관리 페이지 - 특정 회원의 정보를 보여줌
 	@GetMapping("/manageUser/{userCode}")
@@ -276,26 +276,26 @@ public class AdminController {
 //	}
 	
 	//페이징 처리 후
-	//회원 관리 페이지 - 기업 회원 리스트 보여줌
-		@GetMapping("/manageCor")
-		public String manageCorPage(Model model, @RequestParam(defaultValue = "1") int page) {
-			//총 게시물 수
-			int totalCnt = adminRepository.selectTotalCorUser();
-			log.info("기업 회원 총 수 {}", totalCnt);
-			
-			// 생성인자로  총 게시물 수, 현재 페이지를 전달
-			Pagination pagination = new Pagination(totalCnt, page);
-			log.info("기업 회원 page {}", pagination);
-			
-			//쿼리문을 통해 회원 리스트를 가져옴
-			List<UserVO> corInfos= adminRepository.selectCorUserInfoList();
+		//회원 관리 페이지 - 기업 회원 리스트 보여줌
+			@GetMapping("/manageCor")
+			public String manageCorPage(Model model, @RequestParam(defaultValue = "1") int page) {
+				//총 게시물 수
+				int totalCnt = adminRepository.selectTotalCorUser();
+				log.info("기업 회원 총 수 {}", totalCnt);
+				
+				// 생성인자로  총 게시물 수, 현재 페이지를 전달
+				Pagination pagination = new Pagination(totalCnt, page);
+				log.info("기업 회원 page {}", pagination);
+				
+				//쿼리문을 통해 회원 리스트를 가져옴
+				List<UserVO> corInfos= adminRepository.selCorUserInfoListPagingList(pagination);
 
-			//모델을 통해 객체로 넘겨줌!
-			model.addAttribute("corInfos", corInfos);
-			model.addAttribute("pagination", pagination);
+				//모델을 통해 객체로 넘겨줌!
+				model.addAttribute("corInfos", corInfos);
+				model.addAttribute("pagination", pagination);
 
-			return "/admin/manageCor";
-		}
+				return "/admin/manageCor";
+			}
 
 	//회원 관리 페이지 - 특정 기업의 정보를 보여줌
 	@GetMapping("/manageCor/{userCode}")

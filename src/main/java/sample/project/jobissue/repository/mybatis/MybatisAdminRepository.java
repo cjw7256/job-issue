@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
+import sample.project.jobissue.domain.Pagination;
 import sample.project.jobissue.domain.PreRecruitment;
 import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
@@ -339,6 +340,23 @@ public class MybatisAdminRepository implements AdminRepository{
 		Integer result = adminMapper.selectTotalCorUser();
 		
 		return result;
+	}
+	
+	@Override
+	public List<UserVO> selUserInfoListPagingList(Pagination pagination) {
+		// TODO Auto-generated method stub
+		List<UserVO> userInfoList = adminMapper.selUserInfoListPagingList(pagination);
+		
+		return userInfoList;
+	}
+
+	@Override
+	public List<UserVO> selCorUserInfoListPagingList(Pagination pagination) {
+		// TODO Auto-generated method stub
+		
+		List<UserVO> coruserInfoList = adminMapper.selCorUserInfoListPagingList(pagination);
+				
+		return coruserInfoList;
 	}
 	
 }
