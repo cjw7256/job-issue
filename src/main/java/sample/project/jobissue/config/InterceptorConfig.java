@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.commons.interceptor.AdminAccInterceptor;
 import sample.project.jobissue.commons.interceptor.CorUserAccInterceptor;
 import sample.project.jobissue.commons.interceptor.LoginInterceptor;
+import sample.project.jobissue.commons.interceptor.MyPageAccessInterceptor;
 import sample.project.jobissue.commons.interceptor.UserAccInterceptor;
 
 
@@ -20,7 +21,8 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new LoginInterceptor())
 		.order(1).addPathPatterns("/**")
 		.excludePathPatterns("/", "/user/logout", "/css/**", "/images/**", "/js/**"
-				, "/user/register**", "/user/register/**", "/search", "/lists/**", "/lists", "/error");
+				, "/user/register**", "/user/register/**", "/search", "/lists/**", "/lists", 
+				"/error", "/user/clause", "/user/clausecop");
 	
 		//관리자 전용 페이지
 		registry.addInterceptor(new AdminAccInterceptor())
@@ -38,9 +40,17 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		.order(4)
 		.addPathPatterns("/jobOpening", "/jobOpening**", "/jobOpening/**", 
 				"/jobOpen", "/jobOpen**", "/jobOpen/**", 
+				"/preJobOpen", "/preJobOpen**", "/preJobOpen/**",
 				"/manageOpening", "/manageOpening**", "/manageOpening/**",
+				"update/**", "/update", "/update**", 
 				
 				"/applicantManage", "/applicantManage**", "/applicantManage/**");
+		
+		//관리자 -> 마이페이지 접근x
+		registry.addInterceptor(new MyPageAccessInterceptor())
+		.order(5)
+		.addPathPatterns("/user", "/user/**", "/user**")
+		.excludePathPatterns("/user/logout", "/user/register**", "/user/register/**", "/user/login");
 		
 	}
 }

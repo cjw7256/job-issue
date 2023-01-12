@@ -65,7 +65,7 @@
 					<form
 						th:action="@{/resumes/submitResume/delete/{userCode}(userCode=${submitResume2?.userCode})}"
 						method="post">
-						<button type="submit" id="opening" class="btn btn-primary">이력서삭제</button>
+						<button type="submit" id="opening" class="btn btn-danger">지원취소</button>
 						<button type="button" class="btn btn-secondary"
 							th:onclick="|location.href='@{/}'|">뒤로가기</button>
 					</form>

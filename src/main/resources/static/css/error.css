@@ -1,0 +1,29 @@
+@charset "UTF-8";
+.body{
+	height:680px;
+	background-color: rgb(240, 241, 241);
+}
+
+h1 {
+	padding-top:100px;
+	text-align:center;
+	font-weight:bolder;
+}
+
+button{
+	width:200px;
+	height:60px;
+	bolder : 3px solid black;
+}
+
+.buttonSet{
+	border-top:solid 1px lightgray;
+    margin-top: 100px;    
+    position:relative;
+    left:10%;
+    display:flex;
+    padding-top:30px;
+    justify-content:center;
+    margin-bottom: 100px;
+    width: 80%;
+}

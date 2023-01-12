@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.JobRepository;
@@ -46,50 +47,40 @@ public class AdminController {
 	@ModelAttribute("user")
 	public UserVO userVO(HttpServletRequest req) {
 		HttpSession session = req.getSession(false);
-		
+
 		UserVO userVO = new UserVO();
-		
+
 		if(session != null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
 			userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 			log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
 		}
-		
+
 		log.info("user Model {}", userVO);
 		return userVO;
 	}
-	
+
 	@GetMapping
 	public String mainAdminPage(Model model, HttpServletRequest req, HttpServletResponse resp) { //관리자 페이지 처음 들어왔을 때 보이는 화면->무엇을 보이게 할 것인지?
-//		HttpSession session = req.getSession(false);
-//		
-//		UserVO userVO = new UserVO();
-//		
-//		if(session != null || session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
-//			userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-//			log.info("admin info {}", userVO.getUserType()); //->임시로 막아둠
-//		}
-
 		List<PreRecruitment>preRecList = adminRepository.selPreForMain(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
 		List<UserVO> corUserList = adminRepository.selCorForMain(); //userinfo쪽에서 받아오는 회원 정보를 출력하기 위해 데이터 넘김
 
 		List<UserVO> userList = adminRepository.selUserForMain();
 
-//		model.addAttribute("user", userVO);
 		model.addAttribute("preRecList", preRecList);
 		model.addAttribute("corUserList", corUserList);
 		model.addAttribute("userList", userList);
 
 		return "/admin/adminMain";
 	}
-	
+
 	//공고 신청 리스트가 보이는 화면 - 승인대기 공고 리스트가 보임
 	@GetMapping("/applyRec")
 	public String applyAnnPage(Model model) { 
 		List<PreRecruitment>preRecList = adminRepository.selectPreAll(); //최근 승인 대기 공고 테이블을 위한 데이터 넘김
 
 		model.addAttribute("preRecList", preRecList);
-		
+
 		return "/admin/applyRecruit";
 	}
 
@@ -112,11 +103,53 @@ public class AdminController {
 		return "redirect:/adminPage/applyRec";
 	}
 
+	//공고 거절 전 사유 작성 페이지
+	@PostMapping("/applyRec/rejReason")
+	public String rejectWriteReason(Model model, @RequestParam int annCode) {
+
+		RejReasonInfo rejInfo = new RejReasonInfo();
+		rejInfo.setAnnouncementCode(annCode);
+		
+		log.info("사유작성 페이지 annCode {}", annCode);
+		log.info("사유작성 페이지 rejInfo {}", rejInfo);
+
+		model.addAttribute("rejInfo", rejInfo);
+
+		return "/admin/rejReason";
+	}
+
+
 	@PostMapping("/applyRec/rejPost") //공고 거절 처리
-	public String rejectAnnPostPage(@RequestParam int annCode) { 
-		adminService.rejectRec(annCode);
+	public String rejectAnnPostPage(@ModelAttribute("rejInfo") RejReasonInfo rejInfo){ // int annCode 
+		log.info("거절처리 :: rejInfo {}", rejInfo);
+		
+		adminService.rejectRec(rejInfo);
 		return "redirect:/adminPage/applyRec";
 	}
+	
+	//공고 신청 리스트가 보이는 화면 - 승인대기 공고 리스트가 보임
+	@GetMapping("/rejRec")
+	public String rejRecPage(Model model) { 
+		List<RejReasonInfo> rejResons = adminRepository.selectRejRecAll(); 
+
+		model.addAttribute("rejResons", rejResons);
+
+		return "/admin/rejRecList";
+	}
+
+	//공고 승인 - 공고 상세 페이지
+	@GetMapping("/rejRec/{announcementCode}")
+	public String rejRecDetailPage(Model model, @PathVariable("announcementCode") int annCode) {
+		
+		//특정 공고를 찾아오는 페이지
+		RejReasonInfo rejInfo = adminRepository.selectRejRec(annCode);
+
+		log.info("rejInfo {}", rejInfo);
+		model.addAttribute("rejInfo", rejInfo);
+
+		return "/admin/rejRecDetail";
+	}
+	
 
 	//공고 삭제 페이지 - 현재 게재된 공고리스트가 뜸
 	@GetMapping("/deleteRec")
@@ -148,7 +181,7 @@ public class AdminController {
 		return "redirect:/adminPage/deleteRec";
 	}
 
-	
+
 	//회원 관리 페이지 - 일반 회원 리스트 보여줌
 	@GetMapping("/manageUser")
 	public String manageUserPage(Model model) {
@@ -211,14 +244,14 @@ public class AdminController {
 	}
 
 	//회원 관리 페이지 - 기업 회원 정보 삭제 처리
-		@PostMapping("/manageCor/delInfo")
-		public String delCorDetail(@RequestParam("userCode") int userCode, @RequestParam("corCode") int corCode) { 
-			log.info("corCode {}", corCode);
+	@PostMapping("/manageCor/delInfo")
+	public String delCorDetail(@RequestParam("userCode") int userCode, @RequestParam("corCode") int corCode) { 
+		log.info("corCode {}", corCode);
 
-			adminService.deleteCorDetail(userCode, corCode);
+		adminService.deleteCorDetail(userCode, corCode);
 
-			return "redirect:/adminPage/manageCor";
-		}
+		return "redirect:/adminPage/manageCor";
+	}
 
 
 }

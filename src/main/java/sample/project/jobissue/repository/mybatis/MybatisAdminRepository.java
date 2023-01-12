@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
 import sample.project.jobissue.repository.AdminRepository;
 import sample.project.jobissue.repository.JobRepository;
@@ -284,28 +285,36 @@ public class MybatisAdminRepository implements AdminRepository{
 		List<PreRecruitment> preList = adminMapper.selPreForMain();
 		return preList;
 	}
-	
-	   public void deleteRecAllByAdmin(int corCode) {
-	      // TODO Auto-generated method stub
-	      adminMapper.deleteRecAllByCorCode(corCode);
-	      
-	      adminMapper.deleteRecAllEmpOptByAdmin(corCode);
-	      adminMapper.deleteRecAllWorkOptByAdmin(corCode);
-	      adminMapper.deleteRecAllAcaOptByAdmin(corCode);
-	      
-	      log.info("임시 공고 테이블 데이터 삭제 완료");      
-	   }
 
-//	 @Override
-//	   public void deletePreRecAllByAdmin(int corCode) {
-//	      // TODO Auto-generated method stub
-//	      adminMapper.deletePreRecAllByCorCode(corCode);
-//	      
-//	      adminMapper.deletePreAllEmpOptByAdmin(corCode);
-//	      adminMapper.deletePreAllWorkOptByAdmin(corCode);
-//	      adminMapper.deletePreAllAcaOptByAdmin(corCode);
-//	      
-//	      log.info("임시 공고 테이블 데이터 전체 삭제 완료");      
-//	   }
+	@Override
+	public Integer insRejReasonInfo(RejReasonInfo rejInfo) {
+		// TODO Auto-generated method stub
+		Integer result = adminMapper.insRejReasonInfo(rejInfo);
+		
+		return result;
+	}
+
+	@Override
+	public List<RejReasonInfo> selectRejRecAll() {
+		// TODO Auto-generated method stub
+		
+		List<RejReasonInfo> rejReasonList = null;
+		try {
+			rejReasonList = adminMapper.selectRejRecAll();
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.error(e.getMessage());
+		}
+		return rejReasonList;
+
+	}
+
+	@Override
+	public RejReasonInfo selectRejRec(int announcementCode) {
+		// TODO Auto-generated method stub
+		RejReasonInfo rejInfo = adminMapper.selectRejRec(announcementCode);
+		
+		return rejInfo;
+	}
 	
 }

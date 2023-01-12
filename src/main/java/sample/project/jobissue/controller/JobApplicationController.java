@@ -1,5 +1,7 @@
 package sample.project.jobissue.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +16,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sample.project.jobissue.domain.AcademicRecordCode;
 import sample.project.jobissue.domain.CareerCode;
 import sample.project.jobissue.domain.EmployTypeCode;
+import sample.project.jobissue.domain.FileStoreDto;
+import sample.project.jobissue.domain.FileTypeCode;
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.MaritalStatus;
 import sample.project.jobissue.domain.MilitaryStatus;
 import sample.project.jobissue.domain.ReadingCode;
 import sample.project.jobissue.domain.RecruitFieldCode;
 import sample.project.jobissue.domain.ResumeItem;
+import sample.project.jobissue.domain.SubmitResumeItem;
 import sample.project.jobissue.domain.UserVO;
+import sample.project.jobissue.repository.FileStoreRepository;
 import sample.project.jobissue.repository.JobApplicationRepository;
 import sample.project.jobissue.repository.JobRepository;
 import sample.project.jobissue.session.SessionManager;
@@ -39,17 +46,34 @@ public class JobApplicationController {
 
 	private final JobApplicationRepository jobApplicationRepository;
 	private final JobRepository jobRepository;
-
-	@GetMapping("/checkSession")
-	public String checkSession(HttpServletRequest req, Model model) {
+	private final FileStoreRepository fileStoreRepository; //파일저장 Repository
+	
+	
+	@PostMapping("/checkSession")
+	public String checkSession(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException {
 
 		HttpSession session = req.getSession(false);
-		if (session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
-			UserVO userVO = (UserVO) session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-			ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
-			model.addAttribute("submitResume", resumeItem);
-			return "redirect:/submit/" + userVO.getUserCode();
+		UserVO userVO = (UserVO) session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+		ResumeItem resumeItem = jobApplicationRepository.selectByUserResume(userVO.getUserCode());
+		model.addAttribute("submitResume", resumeItem);
+		
+		if(resumeItem != null) {
+			if (session.getAttribute(SessionManager.SESSION_COOKIE_NAME) != null) {
+				return "redirect:/submit/" + userVO.getUserCode();
+			}
+		}else {
+			resp.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<script>");
+            out.println("alert('이력서를 먼저 작성하세요.');");
+            out.println("window.location = '/resumes/insert';");
+            out.println("</script>");
+            out.flush();
+            out.close();
+            return null;
 		}
+		
+		
 		return "redirect:/user/login";
 	}
 
@@ -62,21 +86,45 @@ public class JobApplicationController {
 		resumeItem.setUserCode(userVO.getUserCode());
 		resumeItem = jobApplicationRepository.selectByUserResume(resumeUserCode);
 		model.addAttribute("submitResume", resumeItem);
-
+		FileStoreDto fileStoreDto = fileStoreRepository.selectFileInfo(FileTypeCode.TB_CODE_RESUME, String.valueOf(resumeItem.getUserCode()));
+		model.addAttribute("fileInfo", fileStoreDto);
+		
+		
 		return "submit/submitResume";
 	}
 
 	@GetMapping("/dosubmit/{userCode}")
-	public String doSubmit(Model model, HttpServletRequest req) {
+	public String doSubmit(Model model,
+			HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
 
 		HttpSession session = req.getSession(false);
 		JobItem jobItem = (JobItem) session.getAttribute("corCord");
 		jobRepository.selectByAnnCode(jobItem.getAnnouncementCode());
 		session = req.getSession(false);
 		UserVO userVO = (UserVO) session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
-		jobApplicationRepository.insertSubmitResume(jobItem.getCorCode(), jobItem.getAnnouncementCode(),
-				userVO.getUserCode());
-		return "redirect:/resumes/submitLists";
+		SubmitResumeItem submitResumeItem =
+				jobApplicationRepository.selectByUserSubmitResume
+				(userVO.getUserCode(), jobItem.getAnnouncementCode());
+		
+		if(submitResumeItem!=null) {
+			resp.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<script>");
+            out.println("alert('이미 지원한 회사입니다.');");
+            out.println("window.location = '/resumes/submitLists';");
+            out.println("</script>");
+            out.flush();
+            out.close();
+            return null;
+		}
+		else {
+			jobApplicationRepository.insertSubmitResume(jobItem.getCorCode(), jobItem.getAnnouncementCode(),
+					userVO.getUserCode());
+			return "redirect:/resumes/submitLists";	
+		}
+		
+		
 	}
 
 	@ModelAttribute("employTypeCodes")

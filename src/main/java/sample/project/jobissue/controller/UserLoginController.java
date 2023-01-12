@@ -69,6 +69,10 @@ public class UserLoginController {
 
 //		resp.addHeader("Baeldung-Example-Header", "Value-HttpServletResponse");
 
+		if(userVO.getUserType().equals("0")) {
+			return "redirect:/adminPage";
+		}
+		
 		return "redirect:" + redirectURL; // 로그인 후 보여줄 화면으로 연결
 	}
 

@@ -12,6 +12,13 @@
 	where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
 	</select>
 	
+	<select id="selectByUserSubmitResume" resultType="SubmitResumeItem">
+	select *
+	FROM SubmitResume
+	where USER_CODE = (select USER_CODE from USER_INFO where user_code = #{userCode})
+	and Announcement_Code = #{announcementCode}
+	</select>
+	
 	<insert id="insertSubmitResume" >
 	INSERT INTO SubmitResume
 	SELECT

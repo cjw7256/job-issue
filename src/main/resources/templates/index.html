@@ -16,13 +16,14 @@
 	<div th:if="${userVO}==null">
 		<div th:replace="/navbar/beforeLoginNavBar.html :: headerNavBar"></div>
 	</div>
-	
-	 <h4 class="title">최근 등록된 공고</h4>
-	
-	
+
+	<h4 class="title">최근 등록된 공고</h4>
+
+
 	<div id="wrap">
 		<div th:each="jobItem : ${jobItemList}" class="imgHoverEvent event1">
-			<div class="imgBox" th:onClick="|location.href='@{/lists/{annCode}(annCode=${jobItem.announcementCode})}'|">
+			<div class="imgBox"
+				th:onClick="|location.href='@{/lists/{annCode}(annCode=${jobItem.announcementCode})}'|">
 				<h5 class="p1" th:text="${jobItem.corName}"></h5>
 				<p class="p2" th:text="${jobItem.announcement}"></p>
 				<p class="p3" th:text="${jobItem.receiptEndDate}"></p>
@@ -33,14 +34,18 @@
 					alt="">
 			</div>
 		</div>
-		
+
 	</div>
 	
-	         <div th:replace="/navbar/footer.html :: footer"></div>
-	
+
+	<div th:replace="/navbar/footer.html :: footer"></div>
+
 	<script type="text/javascript">
-		function moveTop(){
-			window.scrollTo({top:0, behavior:"smooth"})
+		function moveTop() {
+			window.scrollTo({
+				top : 0,
+				behavior : "smooth"
+			})
 		}
 	</script>
 	<div class="moveTopBtn" onclick="moveTop()">▲</div>

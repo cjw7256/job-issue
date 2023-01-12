@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import sample.project.jobissue.domain.JobItem;
 import sample.project.jobissue.domain.PreRecruitment;
+import sample.project.jobissue.domain.RejReasonInfo;
 import sample.project.jobissue.domain.UserVO;
 
 public interface AdminRepository { //실제 db 연결
@@ -66,4 +67,9 @@ public interface AdminRepository { //실제 db 연결
 		//회원 탈퇴 시 이력서만 지우는 메소드
 		 public void deleteResumeByDrop(int userCode);
 	
+		 public Integer insRejReasonInfo(RejReasonInfo rejInfo);
+		 
+		 public List<RejReasonInfo> selectRejRecAll();
+		 
+		 public RejReasonInfo selectRejRec(int announcementCode);
 }

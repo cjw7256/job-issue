@@ -18,7 +18,8 @@
 		<ul class="nav justify-content-end" id="topBar">
 			<li class="nav-item"><a class="nav-link active"
 				aria-current="page" th:onclick="|location.href='@{/}'|">Mainpage</a></li>
-			<li class="nav-item"><a class="nav-link" href="/user/myPage">MyPage</a>
+			<li class="nav-item"><a class="nav-link" 
+			th:onclick="|location.href='@{/user/myPage}'|">MyPage</a>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="/user/logout">
 					LogOut</a></li>
@@ -80,14 +81,8 @@
 										관리</a></li>
 							</ul></li>
 
-
-						<!-- {/* 취업정보게시판 */} -->
-
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="/user/myPage" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false"> 마이페이지 </a>
-						</li>
-
+						<li class="nav-item"><a class="nav-link" aria-current="page"
+							th:onclick="|location.href='@{/user/myPage}'|">마이페이지</a></li>
 					</ul>
 				</div>
 			</div>
