@@ -58,16 +58,21 @@
 							</div>
 						</div>
 						<div class="row">
-							<label for="staticUser" class="col-2 col-form-label">
-								담당자 정보
+							<label for="staticUserCode" class="col-2 col-form-label">
+								관리자 코드
 							</label>
 							<div class="col">
-								관리자 코드 : 
 								<input type="number" readonly class="form-control-plaintext"
-									id="staticUser" th:value="${rejInfo.userCode}">
-								관리자 이름 : 
+									id="staticUserCode" th:value="${rejInfo.userCode}">
+							</div>
+						</div>
+						<div class="row">
+							<label for="staticUserName" class="col-sm-2 col-form-label">
+								관리자 이름
+							</label>
+							<div class="col">
 								<input type="text" readonly class="form-control-plaintext"
-									id="staticUser" th:value="${rejInfo.adminName}">
+									id="staticUserName" th:value="${rejInfo.adminName}">
 							</div>
 						</div>
 						<div class="row">
