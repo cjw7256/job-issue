@@ -37,7 +37,7 @@ import sample.project.jobissue.validation.UserRegisterForm;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class MyPageController {
-
+ 
 	private final UserService userService;
 	private final AdminRepository adminRepository;
 	private final FileStoreRepository fileStoreRepository;
