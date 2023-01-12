@@ -22,7 +22,7 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		.order(1).addPathPatterns("/**")
 		.excludePathPatterns("/", "/user/logout", "/css/**", "/images/**", "/js/**"
 				, "/user/register**", "/user/register/**", "/search", "/lists/**", "/lists", 
-				"/error", "/user/clause", "/user/clausecop");
+				"/error", "/user/clause**");
 	
 		//관리자 전용 페이지
 		registry.addInterceptor(new AdminAccInterceptor())
@@ -50,7 +50,8 @@ public class InterceptorConfig implements WebMvcConfigurer{
 		registry.addInterceptor(new MyPageAccessInterceptor())
 		.order(5)
 		.addPathPatterns("/user", "/user/**", "/user**")
-		.excludePathPatterns("/user/logout", "/user/register**", "/user/register/**", "/user/login");
+		.excludePathPatterns("/user/logout", "/user/register**"
+				, "/user/register/**", "/user/login", "/user/clause**");
 		
 	}
 }
