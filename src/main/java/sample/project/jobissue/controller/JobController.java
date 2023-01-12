@@ -67,7 +67,8 @@ public class JobController {
 	//페이징 처리한 후의 lists
 	@GetMapping
 	public String lists(HttpServletRequest request, Model model, 
-			@RequestParam(defaultValue = "1") int page) {
+			@RequestParam(defaultValue = "1") int page, 
+			HttpServletRequest req) {
 		
 		 // 총 게시물 수 
 	    int totalCnt = jobRepository.selectTotalCnt();
@@ -83,6 +84,16 @@ public class JobController {
 	    log.info("{}", pagination);
 	    log.info("jobList {}", jobList.get(0).getAnnouncementCode());
 		
+	    HttpSession session = req.getSession(false);
+	    
+		if(session != null) {
+			UserVO userVO = (UserVO) session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+			model.addAttribute("userVO", userVO);
+		} else {
+			model.addAttribute("userVO", null);	
+		}
+	    
+	    
 		return "/lists/lists";	
 	}
 
@@ -96,16 +107,22 @@ public class JobController {
 		jobItem = jobRepository.selectByAnnCode(listAnnCode);
 		model.addAttribute("list", jobItem);
 		HttpSession session = req.getSession(false);
-	if(session!=null) {
-			if(session.getAttribute(SessionManager.SESSION_COOKIE_NAME)!=null) {
-			session.setAttribute("corCord", jobItem);	
-			}
+		model.addAttribute("list", jobItem);
+		
+		if(session!=null) {
+			UserVO userVO = (UserVO) session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
+			model.addAttribute("userVO", userVO);		
+				if(session.getAttribute(SessionManager.SESSION_COOKIE_NAME)!=null) {
+					session.setAttribute("corCord", jobItem);	
+				}
+		}else {
+			model.addAttribute("userVO", null);	
 		}
 		return "/lists/list";
 	}
 	
 	// 채용공고API 데이터를 파싱해서 오라클에 저장하는 클래스
-	// @PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
+//	 @PostConstruct //초기 데이터 생성하려면 이 부분을 해제한 후 서버 실행해주세요
 	@Transactional
 	public void insertInit() throws IOException, ParseException {
 

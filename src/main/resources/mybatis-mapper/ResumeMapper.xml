@@ -53,7 +53,7 @@
 	</select>
 		
 	<select id="selectBySubmit" resultType="JobItem">
-	select ci.COR_CODE, re.Announcement_Code, ci.COR_NAME , re.Announcement, re.SALARY
+	select ci.COR_CODE, re.Announcement_Code, ci.COR_NAME , re.Announcement, re.SALARY, re.RECEIPT_END receiptEndDate
 	from CORPORATION_INFO ci, Recruitment re, SubmitResume sr
 	where 
 	re.cor_code = sr.cor_code and

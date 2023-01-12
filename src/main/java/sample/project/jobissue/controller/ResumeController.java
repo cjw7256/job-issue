@@ -76,6 +76,7 @@ public class ResumeController {
 	UserVO userVO = (UserVO)session.getAttribute(SessionManager.SESSION_COOKIE_NAME);
 	List<JobItem> jobList = resumeRepository.selectBySubmit(userVO.getUserCode());
 	model.addAttribute("submitLists",jobList);
+	
 	return "/resumes/submitLists";
 	}
 
@@ -241,7 +242,7 @@ public class ResumeController {
 			, @PathVariable("userCode") int userCode
 			, @ModelAttribute ResumeItem resumeItem
 			, BindingResult bindingResult
-			, HttpServletResponse resp) {
+			, HttpServletResponse resp) throws IllegalStateException, IOException {
 		log.info("update post method {}", resumeItem);
 		
 		resumeValidator.validate(resumeItem, bindingResult);
