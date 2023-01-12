@@ -1,93 +1,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-		 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
-    <link rel="stylesheet" href="../css/jobOpening.css">
-    <title>공고 등록</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
-    
+<th:block th:replace="/navbar/afterLoginNavBar.html::headerNavBarHead"></th:block>
+<link rel="stylesheet" href="../css/jobOpening.css">
+<title>공고 등록</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<th:block th:replace="/navbar/footer.html:: footerHeader"></th:block>
+
 </head>
 <style>
-    
 </style>
 <body>
-	
+
 	<div th:replace="/navbar/afterLoginNavBar.html :: headerNavBar"></div>
 
-	<form th:action="@{/update/{announcementCode}(announcementCode=${preRecruit.announcementCode})}" 
-	method="post" th:object="${preRecruit}">
-    <div class="body">
-    <div class="card">
-    
-        <h3 class="title"> 공고 수정 </h3>
-    
-        <div class="bundle">
-        <div class="row" >
-            공고명 :
-            <input class="form-control form-control-sm" id="Announcement"
-            type="text" th:field="*{announcement}"
-             placeholder="공고명을 입력해주세요.정확한 업무를 입력할수록 지원자들이 많이 조회합니다." aria-label=".form-control-sm example">
-        </div>
-        </div>
-    
-    <div class="bundle">
-    <div class="row">
-        모집분야 :
-    <select class="form-select" id="recruitField"
-    aria-label="Default select example" th:field="*{recruitFieldCode}"
-   >
-        <option selected th:value="${preRecruit.recruitFieldCode}"
-        th:text="${preRecruit.recruitField}">모집분야</option>
-        <option
-        th:each="rc : ${recruitFieldCodes}" 
-        th:value="${rc.code}"
-        th:text="${rc.name}"
-        value=""></option>
-    </select>
-    </div>
-    </div>
+	<form
+		th:action="@{/update/{announcementCode}(announcementCode=${preRecruit.announcementCode})}"
+		method="post" th:object="${preRecruit}">
+		<div class="body">
+			<div class="card">
 
- 	<div class="bundle">
-        <div class="row">
-            급 여 : 
-            <input class="form-control form-control-sm" id="Salary" 
-            type="text" th:field="*{salary}" 
-            placeholder="급여를 입력해주세요.  ex) 연봉 3000만원, 월급 300만원, 회사 내규에 따름 " aria-label=".form-control-sm example">
-        </div>
-		</div>  
+				<h3 class="title">공고 수정</h3>
 
-    <div class="bundle">
-        <div class="row" id="employType">
-        희망 고용 형태 : 
- 		<label collection="empOptions" th:each="etc : ${employTypeCodes}"  >
-	<input type="checkbox" name="facilities" th:field="*{preEmployTypeCode}"
-        	th:value="${etc.code}">
-    	<span id="checkboxText" th:text="${etc.name}"></span>
-	</label>
-	</div>
-	</div>
- 
+				<div class="bundle">
+					<div class="row">
+						공고명 : <input class="form-control form-control-sm"
+							id="Announcement" type="text" th:field="*{announcement}"
+							placeholder="공고명을 입력해주세요.정확한 업무를 입력할수록 지원자들이 많이 조회합니다."
+							aria-label=".form-control-sm example">
+						<div class="errormsg" th:errors="*{announcement}"></div>
+					</div>
+				</div>
 
-       <div class="careerCode">
-        <div class="row">
-        희망 경력 : 
-    <select id="Career" class="form-select"  th:field="*{careerCode}"
-    aria-label="Default select example">
-        <option selected th:value="${preRecruit.careerCode}"
-        th:text="${preRecruit.career}">희망 경력</option>
-        <option
-      		 th:each="careerCode : ${careerCodes}" 
-       		 th:value="${careerCode.code}"
-        	 th:text="${careerCode.name}" value="">
-        </option>
-    </select>
-    </div>
-	</div>
+				<div class="bundle">
+					<div class="row">
+						모집분야 : <select class="form-select" id="recruitField"
+							aria-label="Default select example"
+							th:field="*{recruitFieldCode}">
+							<option selected th:value="${preRecruit.recruitFieldCode}"
+								th:text="${preRecruit.recruitField}">모집분야</option>
+							<option th:each="rc : ${recruitFieldCodes}" th:value="${rc.code}"
+								th:text="${rc.name}" value=""></option>
+						</select>
+						<div class="errormsg" th:errors="*{recruitFieldCode}"></div>
+					</div>
+				</div>
+
+				<div class="bundle">
+					<div class="row">
+						급 여 : <input class="form-control form-control-sm" id="Salary"
+							type="text" th:field="*{salary}"
+							placeholder="급여를 입력해주세요.  ex) 연봉 3000만원, 월급 300만원, 회사 내규에 따름 "
+							aria-label=".form-control-sm example">
+						<div class="errormsg" th:errors="*{salary}"></div>
+					</div>
+				</div>
+
+				<div class="bundle">
+					<div class="row" id="employType">
+						희망 고용 형태 : <label collection="empOptions"
+							th:each="etc : ${employTypeCodes}"> <input
+							type="checkbox" name="facilities" th:field="*{preEmployTypeCode}"
+							th:value="${etc.code}"> <span id="checkboxText"
+							th:text="${etc.name}"></span>
+						</label>
+					</div>
+					<div class="errormsg" th:errors="*{preEmployTypeCode}"></div>
+				</div>
 
 
-	<div class="row" id="workingArea">
+				<div class="careerCode">
+					<div class="row">
+						희망 경력 : <select id="Career" class="form-select"
+							th:field="*{careerCode}" aria-label="Default select example">
+							<option selected th:value="${preRecruit.careerCode}"
+								th:text="${preRecruit.career}">희망 경력</option>
+							<option th:each="careerCode : ${careerCodes}"
+								th:value="${careerCode.code}" th:text="${careerCode.name}"
+								value=""></option>
+						</select>
+						<div class="errormsg" th:errors="*{careerCode}"></div>
+					</div>
+				</div>
+
+
+				<div class="row" id="workingArea">
 					근무 가능 지역 :
 					<div class="container2">
 						<div class="select-btn">
@@ -97,71 +96,79 @@
 						</div>
 
 						<ul class="list-items">
-							<li id="list-item" th:each=" wac : ${workingAreaCodes}">
-							<input type="checkbox" th:field="*{preWorkingAreaCode}"
-								th:value="${wac.code}" />
-							<label th:for="${#ids.prev('preWorkingAreaCode')}" th:text="${wac.name}" >
-							</label>
-							</li>
+							<li id="list-item" th:each=" wac : ${workingAreaCodes}"><input
+								type="checkbox" th:field="*{preWorkingAreaCode}"
+								th:value="${wac.code}" /> <label
+								th:for="${#ids.prev('preWorkingAreaCode')}"
+								th:text="${wac.name}"> </label></li>
 						</ul>
+					</div>
+					<div class="errormsg" th:errors="*{preWorkingAreaCode}"></div>
+				</div>
+
+
+
+				<div class="recruitPerson">
+					<div class="row">
+						희망 모집 인원 : <input class="form-control form-control-sm"
+							id="RecruitmentPerson" th:field="*{recruitPerson}" type="text"
+							placeholder="ex) 1,2,00" aria-label=".form-control-sm example">
+						명
+					</div>
+					<div class="errormsg" th:errors="*{recruitPerson}"></div>
+				</div>
+
+				<div class="container">
+					<div class="row">
+						희망 학력 : <label collection="acaOptions"
+							th:each="adr : ${academicRecordCodes}"> <input
+							type="checkbox" name="facilities"
+							th:field="*{preAcademicRecordCode}" th:value="${adr.code}">
+							<span id="checkboxText" th:text="${adr.name}"></span>
+						</label>
+						<div class="errormsg" th:errors="*{preAcademicRecordCode}"></div>
 					</div>
 				</div>
 
-		
-    
-		<div class="recruitPerson">
-        <div class="row">
-            희망 모집 인원 : 
-            <input class="form-control form-control-sm" id="RecruitmentPerson"
-           th:field="*{recruitPerson}"
-            type="text" placeholder="ex) 1,2,00" aria-label=".form-control-sm example">  명
-        </div>
+				<div class="receiptEnd">
+					<div class="row">
+						공고 게시 기간 : <select class="form-select" id="ReceiptEnd"
+							th:field="*{endDate}" aria-label="Default select example">
+							<option selected value="/">공고 기간</option>
+							<option th:value="7">일주일</option>
+							<option th:value="15">보름</option>
+							<option th:value="30">한 달</option>
+							<option th:value="92">채용 시 까지</option>
+						</select>
+						<p class="comment">*채용 시 까지는 기본 3개월입니다.</p>
+					</div>
+					<div class="errormsg" th:errors="*{endDate}"></div>
+				</div>
+
+				<div class="buttonSet">
+
+					<button type="submit" id="opening" class="btn btn-primary">수정하기</button>
+					<button type="button" class="btn btn-secondary"
+						th:onclick="|location.href='@{/manageOpening}'|">작성종료</button>
+				</div>
+				<div class="checkMessage">승인 전에는 수정이 자유로우나 승인 후에는 수정이 불가능하니 정확한 내용을 기입해 주시길 바랍니다.</div>
+			</div>
 		</div>
-    
-    <div class="container">
-        <div class="row">
-        희망 학력 : 
- 		<label collection="acaOptions" th:each="adr : ${academicRecordCodes}"  >
-	<input type="checkbox" name="facilities" th:field="*{preAcademicRecordCode}"  
-        	th:value="${adr.code}">
-    	<span id="checkboxText" th:text="${adr.name}"></span>
-		</label>
-	</div>
-	</div>
+		</div>
+	</form>
 
-	<div class="receiptEnd">
-    <div class="row">
-        공고 게시 기간 : 
-        <select class="form-select" id="ReceiptEnd" th:field="*{endDate}"
-        aria-label="Default select example">
-            <option selected value="/">공고 기간</option>
-            <option th:value="7">일주일</option>
-            <option th:value="15">보름</option>
-            <option th:value="30">한 달</option>
-            <option th:value="92">채용 시 까지</option>
-        </select>
-        <p class="comment">*채용 시 까지는 기본 3개월입니다.</p>
-    </div>
-	</div>
-        
-    <div class="buttonSet">
+	<div th:replace="/navbar/footer.html :: footer"></div>
 
-        <button type="submit" id="opening" class="btn btn-primary">수정하기</button>
-        <button type="button" class="btn btn-secondary"
-        th:onclick="|location.href='@{/manageOpening}'|">작성종료</button>
-    </div>
-    </div>
-    </div>
-    </div>     
-</form>
-        
-             <div th:replace="/navbar/footer.html :: footer"></div>
-        
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
-    <script src="../js/select.js"></script>
-	<script src="https://kit.fontawesome.com/9ba603b7d5.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+	<script src="../js/select.js"></script>
+	<script src="https://kit.fontawesome.com/9ba603b7d5.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
 
 </body>
 </html>

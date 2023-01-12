@@ -296,16 +296,16 @@ public class MybatisAdminRepository implements AdminRepository{
 	      log.info("임시 공고 테이블 데이터 삭제 완료");      
 	   }
 
-	 @Override
-	   public void deletePreRecAllByAdmin(int corCode) {
-	      // TODO Auto-generated method stub
-	      adminMapper.deletePreRecAllByCorCode(corCode);
-	      
-	      adminMapper.deletePreAllEmpOptByAdmin(corCode);
-	      adminMapper.deletePreAllWorkOptByAdmin(corCode);
-	      adminMapper.deletePreAllAcaOptByAdmin(corCode);
-	      
-	      log.info("임시 공고 테이블 데이터 전체 삭제 완료");      
-	   }
+//	 @Override
+//	   public void deletePreRecAllByAdmin(int corCode) {
+//	      // TODO Auto-generated method stub
+//	      adminMapper.deletePreRecAllByCorCode(corCode);
+//	      
+//	      adminMapper.deletePreAllEmpOptByAdmin(corCode);
+//	      adminMapper.deletePreAllWorkOptByAdmin(corCode);
+//	      adminMapper.deletePreAllAcaOptByAdmin(corCode);
+//	      
+//	      log.info("임시 공고 테이블 데이터 전체 삭제 완료");      
+//	   }
 	
 }

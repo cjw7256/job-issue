@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div th:fragment="headerNavBar">
-		<ul class="nav justify-content-end" id="topBar">
+		<ul class="nav justify-content-end" id="topBar" >
 			<li class="nav-item"><a class="nav-link active"
 				aria-current="page" href="/">Mainpage</a></li>
 			<li class="nav-item"><a class="nav-link"
@@ -23,10 +23,10 @@
 			<li class="nav-item"><a class="nav-link"
 				th:href="@{|/user/registertype|}">Join</a></li>
 		</ul>
-		<div>
-			<div class="row" id="searchRow">
-				<img id="logo" src="/images/logo.png"
-					th:onclick="|location.href='@{/}'|"></img>
+		<div style='background-color : rgb(240, 241, 241)'>
+			<div class="row" id="searchRow" >
+				<img id="logo" src="/images/footerlogo.png"
+					th:onclick="|location.href='@{/}'|" ></img>
 
 <!-- 				<form th:action="|@{/search}|" method="get"> -->
 <!-- 					<div class="input-group mb-3" id="search"> -->

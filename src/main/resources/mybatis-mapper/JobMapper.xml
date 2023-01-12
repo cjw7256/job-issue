@@ -17,7 +17,8 @@
 		(
 			(SELECT COR_CODE FROM CORPORATION_INFO WHERE COR_NAME = #{corName}), #{announcementCode}, 
 			#{announcement}, (SELECT RECRUIT_FIELD_CODE FROM RecruitFieldCode WHERE RECRUIT_FIELD = #{recruitField}),
-			#{salary}, #{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{receiptStartDate}
+			#{salary}, #{careerCode}, #{recruitPerson}, #{receiptStartDate}, #{receiptEndDate}, #{receiptStartDate},
+			'01'
 		)
 	</insert>
 	
